@@ -1,0 +1,26 @@
+{
+  "name": "ditu",
+  "version": "1.0.0",
+  "description": "Travel app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atol/ditu.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/atol/ditu/issues"
+  },
+  "homepage": "https://github.com/atol/ditu#readme",
+  "engines": {
+    "node": "12.x"
+  },
+  "dependencies": {
+    "ejs": "^3.1.3",
+    "express": "^4.17.1"
+  }
+}
