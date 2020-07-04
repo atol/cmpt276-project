@@ -1,0 +1,31 @@
+body {
+  padding: 0;
+  margin: 0;
+  background: #f2f6e9;
+}
+
+/*--- navigation bar ---*/
+.navbar {
+  background: white;
+}
+.nav-link,
+.navbar-brand {
+  color: black;
+  cursor: pointer;
+}
+.nav-link {
+  margin-right: 1em !important;
+}
+.nav-link:hover {
+  color: #000;
+}
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+.header {
+  background-image: url("hompage.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
