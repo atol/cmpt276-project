@@ -4,12 +4,15 @@ var pool = new Pool({
   connectionString: 'postgres://postgres:root@localhost/authdb',
 })
 
+exports.pool = pool
+
+/*
 module.exports = {
   query: (text, params, callback) => {
     return pool.query(text, params, callback)
   },
 }
-/*
+
 module.exports = { //picked up statement off of node-postgres guide
   query: (text, params, callback) => {
     const start = Date.now()

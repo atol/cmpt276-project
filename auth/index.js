@@ -1,12 +1,14 @@
 const express = require('express')
 const router = express.Router()
-//const db = require('../db')
+const db = require('../db')
+const pool = db.pool
 const bcrypt = require('bcryptjs')
+/*
 const { Pool } = require('pg');
 var pool = new Pool({
   //connectionString: process.env.DATABASE_URL
   connectionString: 'postgres://postgres:root@localhost/authdb',
-})
+})*/
 const Joi = require('joi') // this library helps with checking user input info validity
 //all stuff prepended by /auth
 
@@ -66,7 +68,6 @@ router.post('/login', async (req,res)=>{ //CHANGE IT TO LOGIN STUFF
             const client = await pool.connect();
             const qResult = await client.query(`select password from users where email=$1`,[email])
             if(qResult.rows && qResult.rows.length>0){ //if email found in db
-                console.log(dbPassword)
                 console.log(req.body.password)
                 try{
                     if(await bcrypt.compare(req.body.password,qResult.rows[0].password)){
