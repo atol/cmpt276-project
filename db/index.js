@@ -1,9 +1,7 @@
 const { Pool } = require('pg');
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
+var pool = new Pool({
+  //connectionString: process.env.DATABASE_URL
+  connectionString: 'postgres://postgres:root@localhost/authdb',
 })
 
 module.exports = {
