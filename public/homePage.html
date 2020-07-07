@@ -10,14 +10,14 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="stylesheets/styleHomePage.css">
-  <link rel="stylesheet" href="stylesheets/styleLoginClose.css">
+
   <title>Document</title>
 </head>
 
 <body>
 
   <nav class="navbar navbar-expand-md">
-    <a href="#" class="navbar-brand">DITU</a>
+    <a href="homePage.html" class="navbar-brand">DITU</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navigation"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
         </li>
         <li class="nav-item active">
           <!-- <a href="#" class="nav-link">Log in</a> -->
-          <a class="open-button nav-link " onclick="openlogin()">Log in</a>
+          <a href="login.html" class="nav-link">Log In</a>
 
         </li>
         <li class="nav-item active">
@@ -38,13 +38,23 @@
       </ul>
     </div>
   </nav>
+
   <header class="page-header header container-fluid">
     <div class="overlay"></div>
     <div class="descrip">
       <h1>Welcome to DITU</h1>
     </div>
-    <div class="login-form"></div>
+
   </header>
+  <!-- <div class="login-form"></div> -->
+  <!-- <div class="bg-modal">
+    <div class="modal-content">
+      <form action="/auth/login" method="post">
+        <input type="text" id="email" name="email" required>
+        <input type="text" id="name" name="name" required>
+      </form>
+    </div>
+  </div> -->
   <div class="container features">
     <div class="row">
       <div class="col-lg-4 col-md-4 col-sm-12">
@@ -64,11 +74,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-
 
 </body>
 <script src="scriptHomePage.js"></script>
