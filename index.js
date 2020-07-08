@@ -43,8 +43,5 @@ app.get('/allmods', (req,res) => {
   });
 });
 
-<<<<<<< HEAD
 
-=======
->>>>>>> eokafor-admin
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
