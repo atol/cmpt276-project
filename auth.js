@@ -79,7 +79,15 @@ router.post('/login', async (req,res)=>{
                 try{
                     if(await bcrypt.compare(req.body.password,qResult.rows[0].password)){
                         var name = qResult.rows[0].name
-                        res.render('pages/basic_user', {uname: name})
+                        if (qResult.rows[0].accesslevel == 10) {
+                            res.redirect('/admin.html')
+                        }
+                        else if (qResult.rows[0].accesslevel == 1) {
+                            res.render('pages/mod', {uname: name})
+                        }
+                        else {
+                            res.render('pages/basic_user', {uname: name})
+                        }
                     } else{
                         res.send("Invalid password")
                     }
