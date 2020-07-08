@@ -21,11 +21,11 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/login',(req,res)=>{
-    res.redirect('../public/login.html')
+    res.redirect('/login.html')
 })
 
 router.get('/signup',(req,res)=>{
-    res.redirect('../public/signup.html')
+    res.redirect('/signup.html')
 })
 
 router.post('/signup', async (req,res)=>{
@@ -78,7 +78,7 @@ router.post('/login', async (req,res)=>{
                 try{
                     if(await bcrypt.compare(req.body.password,qResult.rows[0].password)){
                         //res.send(JSON.stringify(qResult.rows[0].id))
-                        res.render('../views/pages/basic_user.ejs')
+                        res.render('pages/basic_user')
                     } else{
                         res.send("Invalid password")
                     }
