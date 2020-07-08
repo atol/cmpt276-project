@@ -15,3 +15,16 @@ app.get('/', (req, res) => res.redirect('/homePage.html'))
 app.use('/auth',auth) //prepends things in auth/index.js with /auth
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+
+app.get('/users', (req,res) => {
+  var getAllUser = 'SELECT * FROM users where status = 0';
+  pool.query(getAllUser, (error,result) => {
+    if(error){
+      res.end(error);
+    }
+    var results = {'rows':result.rows};
+    res.render('pages/users', results);
+  });
+
+});

@@ -64,7 +64,7 @@ router.post('/signup', async (req,res)=>{
     }
 })
 
-router.post('/login', async (req,res)=>{ 
+router.post('/login', async (req,res)=>{
     const result = Joi.validate(req.body,loginSchema)
     //Checking if valid info inputted
     if(result.error===null){
@@ -100,5 +100,6 @@ router.post('/login', async (req,res)=>{
         res.send("Please provide a valid email and password.")
     }
 })
+
 
 module.exports = router;

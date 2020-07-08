@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <style media="screen">
+  table, th, td{
+    border: 2px solid black;
+    border-collapse: collapse;
+
+  }
+
+  th, td{
+    padding: 10px;
+  }
+
+  .drive{
+    background: #880030;
+  }
+
+  .tbl{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #83C500;
+  }
+
+  .hd1{
+    color: white;
+    font-size: 2.5em;
+  }
+
+ .bar li{
+    float: left;
+  }
+
+
+  .bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #34011E;
+  }
+
+  .bar li a{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  .bar li a:hover:not(.active){
+    background-color: #111;
+  }
+
+  .active{
+    background-color: #83C500;
+  }
+
+  </style>
+</head>
+
+<body class="drive">
+
+
+
+<div class="container">
+  <ul class="bar">
+    <li><a class="active" href="people.html">Home</a></li>
+    <li><a href="changer.html">Edit</a></li>
+    <li><a href="addperson.html">Add</a></li>
+    <li><a href="deleteperson.html">Delete</a></li>
+    <li><a href="db">Display</a></li>
+  </ul>
+<h2 class="hd1">All Users</h2>
+
+
+<ul>
+  <table class="tbl">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Status</th>
+    </tr>
+    <% rows.forEach(function(r) { %>
+      <tr>
+        <td><%= r.id %></td>
+        <td><%= r.name %></td>
+        <td><%= r.email %></td>
+        <td><%= r.status %></td>
+      </tr>
+    <% }); %>
+  </table>
+
+</ul>
+
+</div>
+
+</body>
+</html>
