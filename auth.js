@@ -77,8 +77,8 @@ router.post('/login', async (req,res)=>{
             if(qResult.rows && qResult.rows.length>0){ //if email found in db
                 try{
                     if(await bcrypt.compare(req.body.password,qResult.rows[0].password)){
-                        //res.send(JSON.stringify(qResult.rows[0].id))
-                        res.render('pages/basic_user')
+                        var name = qResult.rows[0].name
+                        res.render('pages/basic_user', {uname: name})
                     } else{
                         res.send("Invalid password")
                     }
