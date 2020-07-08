@@ -20,6 +20,14 @@ router.get('/',(req,res)=>{
     res.send("auth page")
 })
 
+router.get('/login',(req,res)=>{
+    res.redirect('../public/login.html')
+})
+
+router.get('/signup',(req,res)=>{
+    res.redirect('../public/signup.html')
+})
+
 router.post('/signup', async (req,res)=>{
     //page posted to is /auth/signup
     const result = Joi.validate(req.body,signUpSchema)
@@ -39,7 +47,7 @@ router.post('/signup', async (req,res)=>{
             else{
                 try {
                     await client.query(`INSERT INTO users (name,email,password) VALUES ($1, $2, $3)`, [name, email, hashedPassword])
-                    res.send("posted")
+                    res.send("Your user has been created! Please go to the login page to login.")
                 } catch (err) {
                     console.error(err);
                     res.send("err")
@@ -69,7 +77,8 @@ router.post('/login', async (req,res)=>{
             if(qResult.rows && qResult.rows.length>0){ //if email found in db
                 try{
                     if(await bcrypt.compare(req.body.password,qResult.rows[0].password)){
-                        res.send(JSON.stringify(qResult.rows[0].id))
+                        //res.send(JSON.stringify(qResult.rows[0].id))
+                        res.render('../views/pages/basic_user.ejs')
                     } else{
                         res.send("Invalid password")
                     }
