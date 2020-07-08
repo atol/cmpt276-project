@@ -31,4 +31,16 @@ app.get('/users', (req,res) => {
   });
 });
 
+app.get('/allmods', (req,res) => {
+  var id = 1;
+  var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
+  pool.query(getAllUser,[id], (error,result) => {
+    if(error){
+      res.end(error);
+    }
+    var results = {'rows':result.rows};
+    res.render('pages/allmods', results);
+  });
+});
+
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))

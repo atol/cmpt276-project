@@ -6,10 +6,9 @@
   table, th, td{
     border: 2px solid black;
     border-collapse: collapse;
-    
+
 
   }
-
   th{
     padding: 10px;
   }
@@ -62,7 +61,7 @@
 
 
 <div class="container">
-<h2 class="hd1">All Users</h2>
+<h2 class="hd1">All Moderators</h2>
 
 
 <ul>
@@ -72,11 +71,11 @@
       <th>Name</th>
       <th>Email</th>
     </tr>
-   <% rows.forEach(function(r) { %>
+    <% rows.forEach(function(r) { %>
       <tr>
         <td><%= r.id %></td>
         <td><%= r.name %></td>
-        <td><%= r.email %></td>
+        <td ><%= r.email %></td>
       </tr>
     <% }); %>
   </table>
