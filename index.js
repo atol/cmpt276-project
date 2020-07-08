@@ -3,6 +3,8 @@ const path = require('path')
 const PORT = process.env.PORT || 5000
 const volleyball = require('volleyball')
 const auth = require('./auth')
+const db = require('./db')
+const pool = db.pool
 
 const app=express()
 app.use(express.static(path.join(__dirname, 'public')))
@@ -14,17 +16,32 @@ app.use(express.urlencoded({extended:true}))
 app.get('/', (req, res) => res.redirect('/homePage.html'))
 app.use('/auth',auth) //prepends things in auth/index.js with /auth
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`))
 
+app.get('/', (req, res) => res.render('pages/index'))
 
 app.get('/users', (req,res) => {
-  var getAllUser = 'SELECT * FROM users where status = 0';
-  pool.query(getAllUser, (error,result) => {
+  var id = 0;
+  var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
+  pool.query(getAllUser,[id], (error,result) => {
     if(error){
       res.end(error);
     }
     var results = {'rows':result.rows};
     res.render('pages/users', results);
   });
-
 });
+
+app.get('/allmods', (req,res) => {
+  var id = 1;
+  var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
+  pool.query(getAllUser,[id], (error,result) => {
+    if(error){
+      res.end(error);
+    }
+    var results = {'rows':result.rows};
+    res.render('pages/allmods', results);
+  });
+});
+
+
+app.listen(PORT, () => console.log(`Listening on ${PORT}`))

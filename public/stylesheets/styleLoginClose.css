@@ -1,78 +1,4 @@
-/* .form-popup{
-  background: rgba (0,0,00.6);
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
 
-}
-.popup-content{
-  height: 250px;
-  width: 500px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  position: relative;
-}
-
-input{
-  margin: 20px auto;
-  display: block;
-  width: 50;
-  padding: 8px;
-  border: 1px solid gray;
-}
-
-.btn{
-  background: #fff;
-  padding: 10px 15px;
-  color: #34495e;
-  font-weight: bolder;
-  text-transform: uppercase;
-  font-size: 18px;
-  border-radius: 5px;
-  box-shadow: 6px 6px 29px -4px rgba(0, 0, 0, 0, 75);
-  margin-top: 25px;
-  text-decoration: none;
-  transition: 0.4s;
-
-} */
-
-/* .login-form{
-  width: 380px;
-  height: 480px;
-  position: relative;
-  margin: 6% auto;
-  background: #fff;
-  padding: 5px;
-} */
-
-/* .bg-modal{
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 250px;
-  width: 500px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  position: relative;
-} */
-/* .modal-content{
-  width: 300px;
-  height: 300px;
-  background-color: white;
-  border-radius: 4px;
-
-} */
 @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
 body{
   margin: 0;
@@ -99,7 +25,7 @@ body{
 .login-form{
   width: 100%;
   overflow: hidden;
-  font-size: 20px;
+  font-size: 10px;
   padding: 8px;
   margin: 8px 0;
   border-bottom: 1px solid black;  
