@@ -34,6 +34,7 @@ router.post('/signup', async (req,res)=>{
     if(result.error===null){
         //check for duplicate username else it's good and add to db
         try {
+            let accessLevel= 0; //basic user
             const name = req.body.name
             const emailInput = req.body.email
             let email = new String(emailInput)
@@ -46,7 +47,7 @@ router.post('/signup', async (req,res)=>{
             }
             else{
                 try {
-                    await client.query(`INSERT INTO users (name,email,password) VALUES ($1, $2, $3)`, [name, email, hashedPassword])
+                    await client.query(`INSERT INTO users (name,email,password,accesslevel) VALUES ($1, $2, $3, $4)`, [name, email, hashedPassword,accessLevel])
                     res.send("Your user has been created! Please go to the login page to login.")
                 } catch (err) {
                     console.error(err);
