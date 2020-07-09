@@ -65,6 +65,15 @@
     margin: 15px;
 }
 
+.options a {
+    font-size: 100%;
+    padding: 0;
+}
+
+.options a:hover {
+    color: black;
+}
+
 html, body {
     height: 100%;
 }
