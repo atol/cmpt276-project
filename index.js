@@ -29,9 +29,21 @@ app.use(session({
 }))
 app.use('/auth',auth) //prepends things in auth/index.js with /auth
 
-app.get('/', (req, res) => res.redirect('/homePage.html'))
+app.get('/', function (req, res) {
+    var user = req.session.user_id;
+    res.render('pages/index', {logged_in: user});
+});
 
-app.get('/basic_user', checkAuth, function (req, res) {
+app.get('/login', (req, res) => res.redirect('/login.html'))
+
+app.get('/signup', (req, res) => res.redirect('/signup.html'))
+
+app.get('/logout', function (req, res) {
+    req.session.destroy();
+    res.redirect('/logout.html');
+});
+
+app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
     res.render('pages/basic_user', {uname: name});
 });

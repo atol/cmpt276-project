@@ -89,7 +89,7 @@ router.post('/login', async (req,res)=>{
                             res.redirect('/mod');
                         }
                         else {
-                            res.redirect('/basic_user');
+                            res.redirect('/dashboard');
                         }
                     } else{
                         res.send("Invalid password")
