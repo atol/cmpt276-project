@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <style media="screen">
+  table, th, td{
+    border: 2px solid black;
+    border-collapse: collapse;
+    
+
+  }
+
+  th{
+    padding: 10px;
+  }
+  td{
+    padding: 10px;
+    width: 30%;
+  }
+
+  .drive{
+    background: #325563;
+  }
+
+  .tbl{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #83C500;
+  }
+
+  .hd1{
+    color: white;
+    font-size: 2.5em;
+  }
+
+  .btn{
+  -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+    padding: 8px;
+    background-color: #478C00;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5%;
+    width: 100px;
+    text-align: center;
+
+}
+
+.btn:hover{
+  background-color: #83C500;
+}
+
+  </style>
+</head>
+
+<body class="drive">
+
+
+
+<div class="container">
+<h2 class="hd1">All Users</h2>
+
+
+<ul>
+  <table class="tbl">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+   <% rows.forEach(function(r) { %>
+      <tr>
+        <td><%= r.id %></td>
+        <td><%= r.name %></td>
+        <td><%= r.email %></td>
+      </tr>
+    <% }); %>
+  </table>
+
+</ul>
+
+  <a type="button" class="btn" href="/admin"> <-back </a>
+</div>
+
+</body>
+</html>
