@@ -109,7 +109,8 @@ router.post('/login', async (req, res) => {
         }
     }
     else {
-        res.send("Please provide a valid email and password.")
+        // res.send("Please provide a valid email and password.")
+        res.redirect('/errorMessage.html')
     }
 })
 
