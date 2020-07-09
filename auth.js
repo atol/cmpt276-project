@@ -78,12 +78,14 @@ router.post('/login', async (req,res)=>{
             if(qResult.rows && qResult.rows.length>0){ //if email found in db
                 try{
                     if(await bcrypt.compare(req.body.password,qResult.rows[0].password)){
-                        req.session.uname = qResult.rows[0].name
+                        var access = qResult.rows[0].accesslevel;
+                        req.session.uname = qResult.rows[0].name;
                         req.session.user_id = qResult.rows[0].id;
-                        if (qResult.rows[0].accesslevel == 10) {
+                        req.session.user_access = access;
+                        if (access == 10) {
                             res.redirect('/admin');
                         }
-                        else if (qResult.rows[0].accesslevel == 1) {
+                        else if (access == 1) {
                             res.redirect('/mod');
                         }
                         else {
