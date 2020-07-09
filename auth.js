@@ -16,38 +16,38 @@ const loginSchema = Joi.object().keys({
 })
 
 //all stuff prepended by /auth
-router.get('/',(req,res)=>{
+router.get('/', (req, res) => {
     res.send("auth page")
 })
 
-router.get('/login',(req,res)=>{
+router.get('/login', (req, res) => {
     res.redirect('/login.html')
 })
 
-router.get('/signup',(req,res)=>{
+router.get('/signup', (req, res) => {
     res.redirect('/signup.html')
 })
 
-router.post('/signup', async (req,res)=>{
+router.post('/signup', async (req, res) => {
     //page posted to is /auth/signup
-    const result = Joi.validate(req.body,signUpSchema)
-    if(result.error===null){
+    const result = Joi.validate(req.body, signUpSchema)
+    if (result.error === null) {
         //check for duplicate username else it's good and add to db
         try {
-            let accessLevel= 0; //basic user
+            let accessLevel = 0; //basic user
             const name = req.body.name
             const emailInput = req.body.email
             let email = new String(emailInput)
             email = email.toLowerCase() // ensures all emails stored are stored as lowercase emails
-            const hashedPassword=await bcrypt.hash(req.body.password,10)
+            const hashedPassword = await bcrypt.hash(req.body.password, 10)
             const client = await pool.connect();
-            const qResult = await client.query(`select * from users where email=$1`,[email])
-            if(qResult.rows && qResult.rows.length>0){
+            const qResult = await client.query(`select * from users where email=$1`, [email])
+            if (qResult.rows && qResult.rows.length > 0) {
                 res.end("This user already exists in the system. Please login.")
             }
-            else{
+            else {
                 try {
-                    await client.query(`INSERT INTO users (name,email,password,accesslevel) VALUES ($1, $2, $3, $4)`, [name, email, hashedPassword,accessLevel])
+                    await client.query(`INSERT INTO users (name,email,password,accesslevel) VALUES ($1, $2, $3, $4)`, [name, email, hashedPassword, accessLevel])
                     res.send("Your user has been created! Please go to the login page to login.")
                 } catch (err) {
                     console.error(err);
@@ -60,24 +60,24 @@ router.post('/signup', async (req,res)=>{
             res.send("err")
         }
     }
-    else{
+    else {
         res.send("Please provide complete information. Your password should be at least 8 character, and you should supply a valid email and name")
     }
 })
 
-router.post('/login', async (req,res)=>{
-    const result = Joi.validate(req.body,loginSchema)
+router.post('/login', async (req, res) => {
+    const result = Joi.validate(req.body, loginSchema)
     //Checking if valid info inputted
-    if(result.error===null){
+    if (result.error === null) {
         //check if username is found in db
         try {
             let email = new String(req.body.email)
             email = email.toLowerCase() // ensures all emails stored are stored as lowercase emails
             const client = await pool.connect();
-            const qResult = await client.query(`select * from users where email=$1`,[email])
-            if(qResult.rows && qResult.rows.length>0){ //if email found in db
-                try{
-                    if(await bcrypt.compare(req.body.password,qResult.rows[0].password)){
+            const qResult = await client.query(`select * from users where email=$1`, [email])
+            if (qResult.rows && qResult.rows.length > 0) { //if email found in db
+                try {
+                    if (await bcrypt.compare(req.body.password, qResult.rows[0].password)) {
                         var access = qResult.rows[0].accesslevel;
                         req.session.uname = qResult.rows[0].name;
                         req.session.user_id = qResult.rows[0].id;
@@ -91,15 +91,15 @@ router.post('/login', async (req,res)=>{
                         else {
                             res.redirect('/dashboard');
                         }
-                    } else{
+                    } else {
                         res.send("Invalid password")
                     }
-                  } catch (err) {
+                } catch (err) {
                     console.log(err)
                     res.send("err")
                 }
             }
-            else{ // if email not found in db
+            else { // if email not found in db
                 res.send("Email not found in db")
             }
             client.release()
@@ -108,8 +108,9 @@ router.post('/login', async (req,res)=>{
             res.send("err")
         }
     }
-    else{
-        res.send("Please provide a valid email and password.")
+    else {
+        // res.send("Please provide a valid email and password.")
+        res.redirect('/errorMessage.html')
     }
 })
 
