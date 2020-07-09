@@ -8,6 +8,12 @@ const db = require('./db')
 const PORT = process.env.PORT || 5000
 const pool = db.pool
 
+const ACCESS = {
+    ADMIN: 10,
+    MOD: 1,
+    BASIC: 0
+}
+
 const app = express()
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
@@ -23,24 +29,36 @@ app.use(session({
 }))
 app.use('/auth',auth) //prepends things in auth/index.js with /auth
 
-app.get('/', (req, res) => res.redirect('/homePage.html'))
+app.get('/', function (req, res) {
+    var user = req.session.user_id;
+    res.render('pages/index', {logged_in: user});
+});
 
-app.get('/basic_user', checkAuth, function (req, res) {
+app.get('/login', (req, res) => res.redirect('/login.html'))
+
+app.get('/signup', (req, res) => res.redirect('/signup.html'))
+
+app.get('/logout', function (req, res) {
+    req.session.destroy();
+    res.redirect('/logout.html');
+});
+
+app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
     res.render('pages/basic_user', {uname: name});
 });
 
-app.get('/mod', checkAuth, function (req, res) {
+app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
     var name = req.session.uname;
     res.render('pages/mod', {uname: name});
 });
 
-app.get('/admin', checkAuth, function (req, res) {
+app.get('/admin', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
     var name = req.session.uname;
     res.render('pages/admin', {uname: name});
 });
 
-app.get('/users', checkAuth, function (req, res) {
+app.get('/users', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
   var id = 0;
   var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
   pool.query(getAllUser,[id], (error,result) => {
@@ -52,7 +70,7 @@ app.get('/users', checkAuth, function (req, res) {
   });
 });
 
-app.get('/allmods', checkAuth, function (req, res) {
+app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
   var id = 1;
   var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
   pool.query(getAllUser,[id], (error,result) => {
@@ -66,9 +84,19 @@ app.get('/allmods', checkAuth, function (req, res) {
 
 function checkAuth(req, res, next) {
     if (!req.session.user_id) {
-        res.send('You are not authorized to view this page');
+        res.send('Please sign in');
     } else {
         next();
+    }
+}
+
+function checkRole(access) {
+    return (req, res, next) => {
+        if (req.session.user_access < access) {
+            res.send('Permission denied');
+        } else {
+            next();
+        }
     }
 }
 

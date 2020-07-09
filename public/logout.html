@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
@@ -11,7 +12,7 @@
 
   <link rel="stylesheet" href="stylesheets/styleHomePage.css">
   <link rel="stylesheet" href="stylesheets/styleLoginClose.css">
-  <title>Sign Up</title>
+  <title>Log Out</title>
 </head>
 
 <body>
@@ -27,7 +28,6 @@
           <a href="/" class="nav-link">Home</a>
         </li>
         <li class="nav-item active">
-          <!-- <a href="#" class="nav-link">Log in</a> -->
           <a href="/login" class="nav-link">Log In</a>
 
         </li>
@@ -39,27 +39,18 @@
   </nav>
 
   <div class="login-box">
-    <h1>Sign Up</h1>
-    <form action="/auth/signup" method="post">
-      <div class="login-form">
-        <!-- <i class="fas fa-user"></i> -->
-        <input type="text" placeholder="Name" name="name" id="name" required>
+    <h1>Logout</h1>
+    <div class="login-form"></div>
+        <div class="">
+            <span class="signup">You've been logged out! <a href="/login">Login again</a></span>
+        </div>
       </div>
-      <div class="login-form">
-        <!-- <i class="fas fa-user"></i> -->
-        <input type="text" placeholder="Email" name="email" id="email" required>
-      </div>
-      <div class="login-form">
-        <!-- <i class="fas fa-lock"></i> -->
-        <input type="password" placeholder="Password" name="password" id="password" required>
-      </div>
-
-      <button class="btn" type="submit">Sign Up</button>
-      <div class="">
-        <span class="signup">Already have an account? <a href="/login">Sign in</a></span>
-      </div>
-    </form>
   </div>
+
 </body>
+
+</html>
+</body>
+<script src="scriptHomePage.js"></script>
 
 </html>
