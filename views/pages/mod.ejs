@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="../basicUserScript.js"></script>
     <link rel="stylesheet" href="../stylesheets/basicUser.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <title>Ditu - <%= uname %></title>
 </head>
 <body>
     <div id="mySidepanel" class="sidepanel">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <img src="../image/defaultdp.png" width="50px" height="50px">
-            <p id="Username"><%= uname %></p>
+            <p id="Username"><%= uname %></p><br>
             <p>MODERATOR</p>
-            <button class="options">My Profile</button></br>
-            <button class="options">Travel Info Map</button></br>
-            <button class="options">My Travel</button></br>
-            <button class="options">Friends</button></br>
-            <button class="options"><a href="/logout">Log Out</a></button>
+            <a href="#"><button class="options">My Profile</button></a></br>
+            <a href="#"><button class="options">Travel Info Map</button></a></br>
+            <a href="#"><button class="options">My Travel</button></a></br>
+            <a href="#"><button class="options">Friends</button></a></br>
+            <a href="/logout"><button class="options">Log Out</button></a>
     </div>
     
     <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
