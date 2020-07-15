@@ -38,6 +38,7 @@
 
             // Create the initial InfoWindow.
             var infoWindow = new google.maps.InfoWindow({content: 'Click the map to get Lat/Lng!', position: myLatlng});
+            var geocoder = new google.maps.Geocoder();
 
             infoWindow.open(map);
             infoWindow.close();
@@ -49,10 +50,53 @@
 
                 // Create a new InfoWindow.
                 infoWindow = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
+
+                var coordinates = mapsMouseEvent.latLng.toString();
+
+                console.log(mapsMouseEvent.latLng.toString());
+
+                geocodeLatLng(geocoder, map, infoWindow, coordinates);
+
                 infoWindow.setContent(mapsMouseEvent.latLng.toString());
                 infoWindow.open(map);
             });
 
+        }
+
+        function geocodeLatLng(geocoder, map, infowindow, coords) {
+            var input = coords;
+            var latlngStr = input.split(",", 2);
+
+            var lati = latlngStr[0];
+            var longi = latlngStr[1];
+
+            console.log(lati);
+
+            var lati1 = lati.replace('(', '');
+
+            console.log(lati1);
+            console.log(longi);
+
+            var latlng = { lat: parseFloat(lati1), lng: parseFloat(longi) };
+            geocoder.geocode({ location: latlng }, function(results, status) {
+                if (status === "OK") {
+                    if (results[0]) {
+                        // map.setZoom(11);
+                        var marker = new google.maps.Marker({
+                            position: latlng,
+                            map: map    
+                        });
+                        infowindow.setContent(results[0].formatted_address);
+                        infowindow.open(map, marker);
+                    } 
+                    else {
+                        window.alert("No results found");
+                    }
+                } 
+                else {
+                    window.alert("Geocoder failed due to: " + status);
+                }
+            });
         }
     </script>
     
