@@ -16,6 +16,11 @@
             <img src="../image/defaultdp.png" width="50px" height="50px">
             <p id="Username"><%= uname %></p></br>
             <a href="#"><button class="options">Back to Home</button></a></br>
+            <div id="country-info">
+                <p id="country-name">name</p></br>
+                <p id="country-pop"></p></br>
+                <p id="country-capital"></p></br>
+            </div>
             <a href="/logout"><button class="options">Log Out</button></a>
     </div>
     
@@ -37,7 +42,7 @@
             var map = new google.maps.Map(document.getElementById("map"),mapProp);
 
             // Create the initial InfoWindow.
-            var infoWindow = new google.maps.InfoWindow({content: 'Click the map to get Lat/Lng!', position: myLatlng});
+            var infoWindow = new google.maps.InfoWindow({content: ' ', position: myLatlng});
             var geocoder = new google.maps.Geocoder();
 
             infoWindow.open(map);
@@ -74,19 +79,27 @@
                 if (status === "OK") {
                     if (results[0]) {
                         // map.setZoom(11);
-                    
-                        infowindow.setContent(results[results.length-1].formatted_address);
+                        var countryName = results[results.length-1].formatted_address;
+                        changeInfoPanel(countryName);
+                        infowindow.setContent(countryName);
                         infowindow.open(map);
                     } 
                     else {
-                        window.alert("No results found");
+                        // window.alert("No results found");
+                        infowindow.close();
                     }
                 } 
                 else {
-                    window.alert("Geocoder failed due to: " + status);
+                    // window.alert("Geocoder failed due to: " + status);
+                    infowindow.close();
                 }
             });
         }
+
+        function changeInfoPanel(country){
+            document.getElementById('country-name').innerHTML = country;
+        }
+
     </script>
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJAI9tI-QuFAA5qyPg9p0nuy4kzMCa_Y&callback=myMap"></script>
