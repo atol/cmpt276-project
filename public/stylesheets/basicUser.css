@@ -16,11 +16,10 @@
   
 /* The sidepanel links */
 .sidepanel a {
-    padding: 8px 8px 8px 32px;
+    padding: 0;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 100%;
     color: black;
-    display: block;
     transition: 0.3s;
 }
 
@@ -60,18 +59,19 @@
 
 .options {
     align-self: auto;
-    width: 200px;
-    height: 100px;
-    margin: 15px;
-}
-
-.options a {
     font-size: 100%;
-    padding: 0;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px;
+    height: 60px;
+    margin: 15px;
+    border: none;
 }
 
-.options a:hover {
-    color: black;
+.options:hover {
+    cursor: pointer;
+    background-color: #f9f9f9;
 }
 
 html, body {

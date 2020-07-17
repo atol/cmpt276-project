@@ -53,6 +53,10 @@ app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
     res.render('pages/mod', {uname: name});
 });
 
+app.get('/mod_mail', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
+    res.render('pages/mod_mail');
+});
+
 app.get('/admin', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
     var name = req.session.uname;
     res.render('pages/admin', {uname: name});
