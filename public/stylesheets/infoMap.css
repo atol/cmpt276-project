@@ -91,3 +91,15 @@ p {
     font-size: 25px;
     margin-bottom: 5px;
 }
+
+#backHome{
+    width: 60px;
+    height: 30px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+#country-flag{
+    margin-bottom: 20px;
+}

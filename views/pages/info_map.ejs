@@ -16,7 +16,7 @@
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <img src="../image/defaultdp.png" width="50px" height="50px">
             <p id="Username"><%= uname %></p></br>
-            <a href="#"><button class="options">Back to Home</button></a></br>
+            <a href="/dashboard"><button id="backHome" class="options">Home</button></a></br>
             <div id="country-info">
                 <p id="country-name"></p></br>
                 <img id="country-flag" src="/" width="200px" height="100px">
@@ -112,7 +112,6 @@
                 document.getElementById('country-currency').innerHTML = "Currency: " + currency;
             });
             document.getElementById('country-name').innerHTML = country;
-            
         }
 
     </script>
