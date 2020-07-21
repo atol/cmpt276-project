@@ -9,10 +9,10 @@
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="./stylesheets/styleHomePage.css">
-    <link rel="stylesheet" href="./stylesheets/advisories.css">
+    <link rel="stylesheet" href="../stylesheets/styleHomePage.css">
+    <link rel="stylesheet" href="../stylesheets/advisories.css">
 
-    <title>Ditu - Travel Advisories</title>
+    <title>Ditu - <%= results[0].country %></title>
 </head>
 
 <body>
@@ -47,21 +47,20 @@
     </nav>
 
     <div class="container">
-        <h1>Travel Advisories</h1>
-        <table class="advisory">
-            <tr>
-                <th style="width: 400px">Destination</th>
-                <th>Advisory</th>
-                <th style="width: 200px">Last Updated</th>
-            </tr>
-            <% results.forEach(function(r) { %>
-            <tr>
-                <td><a href="/destination/<%= r.country %>"><%= r.country %></a></td>
-                <td><%= r.advisory %></td>
-                <td><%= r.updated %></td>
-            </tr>
-            <% }); %>
-        </table>
+        <% results.forEach(function(r) { %>
+            <h1><%= r.country %></h1>
+            <h4>Risk Level</h4>
+            <p><%= r.advisory %></p>
+            <h4>Passport Requirements</h4>
+            <p><%= r.passport %></p>
+            <h4>Visa Requirements</h4>
+            <p><%= r.visas %></p>
+            <h4>Links</h4>
+            <p><a href="<%= r.link %>">Office Travel Advice and Advisories from the Government of Canada</a></p>
+            <h4>Last updated</h4>
+            <p><%= r.updated %></p>
+            <a href="/advisories"><button class="back">Back</button></a>
+        <% }); %>
     </div>
 </body>
 
