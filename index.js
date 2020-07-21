@@ -44,8 +44,9 @@ app.get('/logout', function (req, res) {
 });
 //for mytravel information
 app.get('/myTravel', checkAuth, (req, res) => {
+    var user = req.session.user_id;
     var name = req.session.uname;
-    res.render('pages/myTravel', { uname: name })
+    res.render('pages/myTravel', { logged_in: user, uname: name })
 })
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
