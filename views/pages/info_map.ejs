@@ -19,8 +19,10 @@
             <a href="#"><button class="options">Back to Home</button></a></br>
             <div id="country-info">
                 <p id="country-name"></p></br>
+                <img id="country-flag" src="/" width="200px" height="100px">
                 <p id="country-pop"></p></br>
                 <p id="country-capital"></p></br>
+                <p id="country-currency"></p></br>
             </div>
             <a href="/logout"><button class="options">Log Out</button></a>
     </div>
@@ -101,9 +103,13 @@
             $.getJSON( "https://restcountries.eu/rest/v2/name/" + country, function( data ) {
                 var capital = data[0].capital;
                 var pop = data[0].population;
+                var currency = data[0].currencies[0].name;
+                var flagimg = data[0].flag;
 
+                document.getElementById('country-flag').src = flagimg;
                 document.getElementById('country-capital').innerHTML = "Capital: " + capital;
                 document.getElementById('country-pop').innerHTML = "Population: " + pop;
+                document.getElementById('country-currency').innerHTML = "Currency: " + currency;
             });
             document.getElementById('country-name').innerHTML = country;
             
