@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="../infoMapScript.js"></script>
     <link rel="stylesheet" href="../stylesheets/infoMap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
@@ -17,7 +18,7 @@
             <p id="Username"><%= uname %></p></br>
             <a href="#"><button class="options">Back to Home</button></a></br>
             <div id="country-info">
-                <p id="country-name">name</p></br>
+                <p id="country-name"></p></br>
                 <p id="country-pop"></p></br>
                 <p id="country-capital"></p></br>
             </div>
@@ -97,7 +98,15 @@
         }
 
         function changeInfoPanel(country){
+            $.getJSON( "https://restcountries.eu/rest/v2/name/" + country, function( data ) {
+                var capital = data[0].capital;
+                var pop = data[0].population;
+
+                document.getElementById('country-capital').innerHTML = "Capital: " + capital;
+                document.getElementById('country-pop').innerHTML = "Population: " + pop;
+            });
             document.getElementById('country-name').innerHTML = country;
+            
         }
 
     </script>
