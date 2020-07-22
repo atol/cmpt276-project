@@ -3,3 +3,8 @@ npm-debug.log
 
 .DS_Store
 /*.env
+
+.vscode
+.ipynb_checkpoints
+__pycache__
+venv

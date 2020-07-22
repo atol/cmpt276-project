@@ -91,6 +91,34 @@ app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
   });
 });
 
+app.get('/advisories', async (req, res) => {
+    var user = req.session.user_id;
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT country, advisory, updated FROM dest');
+        res.render('pages/advisories', {logged_in: user, results : result ? result.rows : null});
+        client.release();
+    } catch (err) {
+        console.log(err)
+        res.send("err")
+    }
+});
+
+app.get('/destination/:country', async (req, res) => {
+    var user = req.session.user_id;
+    var target = req.params.country;
+    console.log(target)
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM dest WHERE country=$1', [target]);
+        res.render('pages/destination', {logged_in: user, results : result ? result.rows : null});
+        client.release();
+    } catch (err) {
+        console.log(err)
+        res.send("err")
+    }
+});
+
 function checkAuth(req, res, next) {
     if (!req.session.user_id) {
         res.send('Please sign in');
