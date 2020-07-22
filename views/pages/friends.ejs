@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+<h1>Your friends:</h1>
+<ul>
+  <table class="tbl">
+    <tr>
+      <th>Name</th>
+    </tr>
+   <% rows.forEach(function(r) { %>
+      <tr>
+        <td><%= r.name %></td>
+      </tr>
+    <% }); %>
+  </table>
+
+</ul>
+
+</body>
+</html>
