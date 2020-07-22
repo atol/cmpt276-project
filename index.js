@@ -45,7 +45,8 @@ app.get('/logout', function (req, res) {
 
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
-    res.render('pages/basic_user', {uname: name});
+    var access = req.session.user_access;
+    res.render('pages/basic_user', {uname: name, user_access : access});
 });
 
 app.get('/info_map', checkAuth, function (req, res) {
