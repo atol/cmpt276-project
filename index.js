@@ -48,6 +48,11 @@ app.get('/dashboard', checkAuth, function (req, res) {
     res.render('pages/basic_user', {uname: name});
 });
 
+app.get('/info_map', checkAuth, function (req, res) {
+    var name = req.session.uname;
+    res.render('pages/info_map', {uname: name});
+});
+
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
     var name = req.session.uname;
     res.render('pages/mod', {uname: name});
