@@ -76,7 +76,7 @@ app.post('/addTrip', (req, res) => {
         // res.redirect('/'0;
         // res.redirect('/pages/')
         console.log("complete")
-
+        res.render('pages/viewTripInformation', { name: tripname })
         // res.send("Saved!");
     })
 })

@@ -58,19 +58,19 @@
           <form action="/addTrip" method="post">
             <div class="form-group">
               <label for="name">Trip Name*</label>
-              <input type="text" class="form-control" name="name">
+              <input type="text" class="form-control" name="name" required>
             </div>
             <div class="form-group" data-provide="datepicker">
               <label for="startDate">Start Date*</label>
-              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="startDate">
+              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="startDate" required>
             </div>
             <div class="form-group" data-provide="datepicker">
               <label for="endDate">End Date*</label>
-              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name=" endDate">
+              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name=" endDate" required>
             </div>
             <div class="form-group">
               <label for="local">Location*</label>
-              <input type="text" class="form-control" name="locale">
+              <input type="text" class="form-control" name="locale" required>
             </div>
             <div class="form-group">
               <label for="description">Description</label>

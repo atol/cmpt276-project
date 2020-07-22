@@ -57,19 +57,19 @@
       </tr>
     </thead>
     <tbody>
-      <% for (var i = 0; i < rows.length; i++){ %>
+      <% rows.forEach(function (r){ %>
       <tr>
-        <td><%=rows[i].id %></td>
-        <td><%=rows[i].name %></td>
-        <td><%=rows[i].age %></td>
-        <td><%=rows[i].height %></td>
-        <td><%=rows[i].weight %></td>
+        <td><%=rows.tripname %></td>
+        <td><%=rows.startdate %></td>
+        <td><%=rows.enddate %></td>
+        <td><%=rows.location %></td>
+        <td><%=rows.description %></td>
       </tr>
       <%}%>
         </tbody>
       </table>
-  <iframe id="map"
-    src='https://api.mapbox.com/styles/v1/keitolee/ckc8n54gm12sr1ip8xlk5yv3q.html?fresh=true&title=false&access_token=pk.eyJ1Ijoia2VpdG9sZWUiLCJhIjoiY2tjOG0wbXhuMGN1ZTM0cGZ1d28zcWx6cyJ9.oSR2bnxW0qtkQ3YM8pBRZg'>
+  <!-- <iframe id="map"
+    src='https://api.mapbox.com/styles/v1/keitolee/ckc8n54gm12sr1ip8xlk5yv3q.html?fresh=true&title=false&access_token=pk.eyJ1Ijoia2VpdG9sZWUiLCJhIjoiY2tjOG0wbXhuMGN1ZTM0cGZ1d28zcWx6cyJ9.oSR2bnxW0qtkQ3YM8pBRZg'> -->
 </body>
 
 </html>
