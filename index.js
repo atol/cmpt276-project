@@ -48,6 +48,38 @@ app.get('/myTravel', checkAuth, (req, res) => {
     var name = req.session.uname;
     res.render('pages/myTravel', { logged_in: user, uname: name })
 })
+//get the travel trip information 
+app.get('/viewTripInformation', (req, res) => {
+    let getUserQuery = 'SELECT * FROM tripinfo';
+    pool.query(getUserQuery, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        var result = { 'rows': results.rows };
+        res.render('pages/viewTripInformation', results);
+    });
+})
+//add the travel trip information
+app.post('/addTrip', (req, res) => {
+    var tripname = req.body.name;
+    var startdate = req.body.startdate;
+    var enddate = req.body.enddate;
+    var location = req.body.location;
+    var description = req.body.description;
+    var arr_info = [tripname, startdate, enddate, location, description];
+    // let getUserquery = 'INSERT INTO users SET?';
+    let getUserQuery = 'INSERT INTO tripinfo(tripname, startdate, enddate, location, description) VALUES($1, $2, $3, $4, $5)';
+    pool.query(getUserQuery, arr_info, (err, results) => {
+        if (err) throw err;
+        // res.render(`name: ${user_data.name}, age: ${user_data.age}, height: ${user_data.height}, weight: ${user_data.weight}`);
+        // res.send(`name: ${user_data.name}, age:${user_data.age}, height:${user_data.height}, weight: ${user_data.weight}`);
+        // res.redirect('/'0;
+        // res.redirect('/pages/')
+        console.log("complete")
+
+        // res.send("Saved!");
+    })
+})
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
     res.render('pages/basic_user', { uname: name });

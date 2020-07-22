@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "joi": "^14.3.1",
+    "js-datepicker": "^5.15.0",
     "pg": "^8.2.2",
     "volleyball": "^1.5.1"
   },
