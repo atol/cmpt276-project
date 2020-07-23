@@ -45,7 +45,8 @@ app.get('/logout', function (req, res) {
 
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
-    res.render('pages/basic_user', {uname: name});
+    var access = req.session.user_access;
+    res.render('pages/basic_user', {uname: name, user_access : access});
 });
 
 app.get('/info_map', checkAuth, function (req, res) {
@@ -89,6 +90,34 @@ app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
     var results = {'rows':result.rows};
     res.render('pages/allmods', results);
   });
+});
+
+app.get('/advisories', async (req, res) => {
+    var user = req.session.user_id;
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT country, advisory, updated FROM dest');
+        res.render('pages/advisories', {logged_in: user, results : result ? result.rows : null});
+        client.release();
+    } catch (err) {
+        console.log(err)
+        res.send("err")
+    }
+});
+
+app.get('/destination/:country', async (req, res) => {
+    var user = req.session.user_id;
+    var target = req.params.country;
+    console.log(target)
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM dest WHERE country=$1', [target]);
+        res.render('pages/destination', {logged_in: user, results : result ? result.rows : null});
+        client.release();
+    } catch (err) {
+        console.log(err)
+        res.send("err")
+    }
 });
 
 function checkAuth(req, res, next) {

@@ -1,0 +1,32 @@
+h4 {
+    margin-top: 30px;
+}
+
+.container {
+    background: #e9e9e9;
+    padding: 30px;
+}
+
+.advisory {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.advisory th, td {
+    padding-top: 15px;
+    vertical-align: top;
+}
+
+.back {
+    margin-top: 30px;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 90px;
+    height: 40px;
+    border: none;
+}
+
+.back:hover {
+    background-color: #b9b9b9;
+}

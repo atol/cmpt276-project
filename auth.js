@@ -82,15 +82,7 @@ router.post('/login', async (req, res) => {
                         req.session.uname = qResult.rows[0].name;
                         req.session.user_id = qResult.rows[0].id;
                         req.session.user_access = access;
-                        if (access == 10) {
-                            res.redirect('/admin');
-                        }
-                        else if (access == 1) {
-                            res.redirect('/mod');
-                        }
-                        else {
-                            res.redirect('/dashboard');
-                        }
+                        res.redirect('/dashboard');
                     } else {
                         res.send("Invalid password")
                     }
