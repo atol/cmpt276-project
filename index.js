@@ -60,17 +60,23 @@ app.get('/basic_user', checkAuth, (req, res) => {
 })
 //get the travel trip information 
 app.get('/viewTripInformation', (req, res) => {
+    var user = req.session.user_id;
+    var name = req.session.uname;
     let getTravelInfoQuery = 'SELECT * FROM tripinfo';
-    pool.query(getTravelInfoQuery, (err, result) => {
+    pool.query(getTravelInfoQuery, (err, results) => {
         if (err) {
             throw err;
         }
-        var results = { 'rows': result.rows };
-        res.render('pages/viewTripInformation', results);
+        var result = { 'rows': results.rows };
+        console.log(rows)
+        res.render('pages/viewTripInformation', { logged_in: user, result: { 'rows': results.rows } });
     });
 })
 //add the travel trip information
 app.post('/addTrip', (req, res) => {
+    var user = req.session.user_id;
+    var name = req.session.uname;
+
     var tripname = req.body.tripname;
     var startdate = req.body.startdate;
     var enddate = req.body.enddate;
@@ -87,7 +93,7 @@ app.post('/addTrip', (req, res) => {
         // res.redirect('/pages/')
         console.log("complete")
 
-        res.render('pages/viewTripInformation')
+        res.render('pages/viewTripInformation', { logged_in: user, results: result ? result.rows : null });
         // res.send("Saved!");
     })
 })

@@ -20,11 +20,14 @@
     <p id="Username"><%= uname %></p></br>
     <a href="/dashboard"><button id="backHome" class="options">Home</button></a></br>
     <div id="travelInfo">
-      <p id="Trip Name"></p></br>
-      <p id="start-date"></p></br>
-      <p id="end-date"></p></br>
-      <p id="location"></p></br>
-      <p id="description"></p></br>
+      <% rows.forEach(function (r) { %>
+      <p id="Trip-Name" style="font-size: medium ;">Trip Name: <%= r.tripname %></p></br>
+      <p id="start-date" style="font-size: medium ;">Start Date </p> </br>
+      <p id="end-date" style="font-size: medium ;">End Date</p></br>
+      <p id="location" style="font-size: medium ;">Location</p></br>
+      <p id="description" style="font-size: medium ;">Description</p></br>
+      <%});%>
+
     </div>
   </div>
 
@@ -100,7 +103,13 @@
       });
     }
 
-    document.getElementById('Trip').innerHTML = 'Trip Name: ' +
+    // document.getElementById('Trip-Name').innerHTML = 'Trip Name:'
+    // document.getElementById('start-date').innerHTML = 'Start Date:'
+    // document.getElementById('end-date').innerHTML = 'End Date:'
+    // document.getElementById('location').innerHTML = 'Location:'
+    // document.getElementById('description').innerHTML = 'Description:'
+
+
 
 
   </script>
