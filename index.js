@@ -107,7 +107,7 @@ app.get('/advisories', async (req, res) => {
 
 app.get('/destination/:country', async (req, res) => {
     var user = req.session.user_id;
-    var target = capitalize(req.params.country);
+    var target = req.params.country;
     console.log(target)
     try {
         const client = await pool.connect();
@@ -136,10 +136,6 @@ function checkRole(access) {
             next();
         }
     }
-}
-
-function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
