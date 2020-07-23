@@ -4,7 +4,7 @@
 </head>
 
 <body>
-<h1>Your friends:</h1>
+<h3>Add a friend by entering their email:</h3>
 <form action="/friends/add/" method="post">
     <div class="addfriendbox">
       <input type="text" placeholder="Email" name="email" id="email" required>
@@ -12,14 +12,20 @@
     <button class="btn" type="submit">Add Friend</button>
 </form>
 
+<h3>Your friends:</h3>
 <ul>
   <table class="tbl">
     <tr>
       <th>Name</th>
+      <th>Email</th>
     </tr>
    <% rows.forEach(function(r) { %>
       <tr>
         <td><%= r.name %></td>
+        <td><%= r.email %></td>
+        <td><form action="/friends/delete/<%=r.id%>" method="POST">
+          <input type="submit" value="Delete">
+        </td>
       </tr>
     <% }); %>
   </table>
