@@ -5,6 +5,7 @@ const volleyball = require('volleyball')
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
+require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
 const pool = db.pool
@@ -47,21 +48,20 @@ app.get('/logout', function (req, res) {
 
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
-    res.render('pages/basic_user', {uname: name});
+    var access = req.session.user_access;
+    res.render('pages/basic_user', {uname: name, user_access : access});
 });
 
 app.get('/info_map', checkAuth, function (req, res) {
     var name = req.session.uname;
-    res.render('pages/info_map', {uname: name});
+    const api_key = process.env.API_KEY;
+    const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
+    res.render('pages/info_map', {uname: name, apiurl: map_url},);
 });
 
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
     var name = req.session.uname;
     res.render('pages/mod', {uname: name});
-});
-
-app.get('/mod_mail', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
-    res.render('pages/mod_mail');
 });
 
 app.get('/admin', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
