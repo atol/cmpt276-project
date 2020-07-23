@@ -104,3 +104,7 @@ p {
 #country-flag{
     margin-bottom: 20px;
 }
+
+.country-info{
+    height: 600px;
+}
