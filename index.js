@@ -2,6 +2,8 @@ const express = require('express')
 const session = require('express-session')
 const path = require('path')
 const volleyball = require('volleyball')
+const axios = require('axios');
+const cheerio = require('cheerio');
 const auth = require('./auth')
 const db = require('./db')
 require('dotenv').config();
@@ -91,17 +93,26 @@ app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
   });
 });
 
-app.get('/advisories', async (req, res) => {
+app.get('/advisories', function(req, res) {
     var user = req.session.user_id;
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT country, advisory, updated FROM dest');
-        res.render('pages/advisories', {logged_in: user, results : result ? result.rows : null});
-        client.release();
-    } catch (err) {
-        console.log(err)
-        res.send("err")
-    }
+    const url = 'https://travel.gc.ca/travelling/advisories';
+    
+    axios(url)
+        .then((response) => {
+            if(response.status === 200) {
+                const html = response.data;
+                const $ = cheerio.load(html); 
+                let advisories = [];
+                $('.gradeX').each(function(i, elem) {
+                    advisories[i] = {
+                        country: $(this).find('td:nth-child(2)').text().trim(),
+                        advisory: $(this).find('td:nth-child(3)').text().trim(),
+                        updated: $(this).find('td:nth-child(4)').text().trim(),
+                    }
+                });
+                res.render('pages/advisories', {logged_in: user, results : advisories});
+        }
+    }, (err) => console.log(err));
 });
 
 app.get('/destination/:country', async (req, res) => {
