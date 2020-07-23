@@ -25,6 +25,7 @@
         <td><%= r.email %></td>
         <td><form action="/friends/delete/<%=r.id%>" method="POST">
           <input type="submit" value="Delete">
+          </form>
         </td>
       </tr>
     <% }); %>
