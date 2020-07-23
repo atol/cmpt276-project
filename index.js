@@ -48,20 +48,30 @@ app.get('/myTravel', checkAuth, (req, res) => {
     var name = req.session.uname;
     res.render('pages/myTravel', { logged_in: user, uname: name })
 })
+app.get('/viewTripInformation', checkAuth, (req, res) => {
+    var user = req.session.user_id;
+    var name = req.session.uname;
+    res.render('pages/viewTripInformation', { logged_in: user, uname: name })
+})
+app.get('/basic_user', checkAuth, (req, res) => {
+    var user = req.session.user_id;
+    var name = req.session.uname;
+    res.render('pages/basic_user', { logged_in: user, uname: name })
+})
 //get the travel trip information 
 app.get('/viewTripInformation', (req, res) => {
-    let getUserQuery = 'SELECT * FROM tripinfo';
-    pool.query(getUserQuery, (err, results) => {
+    let getTravelInfoQuery = 'SELECT * FROM tripinfo';
+    pool.query(getTravelInfoQuery, (err, result) => {
         if (err) {
             throw err;
         }
-        var result = { 'rows': results.rows };
+        var results = { 'rows': result.rows };
         res.render('pages/viewTripInformation', results);
     });
 })
 //add the travel trip information
 app.post('/addTrip', (req, res) => {
-    var tripname = req.body.name;
+    var tripname = req.body.tripname;
     var startdate = req.body.startdate;
     var enddate = req.body.enddate;
     var location = req.body.location;
@@ -69,17 +79,31 @@ app.post('/addTrip', (req, res) => {
     var arr_info = [tripname, startdate, enddate, location, description];
     // let getUserquery = 'INSERT INTO users SET?';
     let getUserQuery = 'INSERT INTO tripinfo(tripname, startdate, enddate, location, description) VALUES($1, $2, $3, $4, $5)';
-    pool.query(getUserQuery, arr_info, (err, results) => {
+    pool.query(getUserQuery, arr_info, (err, result) => {
         if (err) throw err;
         // res.render(`name: ${user_data.name}, age: ${user_data.age}, height: ${user_data.height}, weight: ${user_data.weight}`);
         // res.send(`name: ${user_data.name}, age:${user_data.age}, height:${user_data.height}, weight: ${user_data.weight}`);
         // res.redirect('/'0;
         // res.redirect('/pages/')
         console.log("complete")
-        res.render('pages/viewTripInformation', { name: tripname })
+
+        res.render('pages/viewTripInformation')
         // res.send("Saved!");
     })
 })
+//delete exisiting travel information 
+app.post('/delete', (req, res) => {
+    var tripname = req.body.tripname;
+    // var arr_name = [name];
+    let deleteUserQuery = "DELETE FROM person WHERE tripname = $1";
+    pool.query(deleteUserQuery, [tripname], (err, results) => {
+        if (err) throw err;
+        // res.redirect('/success_delete.html');
+
+    })
+    // res.send("Saved!");
+});
+
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
     res.render('pages/basic_user', { uname: name });
@@ -87,7 +111,7 @@ app.get('/dashboard', checkAuth, function (req, res) {
 
 app.get('/info_map', checkAuth, function (req, res) {
     var name = req.session.uname;
-    res.render('pages/info_map', {uname: name});
+    res.render('pages/info_map', { uname: name });
 });
 
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
