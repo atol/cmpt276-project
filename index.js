@@ -4,6 +4,7 @@ const path = require('path')
 const volleyball = require('volleyball')
 const auth = require('./auth')
 const db = require('./db')
+require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
 const pool = db.pool
@@ -50,7 +51,9 @@ app.get('/dashboard', checkAuth, function (req, res) {
 
 app.get('/info_map', checkAuth, function (req, res) {
     var name = req.session.uname;
-    res.render('pages/info_map', {uname: name});
+    const api_key = process.env.API_KEY;
+    const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
+    res.render('pages/info_map', {uname: name, apiurl: map_url},);
 });
 
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {

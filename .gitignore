@@ -8,3 +8,6 @@ npm-debug.log
 .ipynb_checkpoints
 __pycache__
 venv
+
+# api keys
+.env
