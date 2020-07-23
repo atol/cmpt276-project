@@ -46,7 +46,8 @@ app.get('/logout', function (req, res) {
 
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
-    res.render('pages/basic_user', {uname: name});
+    var access = req.session.user_access;
+    res.render('pages/basic_user', {uname: name, user_access : access});
 });
 
 app.get('/info_map', checkAuth, function (req, res) {
@@ -59,10 +60,6 @@ app.get('/info_map', checkAuth, function (req, res) {
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
     var name = req.session.uname;
     res.render('pages/mod', {uname: name});
-});
-
-app.get('/mod_mail', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
-    res.render('pages/mod_mail');
 });
 
 app.get('/admin', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
