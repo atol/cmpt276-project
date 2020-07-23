@@ -4,6 +4,7 @@ const path = require('path')
 const volleyball = require('volleyball')
 const auth = require('./auth')
 const db = require('./db')
+const friends = require('./friends')
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
@@ -29,6 +30,7 @@ app.use(session({
     saveUninitialized: true
 }))
 app.use('/auth',auth) //prepends things in auth/index.js with /auth
+app.use('/friends',friends)
 
 app.get('/', function (req, res) {
     var user = req.session.user_id;
