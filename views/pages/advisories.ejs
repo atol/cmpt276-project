@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("../partials/header") %>
+    <link rel="stylesheet" href="./stylesheets/advisories.css">
+    
+    <title>Ditu - Travel Advisories</title>
+</head>
+
+<body>
+    <%- include ("../partials/nav") %>
+
+    <div class="container">
+        <h1>Travel Advisories</h1>
+        <table class="advisory">
+            <tr>
+                <th style="width: 400px">Destination</th>
+                <th>Advisory</th>
+                <th style="width: 200px">Last Updated</th>
+            </tr>
+            <% results.forEach(function(r) { %>
+            <tr>
+                <td><a href="/destination/<%= r.country %>"><%= r.country %></a></td>
+                <td><%= r.advisory %></td>
+                <td><%= r.updated %></td>
+            </tr>
+            <% }); %>
+        </table>
+    </div>
+</body>
+
+</html>

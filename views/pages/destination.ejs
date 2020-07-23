@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("../partials/header") %>
+    <link rel="stylesheet" href="../stylesheets/advisories.css">
+    
+    <title>Ditu - <%= results[0].country %></title>
+</head>
+
+<body>
+    <%- include ("../partials/nav") %>
+
+    <div class="container">
+        <% results.forEach(function(r) { %>
+            <h1><%= r.country %></h1>
+            <h4>Risk Level</h4>
+            <p><%= r.advisory %></p>
+            <h4>Passport Requirements</h4>
+            <p><%= r.passport %></p>
+            <h4>Visa Requirements</h4>
+            <p><%= r.visas %></p>
+            <h4>Links</h4>
+            <p><a href="<%= r.link %>">Official Travel Advice and Advisories from the Government of Canada</a></p>
+            <h4>Last Updated</h4>
+            <p><%= r.updated %></p>
+            <a href="/advisories"><button class="back">Back</button></a>
+        <% }); %>
+    </div>
+</body>
+
+</html>
