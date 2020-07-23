@@ -3,86 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./stylesheets/admin.css">
-    <title>Ditu - Administrator</title>
+    <script type="text/javascript" src="../admin.js"></script>
+    <link rel="stylesheet" href="../stylesheets/admin.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Ditu - <%= uname %></title>
 
 </head>
 <body class="full">
-    <div id="topNav" class="topnav">
-      <a class="active" href="/"><i class="fa fa-fw fa-home"></i></a>
-      <a href="#travel"><i class="fa fa-fw far fa-map"></i>Travel Info</a>
-      <a href="#chat"><i class="fa fa-fw fas fa-comments"></i>Chat</a>
-      <a href="#request"><i class="fa fa-fw fas fa-bell"></i>Request</a>
-      <a href="#explore"><i class="fa fa-fw fas fa-globe"></i>Explore</a>
-      <div class="dropdown">
-        <button class="dropbtn"><i class="fa fa-fw fas fa-user"></i><i class="fa fa-caret-down"></i></button>
-        <div class="dropdown-content">
-          <a href="#">Profile</a>
-          <a href="/users">Users</a>
-          <a href="/allmods">Mods</a>
-          <a href="#">Settings</a>
-          <a href="/logout">Log out</a>
-        </div>
-      </div>
-      <input type="text" placeholder="Search..">
+
+    <div id="mySidepanel" class="sidepanel">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <img src="../image/defaultdp.png" width="50px" height="50px">
+            <p id="Username"><%= uname %></p></br>
+            <a href="#"><button class="options">Profile</button></a></br>
+            <a href="/users"><button class="options">Users</button></a></br>
+            <a href="/allmods"><button class="options">Mods</button></a></br>
+            <a href="#"><button class="options">Friends</button></a></br>
+            <a href="#"><button class="options">Settings</button></a></br>
+            <a href="/logout"><button class="options">Log Out</button></a>
     </div>
 
-
-    <div class="outer">
-      <svg width="1050" height="300">
-        <rect width="1300" height="300" style="fill:#32a852;stroke-width:0;stroke:rgb(0,0,0)" />
-      </svg>
-    </div>
-    <div id="regions_div" style="width: 900px; height: 300px;"></div>
-
-    <div id="timeline" style="width: 600px; height: 300px;"></div>
-    <div class="hr">
-      <h1>Welcome <%= uname %></h1>
-    </div>
-    <img src="/image/img_avatar.png" alt="Avatar" class="avatar">
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['geochart'],'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'});
-      google.charts.setOnLoadCallback(drawRegionsMap);
-
-      function drawRegionsMap() {
-        var data = google.visualization.arrayToDataTable([
-          ['Country', 'Popularity'],
-          ['Germany', 200],
-          ['United States', 300],
-          ['Brazil', 400],
-          ['Canada', 500],
-          ['France', 600],
-          ['RU', 700]
-        ]);
-
-        var options = {};
-
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-        chart.draw(data, options);
-      }
-
-      google.charts.load('current', {'packages':['timeline']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var container = document.getElementById('timeline');
-        var chart = new google.visualization.Timeline(container);
-        var dataTable = new google.visualization.DataTable();
-
-        dataTable.addColumn({ type: 'string', id: 'President' });
-        dataTable.addColumn({ type: 'date', id: 'Start' });
-        dataTable.addColumn({ type: 'date', id: 'End' });
-        dataTable.addRows([
-          [ 'Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
-          [ 'Adams',      new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
-          [ 'Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]]);
-
-        chart.draw(dataTable);
-      }
-    </script>
+    <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
+    <iframe src='https://api.mapbox.com/styles/v1/keitolee/ckc8n54gm12sr1ip8xlk5yv3q.html?fresh=true&title=false&access_token=pk.eyJ1Ijoia2VpdG9sZWUiLCJhIjoiY2tjOG0wbXhuMGN1ZTM0cGZ1d28zcWx6cyJ9.oSR2bnxW0qtkQ3YM8pBRZg' >
 
 </body>
 </html>

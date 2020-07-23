@@ -104,4 +104,52 @@ function checkRole(access) {
     }
 }
 
+app.post('/', async (req,res) => {
+    var id = req.body.id;
+    var access = req.body.access;
+    console.log(access)
+    console.log(id)
+    try{
+      const client = await pool.connect();
+      await client.query('UPDATE USERS SET ACCESSLEVEL = $2 WHERE id = $1',
+                [id, access]);
+      res.redirect('admin');
+      client.release();
+    }catch(err){
+      console.error(err);
+      res.end(error);
+    }
+});
+
+app.get('/users/:id/change_attr', async (req, res) => {
+    var id = req.params.id;
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
+      const results = {'rows': (result) ? result.rows : null};
+      res.render('pages/change_attr', results);
+      client.release();
+    } catch (err) {
+        console.error(err);
+        es.render('errorMessage.html', err);
+    }
+});
+
+
+app.get('/users/:id/delete', async (req, res) => {
+    var id = req.params.id;
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
+      const results = {'results': (result) ? result.rows : null};
+      await client.query('DELETE FROM users WHERE id=$1', [id]);
+      res.render('pages/new_delete', results);
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.render('errorMessage.html', err);
+    }
+})
+
+
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
