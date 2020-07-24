@@ -1,0 +1,43 @@
+/* .container {
+    background-color: grey;
+    padding-top: 30px;
+} */
+
+.full {
+    background-color: grey;
+    height:100%;
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    height:100%;
+}
+
+.inbox {
+    margin-top: 30px;
+}
+
+.mail {
+    width: 100%;
+}
+
+.mail th, td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+.back {
+    margin-top: 30px;
+    margin-left: 10px;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 90px;
+    height: 40px;
+    border: none;
+}
+
+.back:hover {
+    background-color: #999;
+}
