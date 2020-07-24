@@ -14,8 +14,13 @@
     padding: 10px;
   }
   td{
-    padding: 10px;
-    width: 30%;
+    padding: 5px;
+    width: 5%;
+    text-align: center;
+  }
+
+  .man{
+    width: 1%;
   }
 
   .drive{
@@ -103,6 +108,7 @@
 <ul>
   <table class="tbl">
     <tr>
+      <th class="man">Modify</th>
       <th>ID</th>
       <th>Name</th>
       <th>Email</th>
@@ -110,16 +116,16 @@
    <% rows.forEach(function(r) { %>
       <tr>
         <!--<td><button id="edit" onclick="location.href='/users/<%= r.id %>/change_attr'" style="width:100%"><%= r.id %></button></td>-->
-        <td>
+        <td class="man">
           <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn"> <%= r.id %> </button>
+            <button onclick="myFunction()" class="dropbtn"> * </button>
             <div id="myDropdown" class="dropdown-content">
               <a href="/users/<%= r.id %>/change_attr">Edit</a>
               <a href="/users/<%= r.id %>/delete">Delete</a>
             </div>
           </div>
         </td>
-
+        <td><%= r.id %></td>
         <td><%= r.name %></td>
         <td><%= r.email %></td>
       </tr>
