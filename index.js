@@ -48,11 +48,11 @@ app.get('/myTravel', checkAuth, (req, res) => {
     var name = req.session.uname;
     res.render('pages/myTravel', { logged_in: user, uname: name })
 })
-app.get('/viewTripInformation', checkAuth, (req, res) => {
-    var user = req.session.user_id;
-    var name = req.session.uname;
-    res.render('pages/viewTripInformation', { logged_in: user, uname: name })
-})
+// app.get('/viewTripInformation', checkAuth, (req, res) => {
+//     var user = req.session.user_id;
+//     var name = req.session.uname;
+//     res.render('pages/viewTripInformation', { logged_in: user, uname: name })
+// })
 app.get('/basic_user', checkAuth, (req, res) => {
     var user = req.session.user_id;
     var name = req.session.uname;
@@ -67,9 +67,14 @@ app.get('/viewTripInformation', (req, res) => {
         if (err) {
             throw err;
         }
-        var result = { 'rows': results.rows };
-        console.log(rows)
-        res.render('pages/viewTripInformation', { logged_in: user, result: { 'rows': results.rows } });
+        if (results.rows && results.rows > 0) {
+            var result = { 'rows': results.rows };
+
+            res.render('pages/viewTripInformation', result, { logged_in: user, uname: name });
+        }
+        else {
+            res.send("You have no travel info. Add some!")
+        }
     });
 })
 //add the travel trip information
@@ -101,15 +106,22 @@ app.post('/addTrip', (req, res) => {
 app.post('/delete', (req, res) => {
     var tripname = req.body.tripname;
     // var arr_name = [name];
-    let deleteUserQuery = "DELETE FROM person WHERE tripname = $1";
+    let deleteUserQuery = "DELETE FROM authdb WHERE tripname = $1";
     pool.query(deleteUserQuery, [tripname], (err, results) => {
         if (err) throw err;
-        // res.redirect('/success_delete.html');
+        res.render('pages/viewTripInformation')
 
     })
     // res.send("Saved!");
 });
-
+app.post('/edit', (req, res) => {
+    var user_data = [req.body.tripname, req.body.startdate, req.body.enddate, req.body.location, req.body.description];
+    let updateUserQuery = "UPDATE authdb SET tripname = $1, startdate = $2, enddate = $3, location = $4 WHERE description =$5";
+    pool.query(updateUserQuery, user_data, (err, results) => {
+        if (err) throw err;
+        res.render('pages/viewTripInformation')
+    })
+})
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
     var access = req.session.user_access;
