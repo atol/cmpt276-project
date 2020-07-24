@@ -7,6 +7,7 @@ const cheerio = require('cheerio');
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
+//var cors = require('cors')
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
@@ -25,7 +26,8 @@ app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(volleyball)
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+//app.use("/",cors())
+app.use(express.urlencoded({extended:true}))
 app.use(session({
     secret: 'shhhhhhhh', // sign session ID cookie
     resave: false,
@@ -303,3 +305,4 @@ app.get('/users/:id/delete', async (req, res) => {
 
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+//module.exports=app
