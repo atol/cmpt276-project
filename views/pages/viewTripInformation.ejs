@@ -9,25 +9,39 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-  <title>Info Map - <%= uname %></title>
+  <title>Trip Info!</title>
 </head>
 
 <body>
   <div id="mySidepanel" class="sidepanel">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <img src="../image/defaultdp.png" width="50px" height="50px">
-    <p id="Username"><%= uname %></p></br>
-    <a href="/dashboard"><button id="backHome" class="options">Home</button></a></br>
+    <br>
+    <a href="/dashboard"><button id="backHome" class="options">Home</button></a><br>
     <div id="travelInfo">
+      <!--<table class="tbl">
+        <tr>
+          <th>Trip Name:</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Location</th>
+          <th>Description</th>
+        </tr>
+       <% rows.forEach(function(r) { %>
+          <tr>
+            <td id="Trip-Name" style="font-size: medium ;"><%= r.tripname %>><%= r.id %></td>
+            <td id="start-date" style="font-size: medium ;"><%= r.name %></td>
+            <td><%= r.email %></td>
+          </tr>
+        <% }); %>
+      </table>-->
       <% rows.forEach(function (r) { %>
-      <p id="Trip-Name" style="font-size: medium ;">Trip Name: <%= r.tripname %></p></br>
-      <p id="start-date" style="font-size: medium ;">Start Date: <%= r.startdate %></p> </br>
-      <p id="end-date" style="font-size: medium ;">End Date: <%= r.enddate %>
-      <p></br>
-      <p id="location" style="font-size: medium ;">Location <%= r.location %></p></br>
-      <p id="description" style="font-size: medium ;">Description <%= r.description %></p></br>
-      <%});%>
+      <p id="Trip-Name" style="font-size: medium ;">Trip Name: <%= r.tripname %></p><br>
+      <p id="start-date" style="font-size: medium ;">Start Date: <%=r.startdate %> </p> <br>
+      <p id="end-date" style="font-size: medium ;">End Date: <%=r.enddate %></p><br>
+      <p id="location" style="font-size: medium ;">Location: <%=r.location %></p><br>
+      <p id="description" style="font-size: medium ;">Description: <%=r.description %></p><br>
+      <%}); %>
 
     </div>
     <button type="button" onclick="popup()" class="btn btn-primary options" data-toggle="modal"

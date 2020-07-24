@@ -48,71 +48,63 @@ app.get('/myTravel', checkAuth, (req, res) => {
     var name = req.session.uname;
     res.render('pages/myTravel', { logged_in: user, uname: name })
 })
-// app.get('/viewTripInformation', checkAuth, (req, res) => {
-//     var user = req.session.user_id;
-//     var name = req.session.uname;
-//     res.render('pages/viewTripInformation', { logged_in: user, uname: name })
-// })
 app.get('/basic_user', checkAuth, (req, res) => {
     var user = req.session.user_id;
     var name = req.session.uname;
     res.render('pages/basic_user', { logged_in: user, uname: name })
 })
 //get the travel trip information 
-app.get('/viewTripInformation', (req, res) => {
-    var user = req.session.user_id;
-    var name = req.session.uname;
-    let getTravelInfoQuery = 'SELECT * FROM tripinfo';
-    pool.query(getTravelInfoQuery, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if (results.rows && results.rows > 0) {
-            var result = { 'rows': results.rows };
-
-            res.render('pages/viewTripInformation', result, { logged_in: user, uname: name });
+app.get('/viewTripInformation', checkAuth, async (req, res) => {
+    const user_id = req.session.user_id;
+    const name = req.session.uname;
+    try {
+        const client = await pool.connect();
+        const qResult = await client.query(`select * from tripinfo where user_id=$1`, [user_id])
+        client.release()
+        if (qResult.rows && qResult.rows.length > 0) {
+            var results = { 'rows': qResult.rows };
+            console.log(qResult.rows[0].startdate)
+            res.render('pages/viewTripInformation', results);
         }
         else {
-            res.send("You have no travel info. Add some!")
+            res.send("Add some trips, so there is something to display!")
         }
-    });
+    } catch (err) {
+        console.error(err)
+        res.send("err")
+    }
 })
 //add the travel trip information
-app.post('/addTrip', (req, res) => {
-    var user = req.session.user_id;
-    var name = req.session.uname;
-
-    var tripname = req.body.tripname;
-    var startdate = req.body.startdate;
-    var enddate = req.body.enddate;
-    var location = req.body.location;
-    var description = req.body.description;
-    var arr_info = [tripname, startdate, enddate, location, description];
-    // let getUserquery = 'INSERT INTO users SET?';
-    let getUserQuery = 'INSERT INTO tripinfo(tripname, startdate, enddate, location, description) VALUES($1, $2, $3, $4, $5)';
-    pool.query(getUserQuery, arr_info, (err, result) => {
-        if (err) throw err;
-        // res.render(`name: ${user_data.name}, age: ${user_data.age}, height: ${user_data.height}, weight: ${user_data.weight}`);
-        // res.send(`name: ${user_data.name}, age:${user_data.age}, height:${user_data.height}, weight: ${user_data.weight}`);
-        // res.redirect('/'0;
-        // res.redirect('/pages/')
-        console.log("complete")
-
-        res.render('pages/viewTripInformation', { logged_in: user, results: result ? result.rows : null });
-        // res.send("Saved!");
-    })
+app.post('/addTrip', checkAuth, async (req, res) => {
+    const user_id = req.session.user_id;
+    const tripname = req.body.tripname;
+    const startdate = req.body.startdate;
+    const enddate = req.body.enddate;
+    const location = req.body.location;
+    const description = req.body.description;
+    try {
+        const client = await pool.connect();
+        await client.query(`INSERT INTO tripinfo(user_id, tripname, startdate, enddate, location, description) VALUES($1,$2,$3,$4,$5,$6)`, [user_id, tripname, startdate, enddate, location, description])
+        client.release()
+        res.redirect('/viewTripInformation')
+    } catch (err) {
+        console.error(err)
+        res.send("err")
+    }
 })
 //delete exisiting travel information 
-app.post('/delete', (req, res) => {
-    var tripname = req.body.tripname;
-    // var arr_name = [name];
-    let deleteUserQuery = "DELETE FROM authdb WHERE tripname = $1";
-    pool.query(deleteUserQuery, [tripname], (err, results) => {
-        if (err) throw err;
-        res.render('pages/viewTripInformation')
-
-    })
-    // res.send("Saved!");
+app.post('/deleteTrip', checkAuth, async (req, res) => {
+    const user_id = req.session.user_id
+    const tripname = req.body.tripname;
+    try {
+        const client = await pool.connect();
+        await client.query(`DELETE FROM person WHERE tripname = $1 and user_id=$2`, [tripname, user_id])
+        client.release()
+        res.redirect('/viewTripInformation')
+    } catch (err) {
+        console.error(err)
+        res.send("err")
+    }
 });
 app.post('/edit', (req, res) => {
     var user_data = [req.body.tripname, req.body.startdate, req.body.enddate, req.body.location, req.body.description];
