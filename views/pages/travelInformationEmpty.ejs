@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="../infoMapScript.js"></script>
+  <link rel="stylesheet" href="../stylesheets/infoMap.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <title>Trip Info!</title>
+</head>
+
+<body>
+  <div id="mySidepanel" class="sidepanel">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <img src="../image/defaultdp.png" width="50px" height="50px">
+    <br>
+    <a href="/dashboard"><button id="backHome" class="options">Home</button></a><br>
+    <div id="no-info">
+      <p id="empty-info"></p></br>
+
+    </div>
+    <button type="button" onclick="popup()" class="btn btn-primary options" data-toggle="modal"
+      data-target="#exampleModal">
+      Add Trip
+    </button>
+
+  </div>
+
+  <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
+
+  <div id="map"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Trip Information</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <p>Modal body text goes here.</p> -->
+          <form action="/addTrip" method="post">
+            <div class="form-group">
+              <label for="name">Trip Name*</label>
+              <input type="text" class="form-control" name="tripname" required>
+            </div>
+            <div class="form-group">
+              <label for="startDate">Start Date*</label>
+              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="startdate" required>
+            </div>
+            <div class="form-group">
+              <label for="endDate">End Date*</label>
+              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
+            </div>
+            <div class="form-group">
+              <label for="local">Location*</label>
+              <input type="text" class="form-control" name="location" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="textarea" class="form-control" name="description">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Your Trip</button>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function popup() {
+      $('#myModal').modal('show')
+    }
+
+
+    function myMap() {
+
+      var mapProp = {
+        center: new google.maps.LatLng(51.508742, -0.120850),
+        zoom: 3,
+        mapId: '35374d60c2b1cadb'
+      };
+
+      var myLatlng = { lat: 44.723334, lng: -38.818859 };
+
+      var map = new google.maps.Map(document.getElementById("map"), mapProp);
+
+      // Create the initial InfoWindow.
+      var infoWindow = new google.maps.InfoWindow({ content: ' ', position: myLatlng });
+      var geocoder = new google.maps.Geocoder();
+
+      infoWindow.open(map);
+      infoWindow.close();
+
+      // Configure the click listener.
+      map.addListener('click', function (mapsMouseEvent) {
+        // Close the current InfoWindow.
+        infoWindow.close();
+
+        // Create a new InfoWindow.
+        infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
+
+        var coordinates = mapsMouseEvent.latLng.toString();
+
+        geocodeLatLng(geocoder, map, infoWindow, coordinates);
+
+        infoWindow.open(map);
+      });
+
+    }
+
+    function geocodeLatLng(geocoder, map, infowindow, coords) {
+      var input = coords;
+      var latlngStr = input.split(",", 2);
+
+      var lati = latlngStr[0];
+      var longi = latlngStr[1];
+
+      var lati1 = lati.replace('(', '');
+
+      var latlng = { lat: parseFloat(lati1), lng: parseFloat(longi) };
+      geocoder.geocode({ location: latlng }, function (results, status) {
+        if (status === "OK") {
+          if (results[0]) {
+            // map.setZoom(11);
+            var countryName = results[results.length - 1].formatted_address;
+            changeInfoPanel(countryName);
+            infowindow.setContent(countryName);
+            infowindow.open(map);
+          }
+          else {
+            // window.alert("No results found");
+            infowindow.close();
+          }
+        }
+        else {
+          // window.alert("Geocoder failed due to: " + status);
+          infowindow.close();
+        }
+      });
+    }
+
+  // document.getElementById('Trip-Name').innerHTML = 'Trip Name:'
+  // document.getElementById('start-date').innerHTML = 'Start Date:'
+  // document.getElementById('end-date').innerHTML = 'End Date:'
+  // document.getElementById('location').innerHTML = 'Location:'
+  // document.getElementById('description').innerHTML = 'Description:'
+
+
+
+
+  </script>
+
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJAI9tI-QuFAA5qyPg9p0nuy4kzMCa_Y&callback=myMap"></script>
+
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include ("../partials/header") %>
     <script type="text/javascript" src="../infoMapScript.js"></script>
@@ -7,23 +8,25 @@
 
     <title>Info Map - <%= uname %></title>
 </head>
+
 <body>
     <%- include ("../partials/nav_profile") %>
-    
+
     <div id="mySidepanel" class="sidepanel">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <img src="../image/defaultdp.png" width="50px" height="50px">
-            <p id="Username"><%= uname %></p></br>
-            <a href="/dashboard"><button id="backHome" class="options">Back</button></a></br>
-            <div id="country-info">
-                <p id="country-name">Click on a country!</br>--></p></br>
-                <img id="country-flag" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="200px" height="100px">
-                <p id="country-pop"></p></br>
-                <p id="country-capital"></p></br>
-                <p id="country-currency"></p></br>
-            </div>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <img src="../image/defaultdp.png" width="50px" height="50px">
+        <p id="Username"><%= uname %></p></br>
+        <a href="/dashboard"><button id="backHome" class="options">Back</button></a></br>
+        <div id="country-info">
+            <p id="country-name">Click on a country!</br>--></p></br>
+            <img id="country-flag" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="200px"
+                height="100px">
+            <p id="country-pop"></p></br>
+            <p id="country-capital"></p></br>
+            <p id="country-currency"></p></br>
+        </div>
     </div>
-    
+
     <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
 
     <div id="map"></div>
@@ -32,119 +35,119 @@
 
         function myMap() {
 
-            var mapProp= {
-                center:new google.maps.LatLng(51.508742,-0.120850),
-                zoom:3,
+            var mapProp = {
+                center: new google.maps.LatLng(51.508742, -0.120850),
+                zoom: 3,
                 styles:
-                [
-                {
-                    "elementType": "labels",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
+                    [
+                        {
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative",
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative.country",
+                            "elementType": "geometry.stroke",
+                            "stylers": [
+                                {
+                                    "visibility": "on"
+                                },
+                                {
+                                    "weight": 1.5
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative.land_parcel",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative.neighborhood",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "poi",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road",
+                            "elementType": "labels.icon",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "transit",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "water",
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        }
                     ]
-                },
-                {
-                    "featureType": "administrative",
-                    "elementType": "geometry",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                    ]
-                },
-                {
-                    "featureType": "administrative.country",
-                    "elementType": "geometry.stroke",
-                    "stylers": [
-                    {
-                        "visibility": "on"
-                    },
-                    {
-                        "weight": 1.5
-                    }
-                    ]
-                },
-                {
-                    "featureType": "administrative.land_parcel",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                    ]
-                },
-                {
-                    "featureType": "administrative.neighborhood",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                    ]
-                },
-                {
-                    "featureType": "poi",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                    ]
-                },
-                {
-                    "featureType": "road",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                    ]
-                },
-                {
-                    "featureType": "road",
-                    "elementType": "labels.icon",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                    ]
-                },
-                {
-                    "featureType": "transit",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                    ]
-                },
-                {
-                    "featureType": "water",
-                    "elementType": "labels",
-                    "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                    ]
-                }
-                ]
             };
 
-            var myLatlng = {lat: 44.723334, lng: -38.818859};
+            var myLatlng = { lat: 44.723334, lng: -38.818859 };
 
-            var map = new google.maps.Map(document.getElementById("map"),mapProp);
+            var map = new google.maps.Map(document.getElementById("map"), mapProp);
 
             // Create the initial InfoWindow.
-            var infoWindow = new google.maps.InfoWindow({content: ' ', position: myLatlng});
+            var infoWindow = new google.maps.InfoWindow({ content: ' ', position: myLatlng });
             var geocoder = new google.maps.Geocoder();
 
             infoWindow.open(map);
             infoWindow.close();
 
             // Configure the click listener.
-            map.addListener('click', function(mapsMouseEvent) {
+            map.addListener('click', function (mapsMouseEvent) {
                 // Close the current InfoWindow.
                 infoWindow.close();
 
                 // Create a new InfoWindow.
-                infoWindow = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
+                infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
 
                 var coordinates = mapsMouseEvent.latLng.toString();
 
@@ -165,20 +168,20 @@
             var lati1 = lati.replace('(', '');
 
             var latlng = { lat: parseFloat(lati1), lng: parseFloat(longi) };
-            geocoder.geocode({ location: latlng }, function(results, status) {
+            geocoder.geocode({ location: latlng }, function (results, status) {
                 if (status === "OK") {
                     if (results[0]) {
                         // map.setZoom(11);
-                        var countryName = results[results.length-1].formatted_address;
+                        var countryName = results[results.length - 1].formatted_address;
                         changeInfoPanel(countryName);
                         infowindow.setContent(countryName);
                         infowindow.open(map);
-                    } 
+                    }
                     else {
                         // window.alert("No results found");
                         infowindow.close();
                     }
-                } 
+                }
                 else {
                     // window.alert("Geocoder failed due to: " + status);
                     infowindow.close();
@@ -186,8 +189,8 @@
             });
         }
 
-        function changeInfoPanel(country){
-            $.getJSON( "https://restcountries.eu/rest/v2/name/" + country, function( data ) {
+        function changeInfoPanel(country) {
+            $.getJSON("https://restcountries.eu/rest/v2/name/" + country, function (data) {
                 var capital = data[0].capital;
                 var pop = data[0].population;
                 var currency = data[0].currencies[0].name;
@@ -202,8 +205,9 @@
         }
 
     </script>
-    
-    <script src='<%= apiurl %>' ></script>
+
+    <script src='<%= apiurl %>'></script>
 
 </body>
+
 </html>
