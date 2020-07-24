@@ -130,6 +130,8 @@ app.get('/destinations/:country', function(req, res) {
             if (response.status === 200) {
                 const html = response.data;
                 const $ = cheerio.load(html);
+                var visas = $('div > .tabpanels').find('#entryexit').find('h3:contains("Visas")').next().html();
+                visas = visas.replace(/<br ?\/?>/g, ", ");
                 let info = [];
                 info = {
                     country: $('h1').find('#Label1').text().trim(),
@@ -137,7 +139,7 @@ app.get('/destinations/:country', function(req, res) {
                     valid: $('time > #Label12').text().trim(),
                     risk: $('div > .tabpanels').find('#risk').find('.AdvisoryContainer').find('p').text().trim(),
                     passport: $('div > .tabpanels').find('#entryexit').find('h4:contains("Regular Canadian passport")').next().text().trim(),
-                    visa: $('div > .tabpanels').find('#entryexit').find('h3:contains("Visas")').next().html(),
+                    visa: visas,
                     other: $('div > .tabpanels').find('#entryexit').find('h3:contains("Other")').next().text().trim(),
                     link: url
                 }
