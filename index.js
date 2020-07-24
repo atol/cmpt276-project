@@ -108,26 +108,40 @@ app.get('/advisories', function(req, res) {
                         country: $(this).find('td:nth-child(2)').text().trim(),
                         advisory: $(this).find('td:nth-child(3)').text().trim(),
                         updated: $(this).find('td:nth-child(4)').text().trim(),
+                        slug: $(this).find('td:nth-child(2) > a').attr('href')
                     }
                 });
                 res.render('pages/advisories', {logged_in: user, results : advisories});
-        }
-    }, (err) => console.log(err));
+            }
+        }, (err) => console.log(err));
 });
 
-app.get('/destination/:country', async (req, res) => {
+app.get('/destinations/:country', function(req, res) {
     var user = req.session.user_id;
     var target = req.params.country;
-    console.log(target)
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM dest WHERE country=$1', [target]);
-        res.render('pages/destination', {logged_in: user, results : result ? result.rows : null});
-        client.release();
-    } catch (err) {
-        console.log(err)
-        res.send("err")
-    }
+
+    const base = 'https://travel.gc.ca/destinations/';
+    const url = base + target;
+
+    axios(url)
+        .then((response) => {
+            if (response.status === 200) {
+                const html = response.data;
+                const $ = cheerio.load(html);
+                let info = [];
+                info = {
+                    country: $('h1').find('#Label1').text().trim(),
+                    updated: $('time > #Label9').text().trim(),
+                    valid: $('time > #Label12').text().trim(),
+                    risk: $('div > .tabpanels').find('#risk').find('.AdvisoryContainer').find('p').text().trim(),
+                    passport: $('div > .tabpanels').find('#entryexit').find('h4:contains("Regular Canadian passport")').next().text().trim(),
+                    visa: $('div > .tabpanels').find('#entryexit').find('h3:contains("Visas")').next().html(),
+                    other: $('div > .tabpanels').find('#entryexit').find('h3:contains("Other")').next().text().trim(),
+                    link: url
+                }
+                res.render('pages/destination', { logged_in: user, results: info });
+            }
+        }, (err) => console.log(err));
 });
 
 function checkAuth(req, res, next) {

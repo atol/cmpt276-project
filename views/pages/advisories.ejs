@@ -21,7 +21,7 @@
             </tr>
             <% results.forEach(function(r) { %>
             <tr>
-                <td><a href="/destination/<%= r.country %>"><%= r.country %></a></td>
+                <td><a href="<%= r.slug %>"><%= r.country %></a></td>
                 <td><%= r.advisory %></td>
                 <td><%= r.updated %></td>
             </tr>
