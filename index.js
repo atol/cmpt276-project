@@ -2,6 +2,8 @@ const express = require('express')
 const session = require('express-session')
 const path = require('path')
 const volleyball = require('volleyball')
+const axios = require('axios');
+const cheerio = require('cheerio');
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
@@ -93,32 +95,57 @@ app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
   });
 });
 
-app.get('/advisories', async (req, res) => {
+app.get('/advisories', function(req, res) {
     var user = req.session.user_id;
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT country, advisory, updated FROM dest');
-        res.render('pages/advisories', {logged_in: user, results : result ? result.rows : null});
-        client.release();
-    } catch (err) {
-        console.log(err)
-        res.send("err")
-    }
+    const url = 'https://travel.gc.ca/travelling/advisories';
+    
+    axios(url)
+        .then((response) => {
+            if(response.status === 200) {
+                const html = response.data;
+                const $ = cheerio.load(html); 
+                let advisories = [];
+                $('.gradeX').each(function(i, elem) {
+                    advisories[i] = {
+                        country: $(this).find('td:nth-child(2)').text().trim(),
+                        advisory: $(this).find('td:nth-child(3)').text().trim(),
+                        updated: $(this).find('td:nth-child(4)').text().trim(),
+                        slug: $(this).find('td:nth-child(2) > a').attr('href')
+                    }
+                });
+                res.render('pages/advisories', {logged_in: user, results : advisories});
+            }
+        }, (err) => console.log(err));
 });
 
-app.get('/destination/:country', async (req, res) => {
+app.get('/destinations/:country', function(req, res) {
     var user = req.session.user_id;
     var target = req.params.country;
-    console.log(target)
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM dest WHERE country=$1', [target]);
-        res.render('pages/destination', {logged_in: user, results : result ? result.rows : null});
-        client.release();
-    } catch (err) {
-        console.log(err)
-        res.send("err")
-    }
+
+    const base = 'https://travel.gc.ca/destinations/';
+    const url = base + target;
+
+    axios(url)
+        .then((response) => {
+            if (response.status === 200) {
+                const html = response.data;
+                const $ = cheerio.load(html);
+                var visas = $('div > .tabpanels').find('#entryexit').find('h3:contains("Visas")').next().html();
+                visas = visas.replace(/<br ?\/?>/g, ", ");
+                let info = [];
+                info = {
+                    country: $('h1').find('#Label1').text().trim(),
+                    updated: $('time > #Label9').text().trim(),
+                    valid: $('time > #Label12').text().trim(),
+                    risk: $('div > .tabpanels').find('#risk').find('.AdvisoryContainer').find('p').text().trim(),
+                    passport: $('div > .tabpanels').find('#entryexit').find('h4:contains("Regular Canadian passport")').next().text().trim(),
+                    visa: visas,
+                    other: $('div > .tabpanels').find('#entryexit').find('h3:contains("Other")').next().text().trim(),
+                    link: url
+                }
+                res.render('pages/destination', { logged_in: user, results: info });
+            }
+        }, (err) => console.log(err));
 });
 
 function checkAuth(req, res, next) {
@@ -138,5 +165,53 @@ function checkRole(access) {
         }
     }
 }
+
+app.post('/', async (req,res) => {
+    var id = req.body.id;
+    var access = req.body.access;
+    console.log(access)
+    console.log(id)
+    try{
+      const client = await pool.connect();
+      await client.query('UPDATE USERS SET ACCESSLEVEL = $2 WHERE id = $1',
+                [id, access]);
+      res.redirect('admin');
+      client.release();
+    }catch(err){
+      console.error(err);
+      res.end(error);
+    }
+});
+
+app.get('/users/:id/change_attr', async (req, res) => {
+    var id = req.params.id;
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
+      const results = {'rows': (result) ? result.rows : null};
+      res.render('pages/change_attr', results);
+      client.release();
+    } catch (err) {
+        console.error(err);
+        es.render('errorMessage.html', err);
+    }
+});
+
+
+app.get('/users/:id/delete', async (req, res) => {
+    var id = req.params.id;
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
+      const results = {'results': (result) ? result.rows : null};
+      await client.query('DELETE FROM users WHERE id=$1', [id]);
+      res.render('pages/new_delete', results);
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.render('errorMessage.html', err);
+    }
+})
+
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
