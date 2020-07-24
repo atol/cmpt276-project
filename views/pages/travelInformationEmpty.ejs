@@ -23,45 +23,22 @@
     <img src="../image/defaultdp.png" width="50px" height="50px">
     <br>
     <a href="/dashboard"><button id="backHome" class="options">Home</button></a><br>
-    <div id="travelInfo">
-      <!--<table class="tbl">
-        <tr>
-          <th>Trip Name:</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Location</th>
-          <th>Description</th>
-        </tr>
-       <% rows.forEach(function(r) { %>
-          <tr>
-            <td id="Trip-Name" style="font-size: medium ;"><%= r.tripname %>><%= r.id %></td>
-            <td id="start-date" style="font-size: medium ;"><%= r.name %></td>
-            <td><%= r.email %></td>
-          </tr>
-        <% }); %>
-      </table>-->
-      <% rows.forEach(function (r) { %>
-      <p id="Trip-Name" style="font-size: medium ;">Trip Name: <%= r.tripname %></p><br>
-      <p id="start-date" style="font-size: medium ;">Start Date: <%=r.startdate %> </p> <br>
-      <p id="end-date" style="font-size: medium ;">End Date: <%=r.enddate %></p><br>
-      <p id="location" style="font-size: medium ;">Location: <%=r.location %></p><br>
-      <p id="description" style="font-size: medium ;">Description: <%=r.description %></p><br>
-      <%}); %>
+    <div id="no-info">
+      <p id="empty-info"></p></br>
 
     </div>
-    <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
-      Edit Trip
+    <button type="button" onclick="popup()" class="btn btn-primary options" data-toggle="modal"
+      data-target="#exampleModal">
+      Add Trip
     </button>
-    <button type="button" onclick="popupDelete()" class=" options" data-toggle="modal" data-target="#exampleModal">
-      Delete Trip
-    </button>
+
   </div>
 
   <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
 
   <div id="map"></div>
 
-  <!--For deleting-->
+  <!-- Modal -->
   <div class="modal" id="myModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -73,7 +50,7 @@
         </div>
         <div class="modal-body">
           <!-- <p>Modal body text goes here.</p> -->
-          <form action="/edit" method="post">
+          <form action="/addTrip" method="post">
             <div class="form-group">
               <label for="name">Trip Name*</label>
               <input type="text" class="form-control" name="tripname" required>
@@ -94,52 +71,7 @@
               <label for="description">Description</label>
               <input type="textarea" class="form-control" name="description">
             </div>
-            <button type="submit" class="btn btn-primary">Edit Trip</button>
-          </form>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!--For Updating-->
-  <div class="modal" id="myModalDelete" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Trip Information</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- <p>Modal body text goes here.</p> -->
-          <form action="/deleteTrip" method="post">
-            <div class="form-group">
-              <label for="name">Trip Name*</label>
-              <input type="text" class="form-control" name="tripname" required>
-            </div>
-            <div class="form-group" data-provide="datepicker">
-              <label for="startDate">Start Date*</label>
-              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="startdate" required>
-            </div>
-            <div class="form-group" data-provide="datepicker">
-              <label for="endDate">End Date*</label>
-              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
-            </div>
-            <div class="form-group">
-              <label for="local">Location*</label>
-              <input type="text" class="form-control" name="location" required>
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <input type="textarea" class="form-control" name="description">
-            </div>
-            <button type="submit" class="btn btn-primary">Delete</button>
+            <button type="submit" class="btn btn-primary">Add Your Trip</button>
           </form>
 
         </div>
@@ -154,9 +86,7 @@
     function popup() {
       $('#myModal').modal('show')
     }
-    function popupDelete() {
-      $('#myModalDelete').modal('show')
-    }
+
 
     function myMap() {
 
@@ -225,11 +155,11 @@
       });
     }
 
-    // document.getElementById('Trip-Name').innerHTML = 'Trip Name:'
-    // document.getElementById('start-date').innerHTML = 'Start Date:'
-    // document.getElementById('end-date').innerHTML = 'End Date:'
-    // document.getElementById('location').innerHTML = 'Location:'
-    // document.getElementById('description').innerHTML = 'Description:'
+  // document.getElementById('Trip-Name').innerHTML = 'Trip Name:'
+  // document.getElementById('start-date').innerHTML = 'Start Date:'
+  // document.getElementById('end-date').innerHTML = 'End Date:'
+  // document.getElementById('location').innerHTML = 'Location:'
+  // document.getElementById('description').innerHTML = 'Description:'
 
 
 

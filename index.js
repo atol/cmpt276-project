@@ -67,7 +67,7 @@ app.get('/viewTripInformation', checkAuth, async (req, res) => {
             res.render('pages/viewTripInformation', results);
         }
         else {
-            res.send("Add some trips, so there is something to display!")
+            res.render('pages/travelInformationEmpty', results)
         }
     } catch (err) {
         console.error(err)
@@ -98,7 +98,7 @@ app.post('/deleteTrip', checkAuth, async (req, res) => {
     const tripname = req.body.tripname;
     try {
         const client = await pool.connect();
-        await client.query(`DELETE FROM person WHERE tripname = $1 and user_id=$2`, [tripname, user_id])
+        await client.query(`DELETE FROM tripinfo WHERE tripname = $1 and user_id=$2`, [tripname, user_id])
         client.release()
         res.redirect('/viewTripInformation')
     } catch (err) {
@@ -106,13 +106,30 @@ app.post('/deleteTrip', checkAuth, async (req, res) => {
         res.send("err")
     }
 });
-app.post('/edit', (req, res) => {
-    var user_data = [req.body.tripname, req.body.startdate, req.body.enddate, req.body.location, req.body.description];
-    let updateUserQuery = "UPDATE authdb SET tripname = $1, startdate = $2, enddate = $3, location = $4 WHERE description =$5";
-    pool.query(updateUserQuery, user_data, (err, results) => {
-        if (err) throw err;
-        res.render('pages/viewTripInformation')
-    })
+// app.post('/edit', (req, res) => {
+//     var user_data = [req.body.tripname, req.body.startdate, req.body.enddate, req.body.location, req.body.description];
+//     let updateUserQuery = "UPDATE tripinfo SET tripname = $1, startdate = $2, enddate = $3, location = $4 WHERE description =$5";
+//     pool.query(updateUserQuery, user_data, (err, results) => {
+//         if (err) throw err;
+//         res.render('pages/viewTripInformation')
+//     })
+// })
+app.post('/edit', checkAuth, async (req, res) => {
+    const user_id = req.session.user_id;
+    const tripname = req.body.tripname;
+    const startdate = req.body.startdate;
+    const enddate = req.body.enddate;
+    const location = req.body.location;
+    const description = req.body.description;
+    try {
+        const client = await pool.connect();
+        await client.query(`UPDATE tripinfo SET user_id = $1, tripname = $2, startdate = $3, enddate = $4, location = $5 WHERE description =$6`, [user_id, tripname, startdate, enddate, location, description])
+        client.release()
+        res.redirect('/viewTripInformation')
+    } catch (err) {
+        console.error(err)
+        res.send("err")
+    }
 })
 app.get('/dashboard', checkAuth, function (req, res) {
     var name = req.session.uname;
