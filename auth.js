@@ -48,7 +48,7 @@ router.post('/signup', async (req, res) => {
             else {
                 try {
                     await client.query(`INSERT INTO users (name,email,password,accesslevel) VALUES ($1, $2, $3, $4)`, [name, email, hashedPassword, accessLevel])
-                    res.send("Your user has been created! Please go to the login page to login.")
+                    res.render('pages/authresponse',{message :"Your user has been created! Please go to the login page to login."})
                 } catch (err) {
                     console.error(err);
                     res.send("err")
@@ -61,7 +61,7 @@ router.post('/signup', async (req, res) => {
         }
     }
     else {
-        res.send("Please provide complete information. Your password should be at least 8 character, and you should supply a valid email and name")
+        res.render('pages/authresponse',{message :"Please provide complete information. Your password should be at least 8 character, and you should supply a valid email and name"})
     }
 })
 
@@ -84,7 +84,7 @@ router.post('/login', async (req, res) => {
                         req.session.user_access = access;
                         res.redirect('/dashboard');
                     } else {
-                        res.send("Invalid password")
+                        res.render('pages/authresponse',{message :"Sorry, your email or password was incorrect. Please double-check your email or password."})
                     }
                 } catch (err) {
                     console.log(err)
@@ -92,7 +92,7 @@ router.post('/login', async (req, res) => {
                 }
             }
             else { // if email not found in db
-                res.send("Email not found in db")
+                res.render('pages/authresponse',{message :"Sorry, your email or password was incorrect. Please double-check your email or password."})
             }
             client.release()
         } catch (err) {
