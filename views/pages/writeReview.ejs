@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+<h3>Write a review!</h3>
+<form action="/reviews/<%=country%>" method="POST">
+    <div class="addReviewBox">
+      <input type="text" placeholder="Review Title" name="review_title" id="review_title" required><br>
+      <label for="startdate">Your Visit Began:</label>
+      <input type="text" placeholder="MM/DD/YYYY" name="startdate" id="startdate" required><br>
+      <label for="enddate">Your Visit Ended:</label>
+      <input type="text" placeholder="MM/DD/YYYY" name="enddate" id="enddate" required><br>
+      <input type="text" placeholder="Location In Country" name="location" id="location" required><br>
+      <input type="text" placeholder="Description" name="description" id="description" required><br>
+    </div>
+    <button class="btn" type="submit">Add Review</button>
+</form>
+<br><br>
+<a href="/dashboard">Click here to return to the Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+table, th, td{
+    border: 2px solid whitesmoke;
+    border-collapse: collapse;
+  }
+
+</style>
+</head>
+
+<body>
+<h3>Reviews</h3>
+<br>
+<ul>
+  <table class="tbl">
+    <tr>
+      <th>Writer ID</th>
+      <th>Review Title</th>
+      <th>Location</th>
+      <th>Description</th>
+    </tr>
+   <% rows.forEach(function(r) { %>
+      <tr>
+        <td><%= r.writer_id %></td>
+        <td><%= r.review_title %></td>
+        <td><%= r.location %></td>
+        <td><%= r.description %></td>
+      </tr>
+    <% }); %>
+  </table>
+
+</ul>
+<br>
+<a href="/dashboard">Click here to return to the Dashboard</a>
+<br><br>
+</body>
+</html>
