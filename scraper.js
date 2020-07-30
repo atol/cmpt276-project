@@ -28,7 +28,6 @@ const getAdvisories = async () => {
 };
 
 const getInfo = async (target) => {
-    var info = [];
     const base = 'https://travel.gc.ca/destinations/';
     const url = base + target;
     const $ = await fetchData(url);
@@ -36,7 +35,7 @@ const getInfo = async (target) => {
     var visas = $('div > .tabpanels').find('#entryexit').find('h3:contains("Visas")').next().html();
     visas = visas.replace(/<br ?\/?>/g, ", ");
 
-    info = {
+    const info = {
         country: $('h1').find('#Label1').text().trim(),
         updated: $('time > #Label9').text().trim(),
         valid: $('time > #Label12').text().trim(),
