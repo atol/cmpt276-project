@@ -4,8 +4,36 @@ const db = require('./db')
 const pool = db.pool
 //const Joi = require('joi')
 
-router.get('/', checkAuth,  (req, res) => {
-    res.send("You can view reviews for every country on our map, or write your own! To get started, click here to be redirected to the map")
+router.get('/', checkAuth, async(req, res) => {
+    const user_id=req.session.user_id
+    try {
+        const client = await pool.connect();
+        let qResult=await client.query(`select * from reviews where writer_id=$1`,[user_id])
+        if (qResult.rows && qResult.rows.length > 0) {
+            var results = {'rows':qResult.rows};
+            res.render('pages/myReviews', results);
+        }
+        else{
+            res.send("You haven't written any reviews.")
+        }
+        client.release()
+    } catch (err) {
+        console.error(err)
+        res.send("err")
+    }
+})
+
+router.post('/delete/:review_id', checkAuth, async(req, res) => {
+    const review_id=req.params.review_id
+    try {
+        const client = await pool.connect();
+        await client.query(`delete from reviews where review_id=$1`,[review_id])
+        client.release()
+        res.send("Deleted.")
+    } catch (err) {
+        console.error(err)
+        res.send("err")
+    }
 })
 
 router.get('/write/:countryName', checkAuth, (req, res) => {
