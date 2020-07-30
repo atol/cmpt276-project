@@ -18,19 +18,17 @@ table, th, td{
 </head>
 
 <body>
-<h3>Reviews</h3>
+<h3>My Reviews</h3>
 <br>
 <ul>
   <table class="tbl">
     <tr>
-      <th>Writer ID</th>
       <th>Review Title</th>
       <th>Location</th>
       <th>Description</th>
     </tr>
    <% rows.forEach(function(r) { %>
       <tr>
-        <td><%= r.writer_id %></td>
         <td><%= r.review_title %></td>
         <td><%= r.location %></td>
         <td><%= r.description %></td>
@@ -44,6 +42,8 @@ table, th, td{
 
 </ul>
 <br>
+<a href="/info_map">Click here to return to the map, where you can view all reviews or add your own!</a>
+<br><br>
 <a href="/dashboard">Click here to return to the Dashboard</a>
 <br><br>
 </body>

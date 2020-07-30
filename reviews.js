@@ -14,7 +14,7 @@ router.get('/', checkAuth, async(req, res) => {
             res.render('pages/myReviews', results);
         }
         else{
-            res.send("You haven't written any reviews.")
+            res.render('pages/reviewsResponse',{message:"You haven't written any reviews."})
         }
         client.release()
     } catch (err) {
@@ -29,7 +29,7 @@ router.post('/delete/:review_id', checkAuth, async(req, res) => {
         const client = await pool.connect();
         await client.query(`delete from reviews where review_id=$1`,[review_id])
         client.release()
-        res.send("Deleted.")
+        res.render('pages/reviewsResponse',{message:"The selected review has been deleted"})
     } catch (err) {
         console.error(err)
         res.send("err")
@@ -55,7 +55,7 @@ router.post('/:countryName', checkAuth, async(req, res) => {
             `insert into reviews (writer_id,country,review_title,startdate,enddate,location,description) values($1,$2,$3,$4,$5,$6,$7)`,
             [writer_id,country,review_title,startdate,enddate,location,description])
         client.release()
-        res.send("Review added!")
+        res.render('pages/reviewsResponse',{message:"Review added!"})
     } catch (err) {
         console.error(err)
         res.send("err")
@@ -72,7 +72,7 @@ router.get('/:countryName', checkAuth, async(req, res) => {
             res.render('pages/reviews', results);
         }
         else {
-            res.send("No reviews for this country yet")
+            res.render('pages/reviewsResponse',{message:"No one has written a review for this country yet"})
             //res.render('pages/noFriends');
             }
         client.release()
