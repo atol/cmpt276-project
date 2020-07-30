@@ -24,6 +24,12 @@
             <p id="country-pop"></p></br>
             <p id="country-capital"></p></br>
             <p id="country-currency"></p></br>
+            <form id= "review-btn" action="/invalidurl" method="GET">
+                <input type="submit" value="Click here to view user reviews">
+            </form>
+            <form id= "write-review-btn" action="/invalidurl" method="GET">
+                <input type="submit" value="Click here to write a review">
+            </form>
         </div>
     </div>
 
@@ -202,8 +208,16 @@
                 document.getElementById('country-currency').innerHTML = "Currency: " + currency;
             });
             document.getElementById('country-name').innerHTML = country;
+            btnReview(country)
+            btnWriteReview(country)
         }
 
+        function btnReview(country) {
+            document.getElementById("review-btn").action = "/reviews/"+country
+        }
+        function btnWriteReview(country) {
+            document.getElementById("write-review-btn").action = "/reviews/write/"+country
+        }
     </script>
 
     <script src='<%= apiurl %>'></script>
