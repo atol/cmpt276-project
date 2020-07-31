@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: lemonchiffon;
+}
+#header{
+  font-size:25px; 
+  line-height: 12px; 
+  letter-spacing: 1px; 
+}
+#review-form{
+  box-sizing: border-box;
+  width:350px;
+}
+input[type=text] {
+  padding:15px;
+  width:350px;
+  background-color: lemonchiffon;
+  color:black;
+  display: inline-block; 
+  font-size: 12px; 
+  font-weight: bold; 
+  line-height: 12px; 
+  letter-spacing: 1px; 
+  margin: 0 0 30px; 
+  padding: 10px 15px 8px; 
+}
+label{
+  background: #fe921f;
+  color: #ffffff; 
+  display: inline-block; 
+  font-size: 12px; 
+  font-weight: bold; 
+  line-height: 12px; 
+  letter-spacing: 1px; 
+  margin: 0 0 30px; 
+  padding: 10px 15px 8px; 
+  text-transform: uppercase;
+}
+.btn{
+  padding:15px;
+  width:350px;
+  background-color: lemonchiffon;
+  color:black;
+  display: inline-block; 
+  font-size: 12px; 
+  font-weight: bold; 
+  line-height: 12px; 
+  letter-spacing: 1px; 
+  margin: 0 0 30px; 
+  padding: 10px 15px 8px;
+}
+
+</style>
+</head>
+
+<body>
+<p id="header">Write a review!</p>
+<form action="/reviews/<%=country%>" method="POST" id="review-form">
+    <input type="text" placeholder="REVIEW TITLE" name="review_title" id="review_title" required><br>
+    <label for="startdate">Your Visit Began:</label>
+    <input type="text" placeholder="MM/DD/YYYY" name="startdate" id="startdate" required><br>
+    <label for="enddate">Your Visit Ended:</label>
+    <input type="text" placeholder="MM/DD/YYYY" name="enddate" id="enddate" required><br>
+    <input type="text" placeholder="LOCATION IN COUNTRY" name="location" id="location" required><br>
+    <input type="text" placeholder="DESCRIPTION" name="description" id="description" required><br>
+    <button class="btn" type="submit">Add Review</button>
+</form>
+<br><br>
+<a href="/dashboard">Click here to return to the Dashboard</a>
+</body>
+</html>
