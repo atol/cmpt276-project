@@ -152,6 +152,13 @@ app.get('/info_map', checkAuth, function (req, res) {
     res.render('pages/info_map', { uname: name, apiurl: map_url },);
 });
 
+app.get('/allusers', checkAuth, function (req, res) {
+    var name = req.session.uname;
+    const api_key = process.env.API_KEY;
+    const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
+    res.render('pages/allUsersMap', { uname: name, apiurl: map_url },);
+});
+
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
     var name = req.session.uname;
     res.render('pages/mod', { uname: name });
@@ -305,5 +312,16 @@ app.get('/users/:id/delete', async (req, res) => {
 })
 
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
+io.on('connection', (socket) => {
+    io.to(socket.id).emit('cunt', JSON.stringify({lat: 6969, long: 9696}))
+})
+
+
+
+http.listen(PORT, () => console.log(`Listening on ${PORT}`))
 //module.exports=app
