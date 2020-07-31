@@ -7,6 +7,7 @@ const cheerio = require('cheerio');
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
+const logger = require('morgan');
 //var cors = require('cors')
 require('dotenv').config();
 
@@ -19,7 +20,7 @@ const ACCESS = {
     BASIC: 0
 }
 
-const app = express()
+const app = express();
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 

@@ -34,7 +34,9 @@
     "express-session": "^1.17.1",
     "joi": "^14.3.1",
     "js-datepicker": "^5.15.0",
+    "morgan": "^1.10.0",
     "pg": "^8.2.2",
+    "socket.io": "^2.3.0",
     "volleyball": "^1.5.1"
   },
   "devDependencies": {
