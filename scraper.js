@@ -13,10 +13,10 @@ const getAdvisories = async () => {
 
     $('.gradeX').each(function (i, elem) {
         advisories[i] = {
-            country: $(this).find('td:nth-child(2)').text().trim(),
             advisory: $(this).find('td:nth-child(3)').text().trim(),
-            updated: $(this).find('td:nth-child(4)').text().trim(),
-            slug: $(this).find('td:nth-child(2) > a').attr('href')
+            country: $(this).find('td:nth-child(2)').text().trim(),
+            slug: $(this).find('td:nth-child(2) > a').attr('href'),
+            updated: $(this).find('td:nth-child(4)').text().trim()
         }
     });
 
