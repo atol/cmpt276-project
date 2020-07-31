@@ -6,6 +6,7 @@ const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
 const {getAdvisories, getInfo} = require('./scraper');
+const reviews= require('./reviews')
 //var cors = require('cors')
 require('dotenv').config();
 
@@ -34,6 +35,7 @@ app.use(session({
 }))
 app.use('/auth', auth) //prepends things in auth/index.js with /auth
 app.use('/friends', friends)
+app.use('/reviews', reviews)
 
 app.get('/', function (req, res) {
     var user = req.session.user_id;
