@@ -2,12 +2,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const fetchData = async (url) => {
-    try {
-        const result = await axios.get(url);
-        return cheerio.load(result.data);
-    } catch (err) {
-        console.error(err)
-    }
+    const result = await axios.get(url);
+    return cheerio.load(result.data);
 };
 
 const getAdvisories = async () => {
@@ -37,13 +33,13 @@ const getInfo = async (target) => {
 
     const info = {
         country: $('h1').find('#Label1').text().trim(),
+        link: url,
+        other: $('div > .tabpanels').find('#entryexit').find('h3:contains("Other")').next().text().trim(),
+        passport: $('div > .tabpanels').find('#entryexit').find('h4:contains("Regular Canadian passport")').next().text().trim(),
+        risk: $('div > .tabpanels').find('#risk').find('.AdvisoryContainer').find('p').text().trim(),
         updated: $('time > #Label9').text().trim(),
         valid: $('time > #Label12').text().trim(),
-        risk: $('div > .tabpanels').find('#risk').find('.AdvisoryContainer').find('p').text().trim(),
-        passport: $('div > .tabpanels').find('#entryexit').find('h4:contains("Regular Canadian passport")').next().text().trim(),
-        visa: visas,
-        other: $('div > .tabpanels').find('#entryexit').find('h3:contains("Other")').next().text().trim(),
-        link: url
+        visa: visas       
     }
 
     return info;
