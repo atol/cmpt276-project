@@ -4,6 +4,7 @@
 <head>
   <%- include ("../partials/header") %>
   <script type="text/javascript" src="../infoMapScript.js"></script>
+  <link rel="stylesheet" href="../stylesheets/showTrip.css">
   <link rel="stylesheet" href="../stylesheets/infoMap.css">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
@@ -36,13 +37,17 @@
           </tr>
         <% }); %>
       </table>-->
-      <% rows.forEach(function (r) { %>
-      <p id="Trip-Name" style="font-size: medium ;">Trip Name: <%= r.tripname %></p><br>
-      <p id="start-date" style="font-size: medium ;">Start Date: <%=r.startdate %> </p> <br>
-      <p id="end-date" style="font-size: medium ;">End Date: <%=r.enddate %></p><br>
-      <p id="location" style="font-size: medium ;">Location: <%=r.location %></p><br>
-      <p id="description" style="font-size: medium ;">Description: <%=r.description %></p><br>
-      <%}); %>
+      <div class="show-trip">
+        <% rows.forEach(function (r) { %>
+        <p class="info">Trip Name: <%= r.tripname %></p>
+        <p class=" info">Start Date: <%=r.startdate %> </p>
+        <p class=" info">End Date: <%=r.enddate %></p>
+        <p class=" info">Location: <%=r.location %></p>
+        <p class=" info">Description: <%=r.description %></p>
+        <%}); %>
+
+      </div>
+
 
     </div>
     <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
