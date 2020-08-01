@@ -14,10 +14,11 @@
     <%- include ("../partials/nav_profile") %>
 
     <div id="floating-panel">
-        <input id="address" type="textbox" value="Sydney, NSW" />
-        <input id="submit" type="button" value="Geocode" />
+        <p id="input-title"> Input location</p>
+        <input id="address" type="textbox" value="" />
+        <input id="submit" type="button" value="Submit" />
     </div>
-    
+
     <div id="map"></div>
 
     <script>
@@ -146,7 +147,7 @@
                     position: results[0].geometry.location
                 });
                 } else {
-                alert("Geocode was not successful for the following reason: " + status);
+                    alert("Geocode was not successful for the following reason: " + status);
                 }
             });
         }

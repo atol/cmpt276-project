@@ -45,4 +45,10 @@ p {
     font-family: "Roboto", "sans-serif";
     line-height: 30px;
     padding-left: 10px;
-  }
+}
+
+#input-title{
+    font-family: "Roboto", "sans-serif";
+    text-align: center;
+    font-size: large;
+}
