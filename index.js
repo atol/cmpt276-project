@@ -318,7 +318,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
-    io.to(socket.id).emit('cunt', JSON.stringify({lat: 6969, long: 9696}))
+    io.to(socket.id).emit('send', JSON.stringify({lat: 6969, long: 9696}))
 })
 
 
