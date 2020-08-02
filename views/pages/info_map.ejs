@@ -15,14 +15,14 @@
     <div id="mySidepanel" class="sidepanel">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <img src="../image/defaultdp.png" width="50px" height="50px">
-        <p id="Username"><%= uname %></p></br>
+        <h2 id="Username"><%= uname %></h2>
         <a href="/dashboard"><button id="backHome" class="options">Back</button></a></br>
         <div id="country-info">
-            <p id="country-name">Click on a country!</br>--></p></br>
+            <h1 id="country-name">Click on a country!</br>--></h1>
             <img id="country-flag" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="200px"
                 height="100px">
-            <p id="country-pop"></p></br>
-            <p id="country-capital"></p></br>
+            <p id="country-pop"></p>
+            <p id="country-capital"></p>
             <p id="country-currency"></p></br>
             <form id= "review-btn" action="/invalidurl" method="GET">
                 <input type="submit" value="Click here to view user reviews">
@@ -177,9 +177,18 @@
             geocoder.geocode({ location: latlng }, function (results, status) {
                 if (status === "OK") {
                     if (results[0]) {
-                        // map.setZoom(11);
+                        // Loop through results to get ISO code
+                        for (i = 0; i < results[0].address_components.length; i++) {
+                            var addressObj = results[0].address_components[i];
+                            for (j = 0; j < addressObj.types.length; j++) {
+                                if (addressObj.types[j] === 'country') {
+                                    var ISO = addressObj.short_name;
+                                    break;
+                                }
+                            }
+                        }
                         var countryName = results[results.length - 1].formatted_address;
-                        changeInfoPanel(countryName);
+                        changeInfoPanel(countryName, ISO);
                         infowindow.setContent(countryName);
                         infowindow.open(map);
                     }
@@ -195,17 +204,17 @@
             });
         }
 
-        function changeInfoPanel(country) {
-            $.getJSON("https://restcountries.eu/rest/v2/name/" + country, function (data) {
-                var capital = data[0].capital;
-                var pop = data[0].population;
-                var currency = data[0].currencies[0].name;
-                var flagimg = data[0].flag;
+        function changeInfoPanel(country, code) {
+            $.getJSON("https://restcountries.eu/rest/v2/alpha/" + code, function (data) {
+                var capital = data.capital;
+                var pop = data.population;
+                var currency = data.currencies[0].name;
+                var flagimg = data.flag;
 
                 document.getElementById('country-flag').src = flagimg;
-                document.getElementById('country-capital').innerHTML = "Capital: " + capital;
-                document.getElementById('country-pop').innerHTML = "Population: " + pop;
-                document.getElementById('country-currency').innerHTML = "Currency: " + currency;
+                document.getElementById('country-capital').innerHTML = "<strong>Capital:</strong> " + capital;
+                document.getElementById('country-pop').innerHTML = "<strong>Population</strong>: " + formatNumber(pop);
+                document.getElementById('country-currency').innerHTML = "<strong>Currency:</strong> " + titleCase(currency);
             });
             document.getElementById('country-name').innerHTML = country;
             btnReview(country)
@@ -218,6 +227,20 @@
         function btnWriteReview(country) {
             document.getElementById("write-review-btn").action = "/reviews/write/"+country
         }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function titleCase(str) {
+            return str.split(' ').map(capitalize).join(' ');
+        }
+
+        // https://blog.abelotech.com/posts/number-currency-formatting-javascript/
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
+
     </script>
 
     <script src='<%= apiurl %>'></script>
