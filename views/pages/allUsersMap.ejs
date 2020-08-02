@@ -25,9 +25,15 @@
 
         const socket = io();
 
-        socket.on('locations', data => {
-            console.log(JSON.parse(data));
-        })
+        let markers = [];
+
+        // socket.on('locations', data => {
+        //     // const locations = JSON.parse(data);
+        //     // new google.maps.Marker({
+        //     //     map: map,
+        //     //     position: results[0].geometry.location
+        //     // });
+        // })
 
         function updateLocation(lat, lng){
             // socket.emit('locations', JSON.stringify({lat,lng}));
@@ -140,6 +146,16 @@
                 geocodeAddress(geocoder, map);
             });
 
+            socket.on('locations', data => {
+                for(const marker of markers){
+                    marker.setMap(null);
+                }
+                markers = JSON.parse(data).map(pos => new google.maps.Marker({
+                    map: map,
+                    position: pos
+                }));                
+            })
+
         }
 
         function geocodeAddress(geocoder, resultsMap) {
@@ -150,10 +166,6 @@
                     latitude = results[0].geometry.location.lat();
                     longitude = results[0].geometry.location.lng();
                     updateLocation(latitude, longitude);
-                    new google.maps.Marker({
-                        map: resultsMap,
-                        position: results[0].geometry.location
-                });
                 } else {
                     alert("Geocode was not successful for the following reason: " + status);
                 }

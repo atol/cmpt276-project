@@ -326,7 +326,7 @@ io.on('connection', async (socket) => {
 app.post('/allusers/locations', async (req,res) => {
     const user_id = req.session.user_id;
     const{lat, lng} = req.body;
-    console.log(user_id, lat, lng);
+    // console.log(user_id, lat, lng);
 
     const client = await pool.connect();
     await client.query(`
