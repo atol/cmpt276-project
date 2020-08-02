@@ -213,8 +213,8 @@
 
                 document.getElementById('country-flag').src = flagimg;
                 document.getElementById('country-capital').innerHTML = "<strong>Capital:</strong> " + capital;
-                document.getElementById('country-pop').innerHTML = "<strong>Population</strong>: " + pop;
-                document.getElementById('country-currency').innerHTML = "<strong>Currency:</strong> " + currency;
+                document.getElementById('country-pop').innerHTML = "<strong>Population</strong>: " + formatNumber(pop);
+                document.getElementById('country-currency').innerHTML = "<strong>Currency:</strong> " + titleCase(currency);
             });
             document.getElementById('country-name').innerHTML = country;
             btnReview(country)
@@ -227,6 +227,20 @@
         function btnWriteReview(country) {
             document.getElementById("write-review-btn").action = "/reviews/write/"+country
         }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function titleCase(str) {
+            return str.split(' ').map(capitalize).join(' ');
+        }
+
+        // https://blog.abelotech.com/posts/number-currency-formatting-javascript/
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
+
     </script>
 
     <script src='<%= apiurl %>'></script>
