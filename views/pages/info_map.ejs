@@ -15,14 +15,14 @@
     <div id="mySidepanel" class="sidepanel">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <img src="../image/defaultdp.png" width="50px" height="50px">
-        <p id="Username"><%= uname %></p></br>
+        <h2 id="Username"><%= uname %></h2>
         <a href="/dashboard"><button id="backHome" class="options">Back</button></a></br>
         <div id="country-info">
-            <p id="country-name">Click on a country!</br>--></p></br>
+            <h1 id="country-name">Click on a country!</br>--></h1>
             <img id="country-flag" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="200px"
                 height="100px">
-            <p id="country-pop"></p></br>
-            <p id="country-capital"></p></br>
+            <p id="country-pop"></p>
+            <p id="country-capital"></p>
             <p id="country-currency"></p></br>
             <form id= "review-btn" action="/invalidurl" method="GET">
                 <input type="submit" value="Click here to view user reviews">
@@ -212,9 +212,9 @@
                 var flagimg = data.flag;
 
                 document.getElementById('country-flag').src = flagimg;
-                document.getElementById('country-capital').innerHTML = "Capital: " + capital;
-                document.getElementById('country-pop').innerHTML = "Population: " + pop;
-                document.getElementById('country-currency').innerHTML = "Currency: " + currency;
+                document.getElementById('country-capital').innerHTML = "<strong>Capital:</strong> " + capital;
+                document.getElementById('country-pop').innerHTML = "<strong>Population</strong>: " + pop;
+                document.getElementById('country-currency').innerHTML = "<strong>Currency:</strong> " + currency;
             });
             document.getElementById('country-name').innerHTML = country;
             btnReview(country)

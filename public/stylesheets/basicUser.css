@@ -89,3 +89,9 @@ p {
     font-size: 25px;
     margin-bottom: 5px;
 }
+
+h2 {
+    font-size: 130%;
+    font-weight: normal;
+    margin-top: 5px;
+}
