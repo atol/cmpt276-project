@@ -177,9 +177,18 @@
             geocoder.geocode({ location: latlng }, function (results, status) {
                 if (status === "OK") {
                     if (results[0]) {
-                        // map.setZoom(11);
+                        // Loop through results to get ISO code
+                        for (i = 0; i < results[0].address_components.length; i++) {
+                            var addressObj = results[0].address_components[i];
+                            for (j = 0; j < addressObj.types.length; j++) {
+                                if (addressObj.types[j] === 'country') {
+                                    var ISO = addressObj.short_name;
+                                    break;
+                                }
+                            }
+                        }
                         var countryName = results[results.length - 1].formatted_address;
-                        changeInfoPanel(countryName);
+                        changeInfoPanel(countryName, ISO);
                         infowindow.setContent(countryName);
                         infowindow.open(map);
                     }
@@ -195,12 +204,12 @@
             });
         }
 
-        function changeInfoPanel(country) {
-            $.getJSON("https://restcountries.eu/rest/v2/name/" + country, function (data) {
-                var capital = data[0].capital;
-                var pop = data[0].population;
-                var currency = data[0].currencies[0].name;
-                var flagimg = data[0].flag;
+        function changeInfoPanel(country, code) {
+            $.getJSON("https://restcountries.eu/rest/v2/alpha/" + code, function (data) {
+                var capital = data.capital;
+                var pop = data.population;
+                var currency = data.currencies[0].name;
+                var flagimg = data.flag;
 
                 document.getElementById('country-flag').src = flagimg;
                 document.getElementById('country-capital').innerHTML = "Capital: " + capital;
