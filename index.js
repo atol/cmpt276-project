@@ -317,11 +317,29 @@ app.get('/users/:id/delete', async (req, res) => {
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-io.on('connection', (socket) => {
-    io.to(socket.id).emit('send', JSON.stringify({lat: 6969, long: 9696}))
+io.on('connection', async (socket) => {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM location');
+    io.to(socket.id).emit('locations', JSON.stringify(result.rows));
 })
 
+app.post('/allusers/locations', async (req,res) => {
+    const user_id = req.session.user_id;
+    const{lat, lng} = req.body;
+    console.log(user_id, lat, lng);
 
+    const client = await pool.connect();
+    await client.query(`
+        INSERT INTO location (user_id, lat, lng) 
+        VALUES ($1, $2, $3)
+        ON CONFLICT (user_id)
+        DO UPDATE SET lat=$2, lng=$3
+    `, [user_id, lat, lng]);
+
+    const result = await client.query('SELECT * FROM location');
+    io.emit('locations', JSON.stringify(result.rows));
+    res.send("worked!");
+})
 
 http.listen(PORT, () => console.log(`Listening on ${PORT}`))
 //module.exports=app
