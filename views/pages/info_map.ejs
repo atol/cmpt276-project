@@ -246,7 +246,9 @@
             var data = <%- JSON.stringify(countries) %>;
             if (code in data) {
                 var advisory = data[code].eng['advisory-text'];
-                return document.getElementById('country-risk').innerHTML = "<strong>Risk Level:</strong> " + advisory;
+                var link = data[code].eng['url-slug']
+                var level = data[code]['advisory-state']
+                return document.getElementById('country-risk').innerHTML = "<strong>Risk Level:</strong> " + "<a href='/destinations/" + link + "' value='" + level + "'>" + advisory + "</a>";
             }
         }
 
