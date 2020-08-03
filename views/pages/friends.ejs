@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+table, th, td{
+    border: 2px solid whitesmoke;
+    border-collapse: collapse;
+  }
+
+</style>
 </head>
 
 <body>
@@ -11,13 +25,14 @@
     </div>
     <button class="btn" type="submit">Add Friend</button>
 </form>
-
+<br>
 <h3>Your friends:</h3>
 <ul>
   <table class="tbl">
     <tr>
       <th>Name</th>
       <th>Email</th>
+      <th>Delete</th>
     </tr>
    <% rows.forEach(function(r) { %>
       <tr>
@@ -32,8 +47,11 @@
   </table>
 
 </ul>
-<a href="/friends/friendreqs/sent">Click here to view sent friend requests</a>
 <br>
+<a href="/friends/friendreqs/sent">Click here to view sent friend requests</a>
+<br><br>
 <a href="/friends/friendreqs/recieved">Click here to view recieved friend requests</a>
+<br><br>
+<a href="/dashboard">Click here to return to the Dashboard</a>
 </body>
 </html>

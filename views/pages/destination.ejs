@@ -5,27 +5,39 @@
     <%- include ("../partials/header") %>
     <link rel="stylesheet" href="../stylesheets/advisories.css">
     
-    <title>Ditu - <%= results[0].country %></title>
+    <title>Ditu - <%= results.country %></title>
 </head>
 
 <body>
     <%- include ("../partials/nav") %>
 
     <div class="container">
-        <% results.forEach(function(r) { %>
-            <h1><%= r.country %></h1>
-            <h4>Risk Level</h4>
-            <p><%= r.advisory %></p>
-            <h4>Passport Requirements</h4>
-            <p><%= r.passport %></p>
-            <h4>Visa Requirements</h4>
-            <p><%= r.visas %></p>
-            <h4>Links</h4>
-            <p><a href="<%= r.link %>">Official Travel Advice and Advisories from the Government of Canada</a></p>
-            <h4>Last Updated</h4>
-            <p><%= r.updated %></p>
-            <a href="/advisories"><button class="back">Back</button></a>
-        <% }); %>
+        <h1><%= results.country %></h1>
+
+        <h4>Risk Level</h4>
+        <p><%= results.risk %></p>
+
+        <h4>Passport Requirements</h4>
+        <p><%= results.passport %></p>
+
+        <h4>Visa Requirements</h4>
+        <p><%= results.visa %></p>
+
+        <% if(results.other != "") { %>
+            <h4>Other Requirements</h4>
+            <p><%= results.other %></p>
+        <% }; %>
+
+        <h4>Source</h4>
+        <p><a href="<%= results.link %>">Official Travel Advice and Advisories from the Government of Canada</a></p>
+
+        <h4>Last Updated</h4>
+        <p><%= results.updated %></p>
+
+        <h4>Still Valid</h4>
+        <p><%= results.valid %></p>
+
+        <a href="/advisories"><button class="back">Back</button></a>
     </div>
 </body>
 
