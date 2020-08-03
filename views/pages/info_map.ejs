@@ -23,11 +23,12 @@
                 height="100px">
             <p id="country-pop"></p>
             <p id="country-capital"></p>
-            <p id="country-currency"></p></br>
-            <form id= "review-btn" action="/invalidurl" method="GET">
+            <p id="country-currency"></p>
+            <p id="country-risk"></p></br>
+            <form id="review-btn" action="/invalidurl" method="GET">
                 <input type="submit" value="Click here to view user reviews">
             </form>
-            <form id= "write-review-btn" action="/invalidurl" method="GET">
+            <form id="write-review-btn" action="/invalidurl" method="GET">
                 <input type="submit" value="Click here to write a review">
             </form>
         </div>
@@ -38,7 +39,6 @@
     <div id="map"></div>
 
     <script>
-
         function myMap() {
 
             var mapProp = {
@@ -178,9 +178,9 @@
                 if (status === "OK") {
                     if (results[0]) {
                         // Loop through results to get ISO code
-                        for (i = 0; i < results[0].address_components.length; i++) {
+                        for (var i = 0; i < results[0].address_components.length; i++) {
                             var addressObj = results[0].address_components[i];
-                            for (j = 0; j < addressObj.types.length; j++) {
+                            for (var j = 0; j < addressObj.types.length; j++) {
                                 if (addressObj.types[j] === 'country') {
                                     var ISO = addressObj.short_name;
                                     break;
@@ -213,19 +213,20 @@
 
                 document.getElementById('country-flag').src = flagimg;
                 document.getElementById('country-capital').innerHTML = "<strong>Capital:</strong> " + capital;
-                document.getElementById('country-pop').innerHTML = "<strong>Population</strong>: " + formatNumber(pop);
+                document.getElementById('country-pop').innerHTML = "<strong>Population:</strong> " + formatNumber(pop);
                 document.getElementById('country-currency').innerHTML = "<strong>Currency:</strong> " + titleCase(currency);
             });
             document.getElementById('country-name').innerHTML = country;
+            riskLevel(code);
             btnReview(country)
             btnWriteReview(country)
         }
 
         function btnReview(country) {
-            document.getElementById("review-btn").action = "/reviews/"+country
+            document.getElementById("review-btn").action = "/reviews/" + country
         }
         function btnWriteReview(country) {
-            document.getElementById("write-review-btn").action = "/reviews/write/"+country
+            document.getElementById("write-review-btn").action = "/reviews/write/" + country
         }
 
         function capitalize(str) {
@@ -239,6 +240,14 @@
         // https://blog.abelotech.com/posts/number-currency-formatting-javascript/
         function formatNumber(num) {
             return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
+
+        function riskLevel(code) {
+            var data = <%- JSON.stringify(countries) %>;
+            if (code in data) {
+                var advisory = data[code].eng['advisory-text'];
+                return document.getElementById('country-risk').innerHTML = "<strong>Risk Level:</strong> " + advisory;
+            }
         }
 
     </script>

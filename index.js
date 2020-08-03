@@ -7,7 +7,7 @@ const db = require('./db')
 const friends = require('./friends')
 const {getAdvisories, getInfo} = require('./scraper');
 const reviews= require('./reviews')
-//var cors = require('cors')
+const fetch = require('node-fetch');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
@@ -149,7 +149,14 @@ app.get('/info_map', checkAuth, function (req, res) {
     var name = req.session.uname;
     const api_key = process.env.API_KEY;
     const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
-    res.render('pages/info_map', { uname: name, apiurl: map_url },);
+    const json_url = "https://data.international.gc.ca/travel-voyage/index-alpha-eng.json";
+    const settings = { method: "Get" };
+
+    fetch(json_url, settings)
+        .then(res => res.json())
+        .then((json) => {
+            res.render('pages/info_map', { uname: name, apiurl: map_url, countries: json.data });
+        });
 });
 
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
