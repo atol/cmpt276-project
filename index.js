@@ -1,6 +1,7 @@
 const express = require('express')
 const session = require('express-session')
 const path = require('path')
+var cors = require('cors')
 const volleyball = require('volleyball')
 const auth = require('./auth')
 const db = require('./db')
@@ -23,6 +24,7 @@ app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(volleyball)
 app.use(express.json())
+app.use("/", cors())
 app.use(express.urlencoded({extended:true}))
 app.use(session({
     secret: 'shhhhhhhh', // sign session ID cookie
@@ -78,6 +80,8 @@ app.get('/users', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
     }
     var results = {'rows':result.rows};
     res.render('pages/users', results);
+    //us = [];
+
   });
 });
 
@@ -188,3 +192,5 @@ app.get('/users/:id/delete', async (req, res) => {
 
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+module.exports = app;
