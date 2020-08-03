@@ -3,12 +3,18 @@
 
 <head>
   <%- include ("../partials/header") %>
-  <script type="text/javascript" src="../infoMapScript.js"></script>
-  <link rel="stylesheet" href="../stylesheets/showTrip.css">
-  <link rel="stylesheet" href="../stylesheets/infoMap.css">
+  <!-- <script type="text/javascript" src="../infoMapScript.js"></script> -->
+
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
     crossorigin="anonymous"></script>
+
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../stylesheets/showTrip.css">
+  <link rel="stylesheet" href="../stylesheets/infoMap.css">
 
   <title>Trip Info!</title>
 </head>
@@ -21,33 +27,13 @@
     <br>
     <a href="/dashboard"><button id="backHome" class="options">Back</button></a><br>
     <div id="travelInfo">
-      <!--<table class="tbl">
-        <tr>
-          <th>Trip Name:</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Location</th>
-          <th>Description</th>
-        </tr>
-       <% rows.forEach(function(r) { %>
-          <tr>
-            <td id="Trip-Name" style="font-size: medium ;"><%= r.tripname %>><%= r.id %></td>
-            <td id="start-date" style="font-size: medium ;"><%= r.name %></td>
-            <td><%= r.email %></td>
-          </tr>
-        <% }); %>
-      </table>-->
-      <div class="show-trip">
-        <% rows.forEach(function (r) { %>
-        <p class="info">Trip Name: <%= r.tripname %></p>
-        <p class=" info">Start Date: <%=r.startdate %> </p>
-        <p class=" info">End Date: <%=r.enddate %></p>
-        <p class=" info">Location: <%=r.location %></p>
-        <p class=" info">Description: <%=r.description %></p>
-        <%}); %>
-
-      </div>
-
+      <% rows.forEach(function (r) { %>
+      <p id="Trip-Name" style="font-size: medium ;">Trip Name: <%= r.tripname %></p><br>
+      <p id="start-date" style="font-size: medium ;">Start Date: <%=r.startdate %> </p> <br>
+      <p id="end-date" style="font-size: medium ;">End Date: <%=r.enddate %></p><br>
+      <p id="location" style="font-size: medium ;">Location: <%=r.location %></p><br>
+      <p id="description" style="font-size: medium ;">Description: <%=r.description %></p><br>
+      <%}); %>
 
     </div>
     <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
@@ -151,6 +137,10 @@
       </div>
     </div>
   </div>
+  <div id="map"></div>
+  <div class="overlay">
+    <button id="replay">Replay</button>
+  </div>
   <script>
     function popup() {
       $('#myModal').modal('show')
@@ -158,88 +148,164 @@
     function popupDelete() {
       $('#myModalDelete').modal('show')
     }
-
-    function myMap() {
-
-      var mapProp = {
-        center: new google.maps.LatLng(51.508742, -0.120850),
-        zoom: 3,
-        mapId: '35374d60c2b1cadb'
-      };
-
-      var myLatlng = { lat: 44.723334, lng: -38.818859 };
-
-      var map = new google.maps.Map(document.getElementById("map"), mapProp);
-
-      // Create the initial InfoWindow.
-      var infoWindow = new google.maps.InfoWindow({ content: ' ', position: myLatlng });
-      var geocoder = new google.maps.Geocoder();
-
-      infoWindow.open(map);
-      infoWindow.close();
-
-      // Configure the click listener.
-      map.addListener('click', function (mapsMouseEvent) {
-        // Close the current InfoWindow.
-        infoWindow.close();
-
-        // Create a new InfoWindow.
-        infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
-
-        var coordinates = mapsMouseEvent.latLng.toString();
-
-        geocodeLatLng(geocoder, map, infoWindow, coordinates);
-
-        infoWindow.open(map);
-      });
-
-    }
-
-    function geocodeLatLng(geocoder, map, infowindow, coords) {
-      var input = coords;
-      var latlngStr = input.split(",", 2);
-
-      var lati = latlngStr[0];
-      var longi = latlngStr[1];
-
-      var lati1 = lati.replace('(', '');
-
-      var latlng = { lat: parseFloat(lati1), lng: parseFloat(longi) };
-      geocoder.geocode({ location: latlng }, function (results, status) {
-        if (status === "OK") {
-          if (results[0]) {
-            // map.setZoom(11);
-            var countryName = results[results.length - 1].formatted_address;
-            changeInfoPanel(countryName);
-            infowindow.setContent(countryName);
-            infowindow.open(map);
-          }
-          else {
-            // window.alert("No results found");
-            infowindow.close();
-          }
-        }
-        else {
-          // window.alert("Geocoder failed due to: " + status);
-          infowindow.close();
-        }
-      });
-    }
-
-    // document.getElementById('Trip-Name').innerHTML = 'Trip Name:'
-    // document.getElementById('start-date').innerHTML = 'Start Date:'
-    // document.getElementById('end-date').innerHTML = 'End Date:'
-    // document.getElementById('location').innerHTML = 'Location:'
-    // document.getElementById('description').innerHTML = 'Description:'
-
-
-
-
   </script>
 
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJAI9tI-QuFAA5qyPg9p0nuy4kzMCa_Y&callback=myMap"></script>
+  <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js" charset="utf-8"></script>
 
+
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibXNjMjgiLCJhIjoiY2tkZTJpaWEyMWwzaTMxcGc4cjB1a3V3eSJ9.htLirZodkFX4l0mFDySW6g';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-96, 37.8],
+      zoom: 3
+    });
+
+    // San Francisco
+    var origin = [-122.414, 37.776];
+
+    // Washington DC
+    var destination = [-77.032, 38.913];
+
+    // A simple line from origin to destination.
+    var route = {
+      'type': 'FeatureCollection',
+      'features': [
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': [origin, destination]
+          }
+        }
+      ]
+    };
+
+    // A single point that animates along the route.
+    // Coordinates are initially set to origin.
+    var point = {
+      'type': 'FeatureCollection',
+      'features': [
+        {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Point',
+            'coordinates': origin
+          }
+        }
+      ]
+    };
+
+    // Calculate the distance in kilometers between route start/end point.
+    var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
+
+    var arc = [];
+
+    // Number of steps to use in the arc and animation, more steps means
+    // a smoother arc and animation, but too many steps will result in a
+    // low frame rate
+    var steps = 500;
+
+    // Draw an arc between the `origin` & `destination` of the two points
+    for (var i = 0; i < lineDistance; i += lineDistance / steps) {
+      var segment = turf.along(route.features[0], i, 'kilometers');
+      arc.push(segment.geometry.coordinates);
+    }
+
+    // Update the route with calculated arc coordinates
+    route.features[0].geometry.coordinates = arc;
+
+    // Used to increment the value of the point measurement against the route.
+    var counter = 0;
+
+    map.on('load', function () {
+      // Add a source and layer displaying a point which will be animated in a circle.
+      map.addSource('route', {
+        'type': 'geojson',
+        'data': route
+      });
+
+      map.addSource('point', {
+        'type': 'geojson',
+        'data': point
+      });
+
+      map.addLayer({
+        'id': 'route',
+        'source': 'route',
+        'type': 'line',
+        'paint': {
+          'line-width': 2,
+          'line-color': '#007cbf'
+        }
+      });
+
+      map.addLayer({
+        'id': 'point',
+        'source': 'point',
+        'type': 'symbol',
+        'layout': {
+          'icon-image': 'airport-15',
+          'icon-rotate': ['get', 'bearing'],
+          'icon-rotation-alignment': 'map',
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true
+        }
+      });
+
+      function animate() {
+        // Update point geometry to a new position based on counter denoting
+        // the index to access the arc.
+        point.features[0].geometry.coordinates =
+          route.features[0].geometry.coordinates[counter];
+
+        // Calculate the bearing to ensure the icon is rotated to match the route arc
+        // The bearing is calculate between the current point and the next point, except
+        // at the end of the arc use the previous point and the current point
+        point.features[0].properties.bearing = turf.bearing(
+          turf.point(
+            route.features[0].geometry.coordinates[
+            counter >= steps ? counter - 1 : counter
+            ]
+          ),
+          turf.point(
+            route.features[0].geometry.coordinates[
+            counter >= steps ? counter : counter + 1
+            ]
+          )
+        );
+
+        // Update the source with this new data.
+        map.getSource('point').setData(point);
+
+        // Request the next frame of animation so long the end has not been reached.
+        if (counter < steps) {
+          requestAnimationFrame(animate);
+        }
+
+        counter = counter + 1;
+      }
+
+      document.getElementById('replay').addEventListener('click', function () {
+        // Set the coordinates of the original point back to origin
+        point.features[0].geometry.coordinates = origin;
+
+        // Update the source layer
+        map.getSource('point').setData(point);
+
+        // Reset the counter
+        counter = 0;
+
+        // Restart the animation.
+        animate(counter);
+      });
+
+      // Start the animation.
+      animate(counter);
+    });
+  </script>
 </body>
 
 </html>

@@ -5,8 +5,8 @@ const volleyball = require('volleyball')
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
-const {getAdvisories, getInfo} = require('./scraper');
-const reviews= require('./reviews')
+const { getAdvisories, getInfo } = require('./scraper');
+const reviews = require('./reviews')
 //var cors = require('cors')
 require('dotenv').config();
 
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(volleyball)
 app.use(express.json())
 //app.use("/",cors())
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(session({
     secret: 'shhhhhhhh', // sign session ID cookie
     resave: false,
@@ -61,6 +61,12 @@ app.get('/basic_user', checkAuth, (req, res) => {
     var name = req.session.uname;
     res.render('pages/basic_user', { logged_in: user, uname: name })
 })
+// app.get('/viewTripInformation', checkAuth, function (req, res) {
+//     var name = req.session.uname;
+//     const api_key = process.env.API_KEY;
+//     const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=initMap&libraries=&v=weekly`
+//     res.render('pages/viewTripInformation', { uname: name, apiurl: map_url },);
+// });
 //get the travel trip information 
 app.get('/viewTripInformation', checkAuth, async (req, res) => {
     const user_id = req.session.user_id;
@@ -151,6 +157,7 @@ app.get('/info_map', checkAuth, function (req, res) {
     const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
     res.render('pages/info_map', { uname: name, apiurl: map_url },);
 });
+
 
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
     var name = req.session.uname;
