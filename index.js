@@ -2,13 +2,17 @@ const express = require('express')
 const session = require('express-session')
 const path = require('path')
 const volleyball = require('volleyball')
-const axios = require('axios');
-const cheerio = require('cheerio');
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
+<<<<<<< HEAD
 const logger = require('morgan');
 //var cors = require('cors')
+=======
+const {getAdvisories, getInfo} = require('./scraper');
+const reviews= require('./reviews')
+const fetch = require('node-fetch');
+>>>>>>> origin
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
@@ -36,6 +40,7 @@ app.use(session({
 }))
 app.use('/auth', auth) //prepends things in auth/index.js with /auth
 app.use('/friends', friends)
+app.use('/reviews', reviews)
 
 app.get('/', function (req, res) {
     var user = req.session.user_id;
@@ -149,7 +154,14 @@ app.get('/info_map', checkAuth, function (req, res) {
     var name = req.session.uname;
     const api_key = process.env.API_KEY;
     const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
-    res.render('pages/info_map', { uname: name, apiurl: map_url },);
+    const json_url = "https://data.international.gc.ca/travel-voyage/index-alpha-eng.json";
+    const settings = { method: "Get" };
+
+    fetch(json_url, settings)
+        .then(res => res.json())
+        .then((json) => {
+            res.render('pages/info_map', { uname: name, apiurl: map_url, countries: json.data });
+        });
 });
 
 app.get('/allusers', checkAuth, function (req, res) {
@@ -193,57 +205,17 @@ app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
     });
 });
 
-app.get('/advisories', function (req, res) {
+app.get('/advisories', async (req, res) => {
     var user = req.session.user_id;
-    const url = 'https://travel.gc.ca/travelling/advisories';
-
-    axios(url)
-        .then((response) => {
-            if (response.status === 200) {
-                const html = response.data;
-                const $ = cheerio.load(html);
-                let advisories = [];
-                $('.gradeX').each(function (i, elem) {
-                    advisories[i] = {
-                        country: $(this).find('td:nth-child(2)').text().trim(),
-                        advisory: $(this).find('td:nth-child(3)').text().trim(),
-                        updated: $(this).find('td:nth-child(4)').text().trim(),
-                        slug: $(this).find('td:nth-child(2) > a').attr('href')
-                    }
-                });
-                res.render('pages/advisories', { logged_in: user, results: advisories });
-            }
-        }, (err) => console.log(err));
+    const advisories = await getAdvisories();
+    res.render('pages/advisories', { logged_in: user, results: advisories });
 });
 
-app.get('/destinations/:country', function (req, res) {
+app.get('/destinations/:country', async (req, res) => {
     var user = req.session.user_id;
     var target = req.params.country;
-
-    const base = 'https://travel.gc.ca/destinations/';
-    const url = base + target;
-
-    axios(url)
-        .then((response) => {
-            if (response.status === 200) {
-                const html = response.data;
-                const $ = cheerio.load(html);
-                var visas = $('div > .tabpanels').find('#entryexit').find('h3:contains("Visas")').next().html();
-                visas = visas.replace(/<br ?\/?>/g, ", ");
-                let info = [];
-                info = {
-                    country: $('h1').find('#Label1').text().trim(),
-                    updated: $('time > #Label9').text().trim(),
-                    valid: $('time > #Label12').text().trim(),
-                    risk: $('div > .tabpanels').find('#risk').find('.AdvisoryContainer').find('p').text().trim(),
-                    passport: $('div > .tabpanels').find('#entryexit').find('h4:contains("Regular Canadian passport")').next().text().trim(),
-                    visa: visas,
-                    other: $('div > .tabpanels').find('#entryexit').find('h3:contains("Other")').next().text().trim(),
-                    link: url
-                }
-                res.render('pages/destination', { logged_in: user, results: info });
-            }
-        }, (err) => console.log(err));
+    const info = await getInfo(target);
+    res.render('pages/destination', { logged_in: user, results: info });
 });
 
 function checkAuth(req, res, next) {
