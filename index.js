@@ -5,14 +5,11 @@ const volleyball = require('volleyball')
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
-<<<<<<< HEAD
 const logger = require('morgan');
 //var cors = require('cors')
-=======
 const {getAdvisories, getInfo} = require('./scraper');
 const reviews= require('./reviews')
 const fetch = require('node-fetch');
->>>>>>> origin
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000

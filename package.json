@@ -36,11 +36,8 @@
     "jest": "^26.1.0",
     "joi": "^14.3.1",
     "js-datepicker": "^5.15.0",
-<<<<<<< HEAD
     "morgan": "^1.10.0",
-=======
     "node-fetch": "^2.6.0",
->>>>>>> origin
     "pg": "^8.2.2",
     "socket.io": "^2.3.0",
     "volleyball": "^1.5.1"
