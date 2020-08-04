@@ -5,6 +5,8 @@ const volleyball = require('volleyball')
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
+const logger = require('morgan');
+//var cors = require('cors')
 const {getAdvisories, getInfo} = require('./scraper');
 const reviews= require('./reviews')
 const fetch = require('node-fetch');
@@ -159,6 +161,13 @@ app.get('/info_map', checkAuth, function (req, res) {
         });
 });
 
+app.get('/allusers', checkAuth, function (req, res) {
+    var name = req.session.uname;
+    const api_key = process.env.API_KEY;
+    const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
+    res.render('pages/allUsersMap', { uname: name, apiurl: map_url },);
+});
+
 app.get('/mod', checkAuth, checkRole(ACCESS.MOD), function (req, res) {
     var name = req.session.uname;
     res.render('pages/mod', { uname: name });
@@ -272,5 +281,34 @@ app.get('/users/:id/delete', async (req, res) => {
 })
 
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
+io.on('connection', async (socket) => {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM location');
+    io.to(socket.id).emit('locations', JSON.stringify(result.rows));
+})
+
+app.post('/allusers/locations', async (req,res) => {
+    const user_id = req.session.user_id;
+    const{lat, lng} = req.body;
+    // console.log(user_id, lat, lng);
+
+    const client = await pool.connect();
+    await client.query(`
+        INSERT INTO location (user_id, lat, lng) 
+        VALUES ($1, $2, $3)
+        ON CONFLICT (user_id)
+        DO UPDATE SET lat=$2, lng=$3
+    `, [user_id, lat, lng]);
+
+    const result = await client.query('SELECT * FROM location');
+    io.emit('locations', JSON.stringify(result.rows));
+    res.send("worked!");
+})
+
+http.listen(PORT, () => console.log(`Listening on ${PORT}`))
 //module.exports=app
