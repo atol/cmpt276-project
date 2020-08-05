@@ -164,19 +164,6 @@ app.get('/admin', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
 });
 
 app.get('/users', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
-<<<<<<< HEAD
-  var id = 0;
-  var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
-  pool.query(getAllUser,[id], (error,result) => {
-    if(error){
-      res.end(error);
-    }
-    var results = {'rows':result.rows};
-    res.render('pages/users', results);
-    //us = [];
-
-  });
-=======
     var id = 0;
     var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
     pool.query(getAllUser, [id], (error, result) => {
@@ -186,7 +173,6 @@ app.get('/users', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
         var results = { 'rows': result.rows };
         res.render('pages/users', results);
     });
->>>>>>> d77b0727d63c474f25b3bd2f8b81f725858d5b63
 });
 
 app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
@@ -249,6 +235,28 @@ app.post('/', async (req, res) => {
     }
 });
 
+
+app.get('/news', async (req, res) => {
+  var user = req.session.user_id;
+  var name = req.session.uname;
+  res.render('pages/news', { logged_in: user, uname: name })
+});
+
+app.post('/done', async (req, res) => {
+    var id = req.session.user_id;
+    var name = req.body.name;
+    var email = req.body.email;
+    try {
+        const client = await pool.connect();
+        await client.query('UPDATE USERS SET NAME = $2, EMAIL = $3 WHERE id = $1',[id, name, email]);
+        res.redirect('/admin');
+        client.release();
+    } catch (err) {
+        console.error(err);
+        res.end(error);
+    }
+});
+
 app.get('/users/:id/change_attr', async (req, res) => {
     var id = req.params.id;
     try {
@@ -256,6 +264,35 @@ app.get('/users/:id/change_attr', async (req, res) => {
         const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
         const results = { 'rows': (result) ? result.rows : null };
         res.render('pages/change_attr', results);
+        client.release();
+    } catch (err) {
+        console.error(err);
+        es.render('errorMessage.html', err);
+    }
+});
+
+
+app.get('/profile', async (req, res) => {
+    var id = req.session.user_id;
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
+        const results = { 'rows': (result) ? result.rows : null };
+        res.render('pages/profile', results);
+        client.release();
+    } catch (err) {
+        console.error(err);
+        es.render('errorMessage.html', err);
+    }
+});
+
+app.get('/profile_edit', async (req, res) => {
+    var id = req.session.user_id;
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
+        const results = { 'rows': (result) ? result.rows : null };
+        res.render('pages/profile_edit', results);
         client.release();
     } catch (err) {
         console.error(err);
@@ -281,9 +318,9 @@ app.get('/users/:id/delete', async (req, res) => {
 
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
-<<<<<<< HEAD
-
-module.exports = app;
-=======
-//module.exports=app
->>>>>>> d77b0727d63c474f25b3bd2f8b81f725858d5b63
+// <<<<<<< HEAD
+//
+// module.exports = app;
+// =======
+// //module.exports=app
+// >>>>>>> d77b0727d63c474f25b3bd2f8b81f725858d5b63
