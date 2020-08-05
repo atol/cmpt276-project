@@ -61,6 +61,26 @@ app.get('/basic_user', checkAuth, (req, res) => {
     var name = req.session.uname;
     res.render('pages/basic_user', { logged_in: user, uname: name })
 })
+app.get('/addItineries', checkAuth, async (req, res) => {
+    const user_id = req.session.user_id;
+    const name = req.session.uname;
+    try {
+        const client = await pool.connect();
+        const qResult = await client.query(`select * from tripinfo where user_id=$1`, [user_id])
+        client.release()
+        if (qResult.rows && qResult.rows.length > 0) {
+            var results = { 'rows': qResult.rows };
+            console.log(qResult.rows[0].startdate)
+            res.render('pages/addItineries', results);
+        }
+        else {
+            res.render('pages/travelInformationEmpty', results)
+        }
+    } catch (err) {
+        console.error(err)
+        res.send("err")
+    }
+})
 // app.get('/viewTripInformation', checkAuth, function (req, res) {
 //     var name = req.session.uname;
 //     const api_key = process.env.API_KEY;

@@ -3,24 +3,27 @@
 
 <head>
   <%- include ("../partials/header") %>
-  <!-- <script type="text/javascript" src="../infoMapScript.js"></script> -->
+
+  <script type="text/javascript" src="../infoMapScript.js"></script>
+
+
+
+  <link rel="stylesheet" href="../stylesheets/showTrip.css">
+  <link rel="stylesheet" href="../stylesheets/infoMap.css">
+
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
     crossorigin="anonymous"></script>
-
-
   <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel="stylesheet" />
-
-  <link rel="stylesheet" href="../stylesheets/showTrip.css">
-  <link rel="stylesheet" href="../stylesheets/infoMap.css">
 
   <title>Trip Info!</title>
 </head>
 
 <body>
   <%- include ("../partials/nav_profile") %>
+
   <div id="mySidepanel" class="sidepanel">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <img src="../image/defaultdp.png" width="50px" height="50px">
@@ -36,6 +39,7 @@
       <%}); %>
 
     </div>
+    <a href="/addItineries"><button class="options">Add Itineries </button></a><br>
     <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
       Edit Trip
     </button>
@@ -46,7 +50,7 @@
 
   <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
 
-  <div id="map"></div>
+
 
   <!--For deleting-->
   <div class="modal" id="myModal" tabindex="-1" role="dialog">
@@ -159,14 +163,16 @@
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-96, 37.8],
-      zoom: 3
+      zoom: 3,
+      interactive: true
     });
 
     // San Francisco
-    var origin = [-122.414, 37.776];
+    var origin = [-123.18151230000001, 49.1966913];
 
     // Washington DC
-    var destination = [-77.032, 38.913];
+
+    var destination = [126.440696, 37.460191];
 
     // A simple line from origin to destination.
     var route = {
@@ -306,6 +312,8 @@
       animate(counter);
     });
   </script>
+
+
 </body>
 
 </html>
