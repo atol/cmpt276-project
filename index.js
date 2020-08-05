@@ -114,11 +114,12 @@ app.post('/addTrip', checkAuth, async (req, res) => {
     const tripname = req.body.tripname;
     const startdate = req.body.startdate;
     const enddate = req.body.enddate;
-    const location = req.body.location;
+    const destination = req.body.destination;
     const description = req.body.description;
+    const origin = req.body.origin;
     try {
         const client = await pool.connect();
-        await client.query(`INSERT INTO tripinfo(user_id, tripname, startdate, enddate, location, description) VALUES($1,$2,$3,$4,$5,$6)`, [user_id, tripname, startdate, enddate, location, description])
+        await client.query(`INSERT INTO tripinfo(user_id, tripname, startdate, enddate, destination, description,origin) VALUES($1,$2,$3,$4,$5,$6,$7)`, [user_id, tripname, startdate, enddate, destination, description,origin])
         client.release()
         res.redirect('/viewTripInformation')
     } catch (err) {
@@ -127,12 +128,11 @@ app.post('/addTrip', checkAuth, async (req, res) => {
     }
 })
 //delete exisiting travel information 
-app.post('/deleteTrip', checkAuth, async (req, res) => {
-    const user_id = req.session.user_id
-    const tripname = req.body.tripname;
+app.post('/deleteTrip/:id', checkAuth, async (req, res) => {
+    const trip_id = req.params.id
     try {
         const client = await pool.connect();
-        await client.query(`DELETE FROM tripinfo WHERE tripname = $1 and user_id=$2`, [tripname, user_id])
+        await client.query(`DELETE FROM tripinfo WHERE trip_id=$1`, [trip_id])
         client.release()
         res.redirect('/viewTripInformation')
     } catch (err) {
@@ -141,8 +141,8 @@ app.post('/deleteTrip', checkAuth, async (req, res) => {
     }
 });
 // app.post('/edit', (req, res) => {
-//     var user_data = [req.body.tripname, req.body.startdate, req.body.enddate, req.body.location, req.body.description];
-//     let updateUserQuery = "UPDATE tripinfo SET tripname = $1, startdate = $2, enddate = $3, location = $4 WHERE description =$5";
+//     var user_data = [req.body.tripname, req.body.startdate, req.body.enddate, req.body.destination, req.body.description];
+//     let updateUserQuery = "UPDATE tripinfo SET tripname = $1, startdate = $2, enddate = $3, destination = $4 WHERE description =$5";
 //     pool.query(updateUserQuery, user_data, (err, results) => {
 //         if (err) throw err;
 //         res.render('pages/viewTripInformation')
@@ -153,11 +153,11 @@ app.post('/edit', checkAuth, async (req, res) => {
     const tripname = req.body.tripname;
     const startdate = req.body.startdate;
     const enddate = req.body.enddate;
-    const location = req.body.location;
+    const destination = req.body.destination;
     const description = req.body.description;
     try {
         const client = await pool.connect();
-        await client.query(`UPDATE tripinfo SET user_id = $1, tripname = $2, startdate = $3, enddate = $4, location = $5 WHERE description =$6`, [user_id, tripname, startdate, enddate, location, description])
+        await client.query(`UPDATE tripinfo SET user_id = $1, tripname = $2, startdate = $3, enddate = $4, destination = $5 WHERE description =$6`, [user_id, tripname, startdate, enddate, destination, description])
         client.release()
         res.redirect('/viewTripInformation')
     } catch (err) {

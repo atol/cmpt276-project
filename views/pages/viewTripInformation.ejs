@@ -34,18 +34,24 @@
       <p id="Trip-Name" style="font-size: medium ;">Trip Name: <%= r.tripname %></p><br>
       <p id="start-date" style="font-size: medium ;">Start Date: <%=r.startdate %> </p> <br>
       <p id="end-date" style="font-size: medium ;">End Date: <%=r.enddate %></p><br>
-      <p id="location" style="font-size: medium ;">Location: <%=r.location %></p><br>
+      <p id="origin" style="font-size: medium ;">Origin: <%=r.origin %></p><br>
+      <p id="destination" style="font-size: medium ;">Destination: <%=r.destination %></p><br>
       <p id="description" style="font-size: medium ;">Description: <%=r.description %></p><br>
+      <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
+        Edit Trip
+      </button>
+      <form action="/deleteTrip/<%=r.trip_id%>" method="POST">
+          <input class=" options" style="font-size: medium ;" type="submit" value="Delete">
+      </form>
+      <br><br><br>
+      <!--<button type="button" onclick="popupDelete()" class=" options" data-toggle="modal" data-target="#exampleModal">
+        Delete Trip
+      </button>-->
+      
       <%}); %>
 
     </div>
-    <a href="/addItineries"><button class="options">Add Itineries </button></a><br>
-    <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
-      Edit Trip
-    </button>
-    <button type="button" onclick="popupDelete()" class=" options" data-toggle="modal" data-target="#exampleModal">
-      Delete Trip
-    </button>
+    <!--<a href="/addItineries"><button class="options">Add Itineries </button></a><br>-->
   </div>
 
   <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
@@ -78,8 +84,8 @@
               <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
             </div>
             <div class="form-group">
-              <label for="local">Location*</label>
-              <input type="text" class="form-control" name="location" required>
+              <label for="local">Destination*</label>
+              <input type="text" class="form-control" name="destination" required>
             </div>
             <div class="form-group">
               <label for="description">Description</label>
@@ -123,8 +129,8 @@
               <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
             </div>
             <div class="form-group">
-              <label for="local">Location*</label>
-              <input type="text" class="form-control" name="location" required>
+              <label for="local">destination*</label>
+              <input type="text" class="form-control" name="destination" required>
             </div>
             <div class="form-group">
               <label for="description">Description</label>
@@ -168,6 +174,7 @@
     });
 
     // San Francisco
+    
     var origin = [-123.18151230000001, 49.1966913];
 
     // Washington DC
