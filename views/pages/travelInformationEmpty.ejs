@@ -23,6 +23,7 @@
       <p id="empty-info"></p></br>
 
     </div>
+    <p id="Err-Message" style="font-size: medium ;">You have no trips. Please add one!</p><br>
     <button type="button" onclick="popup()" class="btn btn-primary options" data-toggle="modal"
       data-target="#exampleModal">
       Add Trip
@@ -60,8 +61,12 @@
               <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
             </div>
             <div class="form-group">
-              <label for="local">Location*</label>
-              <input type="text" class="form-control" name="location" required>
+              <label for="local">Origin*</label>
+              <input type="text" class="form-control" name="origin" required>
+            </div>
+            <div class="form-group">
+              <label for="local">Destination*</label>
+              <input type="text" class="form-control" name="destination" required>
             </div>
             <div class="form-group">
               <label for="description">Description</label>
