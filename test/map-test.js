@@ -246,5 +246,8 @@ describe('createGoogleMapsMock', () => {
                 expect(ISO).toEqual('US');
             }
         });
+
+        // Assert
+        expect(geocoder.geocode).toHaveBeenCalled();
     });
 });
