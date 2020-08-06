@@ -2,6 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const path = require('path')
 const volleyball = require('volleyball')
+const MapboxClient = require('mapbox/lib/services/geocoding')
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
@@ -92,12 +93,45 @@ app.get('/viewTripInformation', checkAuth, async (req, res) => {
     const user_id = req.session.user_id;
     const name = req.session.uname;
     try {
+        const mClient = new MapboxClient('pk.eyJ1IjoibXNjMjgiLCJhIjoiY2tkZTJpaWEyMWwzaTMxcGc4cjB1a3V3eSJ9.htLirZodkFX4l0mFDySW6g')
         const client = await pool.connect();
         const qResult = await client.query(`select * from tripinfo where user_id=$1`, [user_id])
         client.release()
         if (qResult.rows && qResult.rows.length > 0) {
             var results = { 'rows': qResult.rows };
-            console.log(qResult.rows[0].startdate)
+            for(var i=0;i<results.rows.length;i++){
+                await mClient.geocodeForward(results.rows[i].origin)
+                .then(async function(res) {
+                // res is the http response, including: status, headers and entity properties
+                    var data = res.entity; // data is the geocoding result as parsed JSON
+                    var pos=data.features[0].center
+                    var longitude = pos[0]
+                    var latitude = pos[1]
+                    //console.log("Origin Position for row with id"+results.rows[i].trip_id+" is :"+pos)
+                    results.rows[i].originLongitude=longitude
+                    results.rows[i].originLatitude=latitude
+                })
+                .catch(function(err) {
+                    console.log(err)
+                    res.send("err")
+                });
+                await mClient.geocodeForward(results.rows[i].destination)
+                .then(async function(res) {
+                // res is the http response, including: status, headers and entity properties
+                    var data = res.entity; // data is the geocoding result as parsed JSON
+                    var pos=data.features[0].center
+                    var longitude = pos[0]
+                    var latitude = pos[1]
+                    //console.log("Destination Position for row with id"+results.rows[i].trip_id+" is :"+pos)
+                    results.rows[i].destLongitude=longitude
+                    results.rows[i].destLatitude=latitude
+                 })
+                .catch(function(err) {
+                    console.log(err)
+                    res.send("err")
+                }); 
+                //console.log(JSON.stringify(r)) 
+            }
             res.render('pages/viewTripInformation', results);
         }
         else {
@@ -153,11 +187,12 @@ app.post('/edit', checkAuth, async (req, res) => {
     const tripname = req.body.tripname;
     const startdate = req.body.startdate;
     const enddate = req.body.enddate;
+    const origin = req.body.origin
     const destination = req.body.destination;
     const description = req.body.description;
     try {
         const client = await pool.connect();
-        await client.query(`UPDATE tripinfo SET user_id = $1, tripname = $2, startdate = $3, enddate = $4, destination = $5 WHERE description =$6`, [user_id, tripname, startdate, enddate, destination, description])
+        await client.query(`UPDATE tripinfo SET user_id = $1, tripname = $2, startdate = $3, enddate = $4, destination = $5, origin=$6 WHERE description =$7`, [user_id, tripname, startdate, enddate, destination,origin,description])
         client.release()
         res.redirect('/viewTripInformation')
     } catch (err) {
