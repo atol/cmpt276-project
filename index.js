@@ -1,14 +1,17 @@
 const express = require('express')
 const session = require('express-session')
 const path = require('path')
+var cors = require('cors')
 const volleyball = require('volleyball')
 const MapboxClient = require('mapbox/lib/services/geocoding')
 const auth = require('./auth')
 const db = require('./db')
 const friends = require('./friends')
-const { getAdvisories, getInfo } = require('./scraper');
-const reviews = require('./reviews')
+const logger = require('morgan');
 //var cors = require('cors')
+const {getAdvisories, getInfo} = require('./scraper');
+const reviews= require('./reviews')
+const fetch = require('node-fetch');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
@@ -210,7 +213,21 @@ app.get('/info_map', checkAuth, function (req, res) {
     var name = req.session.uname;
     const api_key = process.env.API_KEY;
     const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
-    res.render('pages/info_map', { uname: name, apiurl: map_url },);
+    const json_url = "https://data.international.gc.ca/travel-voyage/index-alpha-eng.json";
+    const settings = { method: "Get" };
+
+    fetch(json_url, settings)
+        .then(res => res.json())
+        .then((json) => {
+            res.render('pages/info_map', { uname: name, apiurl: map_url, countries: json.data });
+        });
+});
+
+app.get('/allusers', checkAuth, function (req, res) {
+    var name = req.session.uname;
+    const api_key = process.env.API_KEY;
+    const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
+    res.render('pages/allUsersMap', { uname: name, apiurl: map_url },);
 });
 
 
@@ -296,6 +313,28 @@ app.post('/', async (req, res) => {
     }
 });
 
+
+app.get('/news', async (req, res) => {
+  var user = req.session.user_id;
+  var name = req.session.uname;
+  res.render('pages/news', { logged_in: user, uname: name })
+});
+
+app.post('/done', async (req, res) => {
+    var id = req.session.user_id;
+    var name = req.body.name;
+    var email = req.body.email;
+    try {
+        const client = await pool.connect();
+        await client.query('UPDATE USERS SET NAME = $2, EMAIL = $3 WHERE id = $1',[id, name, email]);
+        res.redirect('/admin');
+        client.release();
+    } catch (err) {
+        console.error(err);
+        res.end(error);
+    }
+});
+
 app.get('/users/:id/change_attr', async (req, res) => {
     var id = req.params.id;
     try {
@@ -303,6 +342,35 @@ app.get('/users/:id/change_attr', async (req, res) => {
         const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
         const results = { 'rows': (result) ? result.rows : null };
         res.render('pages/change_attr', results);
+        client.release();
+    } catch (err) {
+        console.error(err);
+        es.render('errorMessage.html', err);
+    }
+});
+
+
+app.get('/profile', async (req, res) => {
+    var id = req.session.user_id;
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
+        const results = { 'rows': (result) ? result.rows : null };
+        res.render('pages/profile', results);
+        client.release();
+    } catch (err) {
+        console.error(err);
+        es.render('errorMessage.html', err);
+    }
+});
+
+app.get('/profile_edit', async (req, res) => {
+    var id = req.session.user_id;
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
+        const results = { 'rows': (result) ? result.rows : null };
+        res.render('pages/profile_edit', results);
         client.release();
     } catch (err) {
         console.error(err);
@@ -327,5 +395,34 @@ app.get('/users/:id/delete', async (req, res) => {
 })
 
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
+io.on('connection', async (socket) => {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM location');
+    io.to(socket.id).emit('locations', JSON.stringify(result.rows));
+})
+
+app.post('/allusers/locations', async (req,res) => {
+    const user_id = req.session.user_id;
+    const{lat, lng} = req.body;
+    // console.log(user_id, lat, lng);
+
+    const client = await pool.connect();
+    await client.query(`
+        INSERT INTO location (user_id, lat, lng)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (user_id)
+        DO UPDATE SET lat=$2, lng=$3
+    `, [user_id, lat, lng]);
+
+    const result = await client.query('SELECT * FROM location');
+    io.emit('locations', JSON.stringify(result.rows));
+    res.send("worked!");
+})
+
+http.listen(PORT, () => console.log(`Listening on ${PORT}`))
 //module.exports=app
