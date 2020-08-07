@@ -5,7 +5,7 @@
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
     left: 0;
-    background-color: grey; /* Black*/
+    background-color: #ADADAD;
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidepanel */
@@ -88,4 +88,10 @@ iframe {
 p {
     font-size: 25px;
     margin-bottom: 5px;
+}
+
+h2 {
+    font-size: 130%;
+    font-weight: normal;
+    margin-top: 5px;
 }

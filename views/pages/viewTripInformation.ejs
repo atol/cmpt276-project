@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../stylesheets/showTrip.css">
   <link rel="stylesheet" href="../stylesheets/infoMap.css">
 
-  \
+
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
     crossorigin="anonymous"></script>
@@ -35,32 +35,28 @@
       <p id="Trip-Name" style="font-size: medium ;">Trip Name: <%= r.tripname %></p><br>
       <p id="start-date" style="font-size: medium ;">Start Date: <%=r.startdate %> </p> <br>
       <p id="end-date" style="font-size: medium ;">End Date: <%=r.enddate %></p><br>
-      <p id="location" style="font-size: medium ;">Location: <%=r.location %></p><br>
+      <p id="origin" style="font-size: medium ;">Origin: <%=r.origin %></p><br>
+      <p id="destination" style="font-size: medium ;">Destination: <%=r.destination %></p><br>
       <p id="description" style="font-size: medium ;">Description: <%=r.description %></p><br>
-      <a href="/addItineries"><button class="options">Add Itineries </button></a><br>
       <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
         Edit Trip
       </button>
-      <button type="button" onclick="popupDelete()" class=" options" data-toggle="modal" data-target="#exampleModal">
-        Delete Trip
-      </button>
+      <form action="/deleteTrip/<%=r.trip_id%>" method="POST">
+        <input class=" options" style="font-size: medium ;" type="submit" value="Delete">
+      </form>
+      <br><br><br>
+
       <%}); %>
 
     </div>
-    <!-- <a href="/addItineries"><button class="options">Add Itineries </button></a><br>
-    <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
-      Edit Trip
-    </button>
-    <button type="button" onclick="popupDelete()" class=" options" data-toggle="modal" data-target="#exampleModal">
-      Delete Trip
-    </button> -->
+    <!--<a href="/addItineries"><button class="options">Add Itineries </button></a><br>-->
   </div>
 
   <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
 
 
 
-  <!--For deleting-->
+  <!--For Updating-->
   <div class="modal" id="myModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -86,8 +82,12 @@
               <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
             </div>
             <div class="form-group">
-              <label for="local">Location*</label>
-              <input type="text" class="form-control" name="location" required>
+              <label for="local">Origin*</label>
+              <input type="text" class="form-control" name="origin" required>
+            </div>
+            <div class="form-group">
+              <label for="local">Destination*</label>
+              <input type="text" class="form-control" name="destination" required>
             </div>
             <div class="form-group">
               <label for="description">Description</label>
@@ -105,60 +105,12 @@
     </div>
   </div>
 
-  <!--For Updating-->
-  <div class="modal" id="myModalDelete" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Trip Information</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- <p>Modal body text goes here.</p> -->
-          <form action="/deleteTrip" method="post">
-            <div class="form-group">
-              <label for="name">Trip Name*</label>
-              <input type="text" class="form-control" name="tripname" required>
-            </div>
-            <div class="form-group" data-provide="datepicker">
-              <label for="startDate">Start Date*</label>
-              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="startdate" required>
-            </div>
-            <div class="form-group" data-provide="datepicker">
-              <label for="endDate">End Date*</label>
-              <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
-            </div>
-            <div class="form-group">
-              <label for="local">Location*</label>
-              <input type="text" class="form-control" name="location" required>
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <input type="textarea" class="form-control" name="description">
-            </div>
-            <button type="submit" class="btn btn-primary">Delete</button>
-          </form>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="map" style="z-index: 10;"></div>
+  <div id="map"></div>
   <div class="overlay">
-    <button id="replay">Replay</button>
   </div>
   <script>
     function popup() {
       $('#myModal').modal('show')
-    }
-    function popupDelete() {
-      $('#myModalDelete').modal('show')
     }
   </script>
 
@@ -175,24 +127,22 @@
       // interactive: true
     });
 
-    // San Francisco
-    var origin = [-123.18151230000001, 49.1966913];
-
-    // Washington DC
-
-    var destination = [126.440696, 37.460191];
-
+    // San Fran
+    //for(var i=0;i<length;i++){
+    var origin = [parseFloat("<%=rows[0].originLongitude%>"), parseFloat("<%=rows[0].originLatitude%>")];
+    var destination = [parseFloat("<%=rows[0].destLongitude%>"), parseFloat("<%=rows[0].destLatitude%>")];
+    var length = parseInt("<%=rows.length%>")
     // A simple line from origin to destination.
     var route = {
       'type': 'FeatureCollection',
-      'features': [
-        {
-          'type': 'Feature',
-          'geometry': {
-            'type': 'LineString',
-            'coordinates': [origin, destination]
-          }
+      'features': [ <% rows.forEach(function (r) { %>
+      {
+        'type': 'Feature',
+        'geometry': {
+          'type': 'LineString',
+          'coordinates': [[parseFloat("<%=r.originLongitude%>"), parseFloat("<%=r.originLatitude%>")], [parseFloat("<%=r.destLongitude%>"), parseFloat("<%=r.destLatitude%>")]]
         }
+      },<%}); %>
       ]
     };
 
@@ -200,40 +150,55 @@
     // Coordinates are initially set to origin.
     var point = {
       'type': 'FeatureCollection',
-      'features': [
-        {
-          'type': 'Feature',
-          'properties': {},
-          'geometry': {
-            'type': 'Point',
-            'coordinates': origin
-          }
+      'features': [ <% rows.forEach(function (r) { %>
+      {
+        'type': 'Feature',
+        'properties': {},
+        'geometry': {
+          'type': 'Point',
+          'coordinates': [parseFloat("<%=r.originLongitude%>"), parseFloat("<%=r.originLatitude%>")]
         }
+      },<%}); %>
       ]
     };
 
+    var destpoint = {
+      'type': 'FeatureCollection',
+      'features': [ <% rows.forEach(function (r) { %>
+      {
+        'type': 'Feature',
+        'properties': {},
+        'geometry': {
+          'type': 'Point',
+          'coordinates': [parseFloat("<%=r.destLongitude%>"), parseFloat("<%=r.destLatitude%>")]
+        }
+      },<%}); %>
+      ]
+    };
+
+    //for(int i=0;i<route.features.length)
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
-
-    var arc = [];
-
-    // Number of steps to use in the arc and animation, more steps means
-    // a smoother arc and animation, but too many steps will result in a
-    // low frame rate
-    var steps = 500;
-
-    // Draw an arc between the `origin` & `destination` of the two points
-    for (var i = 0; i < lineDistance; i += lineDistance / steps) {
-      var segment = turf.along(route.features[0], i, 'kilometers');
-      arc.push(segment.geometry.coordinates);
-    }
-
-    // Update the route with calculated arc coordinates
-    route.features[0].geometry.coordinates = arc;
-
-    // Used to increment the value of the point measurement against the route.
-    var counter = 0;
-
+    /*
+        var arc = [];
+    
+        // Number of steps to use in the arc and animation, more steps means
+        // a smoother arc and animation, but too many steps will result in a
+        // low frame rate
+        var steps = 500;
+    
+        // Draw an arc between the `origin` & `destination` of the two points
+        for (var i = 0; i < lineDistance; i += lineDistance / steps) {
+          var segment = turf.along(route.features[0], i, 'kilometers');
+          arc.push(segment.geometry.coordinates);
+        }
+    
+        // Update the route with calculated arc coordinates
+        route.features[0].geometry.coordinates = arc;
+    
+        // Used to increment the value of the point measurement against the route.
+        var counter = 0;
+    */
     map.on('load', function () {
       // Add a source and layer displaying a point which will be animated in a circle.
       map.addSource('route', {
@@ -268,57 +233,65 @@
           'icon-ignore-placement': true
         }
       });
+      map.loadImage('https://upload.wikimedia.org/wikipedia/commons/d/d1/Black_circle.png',
+        function (error, image) {
+          if (error) throw error;
+          map.addImage('finish', image);
+          map.addSource('destpoint', {
+            'type': 'geojson',
+            'data': destpoint
+          });
+          map.addLayer({
+            'id': 'destpoint',
+            'source': 'destpoint',
+            'type': 'symbol',
+            'layout': {
+              'icon-image': 'finish',
+              'icon-size': 0.01,
+              'icon-rotate': ['get', 'bearing'],
+              'icon-rotation-alignment': 'map',
+              'icon-allow-overlap': true,
+              'icon-ignore-placement': true
+            }
+          })
+        });
 
-      function animate() {
-        // Update point geometry to a new position based on counter denoting
-        // the index to access the arc.
-        point.features[0].geometry.coordinates =
-          route.features[0].geometry.coordinates[counter];
+      /* 
+ function animate() {
+   // Update point geometry to a new position based on counter denoting
+   // the index to access the arc.
+   point.features[0].geometry.coordinates =
+     route.features[0].geometry.coordinates[counter];
 
-        // Calculate the bearing to ensure the icon is rotated to match the route arc
-        // The bearing is calculate between the current point and the next point, except
-        // at the end of the arc use the previous point and the current point
-        point.features[0].properties.bearing = turf.bearing(
-          turf.point(
-            route.features[0].geometry.coordinates[
-            counter >= steps ? counter - 1 : counter
-            ]
-          ),
-          turf.point(
-            route.features[0].geometry.coordinates[
-            counter >= steps ? counter : counter + 1
-            ]
-          )
-        );
+   // Calculate the bearing to ensure the icon is rotated to match the route arc
+   // The bearing is calculate between the current point and the next point, except
+   // at the end of the arc use the previous point and the current point
+   point.features[0].properties.bearing = turf.bearing(
+     turf.point(
+       route.features[0].geometry.coordinates[
+       counter >= steps ? counter - 1 : counter
+       ]
+     ),
+     turf.point(
+       route.features[0].geometry.coordinates[
+       counter >= steps ? counter : counter + 1
+       ]
+     )
+   );
 
-        // Update the source with this new data.
-        map.getSource('point').setData(point);
+   // Update the source with this new data.
+   map.getSource('point').setData(point);
 
-        // Request the next frame of animation so long the end has not been reached.
-        if (counter < steps) {
-          requestAnimationFrame(animate);
-        }
+   // Request the next frame of animation so long the end has not been reached.
+   if (counter < steps) {
+     requestAnimationFrame(animate);
+   }
 
-        counter = counter + 1;
-      }
-
-      document.getElementById('replay').addEventListener('click', function () {
-        // Set the coordinates of the original point back to origin
-        point.features[0].geometry.coordinates = origin;
-
-        // Update the source layer
-        map.getSource('point').setData(point);
-
-        // Reset the counter
-        counter = 0;
-
-        // Restart the animation.
-        animate(counter);
-      });
-
-      // Start the animation.
-      animate(counter);
-    });
+   counter = counter + 1;
+ }
+ // Start the animation.
+ animate(counter);*/
+    });//}
   </script>
 
 

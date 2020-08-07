@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Articles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <!--<link rel="stylesheet" href="">-->
+  </head>
+  <body>
+
+    <div class="codes">
+      <label>Country Codes</label><br>
+      <span><li>Argentina: "ar"</li></span>
+      <span><li>Australia: "au"</li></span>
+      <span><li>Austria: "at"</li></span>
+      <span><li>Belgium: "be"</li></span>
+      <span><li>Brazil: "br"</li></span>
+      <span><li>Bulgaria: "bg"</li></span>
+      <span><li>Canada: "ca"</li></span>
+      <span><li>China: "cn"</li></span>
+      <span><li>Colombia: "co"</li></span>
+      <span><li>Cuba: "cu"</li></span>
+      <span><li>Czech Republic: "cz"</li></span>
+      <span><li>Egypt: "eg"</li></span>
+      <span><li>France: "fr"</li></span>
+      <span><li>Germany: "de"</li></span>
+      <span><li>Greece: "gr"</li></span>
+      <span><li>Hong Kong: "hk"</li></span>
+      <span><li>Hungary: "hu"</li></span>
+      <span><li>India: "in"</li></span>
+      <span><li>Indonesia: "id"</li></span>
+      <span><li>Ireland: "ie"</li></span>
+      <span><li>Israel: "il"</li></span>
+      <span><li>Italy: "it"</li></span>
+      <span><li>Japan: "jp"</li></span>
+      <span><li>Latvia: "lv"</li></span>
+      <span><li>Lithuania: "lt"</li></span>
+      <span><li>Malaysia: "my"</li></span>
+      <span><li>Mexico: "mx"</li></span>
+      <span><li>Morroco: "ma"</li></span>
+      <span><li>Netherlands: "nl"</li></span>
+      <span><li>New Zealand: "nz"</li></span>
+      <span><li>Nigeria: "ng"</li></span>
+      <span><li>Norway: "no"</li></span>
+      <span><li>Philippines: "ph"</li></span>
+      <span><li>Poland: "pl"</li></span>
+      <span><li>Portugal: "pt"</li></span>
+      <span><li>Romania: "ro"</li></span>
+      <span><li>Russia: "ru"</li></span>
+      <span><li>Saudi Arabia: "sa"</li></span>
+      <span><li>Serbia: "rs"</li></span>
+      <span><li>Singapore: "sg"</li></span>
+      <span><li>Slovakia: "sk"</li></span>
+      <span><li>Slovenia: "si"</li></span>
+      <span><li>South Africa: "za"</li></span>
+      <span><li>South Korea: "kr"</li></span>
+      <span><li>Sweden: "se"</li></span>
+      <span><li>Switzerland: "ch"</li></span>
+      <span><li>Taiwan: "tw"</li></span>
+      <span><li>Thailand: "th"</li></span>
+      <span><li>Turkey: "tr"</li></span>
+      <span><li>UAE: "ae"</li></span>
+      <span><li>Ukraine: "ua"</li></span>
+      <span><li>United Kingdom: "gb"</li></span>
+      <span><li>United States: "us"</li></span>
+      <span><li>Venezuela: "ve"</li></span><br>
+
+    </div>
+
+
+    <form class="search" action="" method="">
+      <label for="">Enter a Country Code</label>
+      <input class="input" type="text" name="" value="">
+      <input id = "return" type="submit" value="Submit">
+      <button id="return" onclick="history.back()">Cancel</button>
+    </form>
+
+    <div class="container">
+      <label> Top Articles Shown Below</label>
+      <ul class="class-list"></ul>
+    </div>
+
+    <script type="text/javascript">
+      const searchFrom = document.querySelector('.search');
+      const input = document.querySelector('.input');
+      const newsList = document.querySelector('.class-list');
+
+      searchFrom.addEventListener('submit', retrieve);
+
+      function retrieve(e){
+
+        e.preventDefault();
+
+        const apiKey = '54b5776c07464c6db009fdac9d3153b6';
+
+        let topic = input.value;
+
+        let url = `https://newsapi.org/v2/top-headlines?country=${topic}&apiKey=54b5776c07464c6db009fdac9d3153b6`
+
+        fetch(url).then((res)=>{
+          return res.json()
+        }).then((data)=>{
+
+          console.log(data)
+          data.articles.forEach(article => {
+            let li = document.createElement('li');
+            let a = document.createElement('a');
+            a.setAttribute('href',article.url);
+            a.setAttribute('target', '_blank');
+            a.textContent = article.title;
+            li.appendChild(a);
+            newsList.appendChild(li);
+          });
+
+        })
+
+      }
+
+
+    </script>
+  </body>
+</html>
