@@ -1,0 +1,93 @@
+.btn{
+  box-shadow: 0px 1px 0px 0px #f0f7fa;
+	background:linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
+	background-color:#33bdef;
+	border-radius:6px;
+	border:1px solid #057fd0;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+  text-shadow:0px -1px 0px #5b6178;
+  
+}
+
+.btn:hover {
+	background:linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
+	background-color:#019ad2;
+}
+.btn:active {
+	position:relative;
+	top:1px;
+}
+.addfriendbox{
+  width: 100%;
+  overflow: hidden;
+  font-size: 10px;
+  padding: 8px;
+  margin: 8px 0;
+  
+}
+/* .heading3, .friend-box{
+  font-size: medium;
+  float: left;
+
+  margin-bottom: 50px;
+  padding: 13px 0;
+} */
+input{
+  border-radius: 25px;
+  border: 2px solid black;
+  padding: 20px; 
+  width: 200px;
+  height: 15px;   
+}
+body{
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-image: url('../image/loginBack.jpg'); 
+  background-size: cover;
+}
+.friend-box{
+ width:600px;
+ height:190px; 
+
+ padding-top:20px;
+ padding-left:15px; 
+ padding-right:15px; 
+}
+.friend-box2{
+  text-align: left;
+   float:right;
+   width:50%; 
+   height:280px; 
+}
+.options{
+    float:bottom; 
+     width:25%; 
+     height:280px; 
+}
+#fb{
+  width:500px;
+  border:1px solid gray;
+  border-radius:5px;
+  position:relative;
+  height:175px;
+}
+#fb p{
+  font-family:sans-serif;
+  margin: 0 0 0 10px;
+  line-height:30px;
+}
+
+
+#fb-top span{
+  color:#4267B2;
+  float:right;
+  margin-right:10px;
+}
