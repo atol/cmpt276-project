@@ -13,6 +13,9 @@
       border: 2px solid whitesmoke;
       border-collapse: collapse;
     }
+    .del-btn{
+      line-height: 1px;
+    }
   </style>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -58,7 +61,7 @@
           <td><%= r.email %></td>
           <td>
             <form action="/friends/delete/<%=r.id%>" method="POST">
-              <input type="submit" value="Delete">
+              <input class="del-btn" type="submit" value="Delete">
             </form>
           </td>
         </tr>
