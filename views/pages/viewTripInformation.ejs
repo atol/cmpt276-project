@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../stylesheets/showTrip.css">
   <link rel="stylesheet" href="../stylesheets/infoMap.css">
 
-
+  \
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
     crossorigin="anonymous"></script>
@@ -23,6 +23,7 @@
 
 <body>
   <%- include ("../partials/nav_profile") %>
+
 
   <div id="mySidepanel" class="sidepanel">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -36,16 +37,23 @@
       <p id="end-date" style="font-size: medium ;">End Date: <%=r.enddate %></p><br>
       <p id="location" style="font-size: medium ;">Location: <%=r.location %></p><br>
       <p id="description" style="font-size: medium ;">Description: <%=r.description %></p><br>
+      <a href="/addItineries"><button class="options">Add Itineries </button></a><br>
+      <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
+        Edit Trip
+      </button>
+      <button type="button" onclick="popupDelete()" class=" options" data-toggle="modal" data-target="#exampleModal">
+        Delete Trip
+      </button>
       <%}); %>
 
     </div>
-    <a href="/addItineries"><button class="options">Add Itineries </button></a><br>
+    <!-- <a href="/addItineries"><button class="options">Add Itineries </button></a><br>
     <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
       Edit Trip
     </button>
     <button type="button" onclick="popupDelete()" class=" options" data-toggle="modal" data-target="#exampleModal">
       Delete Trip
-    </button>
+    </button> -->
   </div>
 
   <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
@@ -141,7 +149,7 @@
       </div>
     </div>
   </div>
-  <div id="map"></div>
+  <div id="map" style="z-index: 10;"></div>
   <div class="overlay">
     <button id="replay">Replay</button>
   </div>
@@ -164,7 +172,7 @@
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-96, 37.8],
       zoom: 3,
-      interactive: true
+      // interactive: true
     });
 
     // San Francisco
