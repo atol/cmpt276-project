@@ -91,13 +91,14 @@
 
         e.preventDefault();
 
-        const apiKey = '54b5776c07464c6db009fdac9d3153b6';
+        //const apiKey = '54b5776c07464c6db009fdac9d3153b6';
 
         let topic = input.value;
 
-        //let url = `https://newsapi.org/v2/top-headlines?country=${topic}&apiKey=54b5776c07464c6db009fdac9d3153b6`
-        let url = `https://newsapi.org/v2/top-headlines?country=${topic}&apiKey=${apiKey}`
 
+        //let url = `https://newsapi.org/v2/top-headlines?country=${topic}&apiKey=${apiKey}`
+
+        let url = `/article/${topic}`;
         fetch(url).then((res)=>{
           return res.json()
         }).then((data)=>{

@@ -91,7 +91,7 @@ app.get('/addItineries', checkAuth, async (req, res) => {
 //     const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=initMap&libraries=&v=weekly`
 //     res.render('pages/viewTripInformation', { uname: name, apiurl: map_url },);
 // });
-//get the travel trip information 
+//get the travel trip information
 app.get('/viewTripInformation', checkAuth, async (req, res) => {
     const user_id = req.session.user_id;
     const name = req.session.uname;
@@ -132,8 +132,8 @@ app.get('/viewTripInformation', checkAuth, async (req, res) => {
                 .catch(function(err) {
                     console.log(err)
                     res.send("err")
-                }); 
-                //console.log(JSON.stringify(r)) 
+                });
+                //console.log(JSON.stringify(r))
             }
             res.render('pages/viewTripInformation', results);
         }
@@ -164,7 +164,7 @@ app.post('/addTrip', checkAuth, async (req, res) => {
         res.send("err")
     }
 })
-//delete exisiting travel information 
+//delete exisiting travel information
 app.post('/deleteTrip/:id', checkAuth, async (req, res) => {
     const trip_id = req.params.id
     try {
@@ -319,6 +319,18 @@ app.get('/news', async (req, res) => {
   var name = req.session.uname;
   res.render('pages/news', { logged_in: user, uname: name })
 });
+
+app.get('/article/:top', async (req, res) => {
+  const topic = req.params.top;
+  const apiKey = '54b5776c07464c6db009fdac9d3153b6';
+  const url = `https://newsapi.org/v2/top-headlines?country=${topic}&apiKey=${apiKey}`
+  const resu = await fetch(url);
+  const json = await resu.json();
+  res.json(json);
+
+});
+
+
 
 app.post('/done', async (req, res) => {
     var id = req.session.user_id;
