@@ -25,7 +25,8 @@
     <button type="button" onclick="popup()" class=" options" data-toggle="modal" data-target="#exampleModal">
       Create New Trip
     </button>
-    <a href="/viewTripInformation"><button class="options">View Trip </button></a><br>
+    <a href="/viewTripInformation"><button class="options">View Trip(s) </button></a><br>
+
   </div>
 
 
@@ -60,8 +61,12 @@
               <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
             </div>
             <div class="form-group">
-              <label for="local">Location*</label>
-              <input type="text" class="form-control" name="location" required>
+              <label for="local">Origin*</label>
+              <input type="text" class="form-control" name="origin" required>
+            </div>
+            <div class="form-group">
+              <label for="local">Destination*</label>
+              <input type="text" class="form-control" name="destination" required>
             </div>
             <div class="form-group">
               <label for="description">Description</label>
