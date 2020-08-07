@@ -1,38 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-body {
-    font-family: 'Lato', sans-serif;
-    background-color: lemonchiffon;
-}
-#header{
-  text-indent: 15px;
-  font-size:20px; 
-  line-height: 12px; 
-  letter-spacing: 1px; 
-}
-a{
-  background: lemonchiffon;
-  color: black;
-  display: inline-block; 
-  font-size: 15px; 
-  font-weight: bold; 
-  line-height: 12px; 
-  letter-spacing: 1px; 
-  padding: 10px 15px 8px; 
-}
-</style>
+  <%- include ("../partials/header") %>
+  <link rel="stylesheet" href="../stylesheets/reviews.css">
 </head>
 <body>
+  <%- include ("../partials/nav") %>
+  <div class="container"><br>
 <div>
 <p id="header"><%=message%></p>
 </div>
 <br><br>
-<a href="/reviews">Click here to view your reviews</a>
+<a class="links" href="/reviews">Click here to view your reviews</a>
 <br>
-<a href="/info_map">Click here to return to the map, where you can view all reviews or add your own!</a>
+<a class="links" href="/info_map">Click here to return to the map, where you can view all reviews or add your own!</a>
 <br>
-<a href="/dashboard">Click here to return to the Dashboard</a>
+<a class="links" href="/dashboard">Click here to return to the Dashboard</a>
+<br>
 </body>
 </html>
