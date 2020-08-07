@@ -1,6 +1,6 @@
-const createGoogleMapsMock = require('./src/createGoogleMapsMock')
+const createGoogleMapsMock = require('./src/createGoogleMapsMock');
 
-describe('createGoogleMapsMock', () => {
+describe('user markers', () => {
   let googleMaps;
 
   beforeEach(() => {
@@ -31,7 +31,8 @@ describe('createGoogleMapsMock', () => {
       {"long_name":"Canada","short_name":"CA","types":["country","political"]}],
       "formatted_address":"Vancouver, BC, Canada",
       "geometry":{"bounds":{"south":49.19817700000001,"west":-123.22474,"north":49.3172939,"east":-123.023068},"location":{"lat":49.2827291,"lng":-123.1207375},"location_type":"APPROXIMATE","viewport":{"south":49.19817700000001,"west":-123.22474,"north":49.3172939,"east":-123.023068}},
-      "place_id":"ChIJs0-pQ_FzhlQRi_OBm-qWkbs","types":["locality","political"]}];
+      "place_id":"ChIJs0-pQ_FzhlQRi_OBm-qWkbs","types":["locality","political"]}
+    ];
 
     var geocoder = new googleMaps.Geocoder();
     geocoder.geocode = jest.fn((location, callback) => callback(results, 'OK'));

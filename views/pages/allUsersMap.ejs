@@ -165,8 +165,6 @@
                     resultsMap.setCenter(results[0].geometry.location);
                     latitude = results[0].geometry.location.lat();
                     longitude = results[0].geometry.location.lng();
-                    console.log(JSON.stringify(results));
-                    console.log(latitude, longitude);
                     updateLocation(latitude, longitude);
                 } else {
                     alert("Geocode was not successful for the following reason: " + status);
