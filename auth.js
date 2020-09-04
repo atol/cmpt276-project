@@ -79,7 +79,7 @@ router.post('/login', async (req, res) => {
                 try {
                     if (await bcrypt.compare(req.body.password, qResult.rows[0].password)) {
                         var access = qResult.rows[0].accesslevel;
-                        req.session.uname = qResult.rows[0].name;
+                        req.session.user_name = qResult.rows[0].name;
                         req.session.user_id = qResult.rows[0].id;
                         req.session.user_access = access;
                         res.redirect('/dashboard');

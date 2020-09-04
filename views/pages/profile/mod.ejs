@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <%- include ("../partials/header") %>
+    <%- include ("../../partials/header") %>
     <link rel="stylesheet" href="../stylesheets/mod.css">
-    
-    <title>Ditu - Mod Mail</title>
+    <title>Ditu - <%= user_name %> - Mod Page</title>
 </head>
+
 <body class = "full">
-    <%- include ("../partials/nav_profile") %>
+    <%- include ("../../partials/nav_profile") %>
     
     <div class="container">
         <h1>Moderator Inbox</h1>
@@ -58,4 +59,5 @@
         <a href="/dashboard"><button class="back">Back</button></a>
     </div>
 </body>
+
 </html>

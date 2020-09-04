@@ -2,25 +2,24 @@
 <html lang="en">
 
 <head>
-    <%- include ("../partials/header") %>
+    <%- include ("../../partials/header") %>
     <script type="text/javascript" src="../basicUserScript.js"></script>
     <link rel="stylesheet" href="../stylesheets/basicUser.css">
-    <title>Ditu - <%= uname %></title>
+    <title>Ditu - <%= user_name %></title>
 </head>
 
 <body>
-    <%- include ("../partials/nav_profile") %>
+    <%- include ("../../partials/nav_profile") %>
 
     <div id="mySidepanel" class="sidepanel">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <img src="../image/defaultdp.png" width="50px" height="50px">
-        <h2 id="Username"><%= uname %></h2></br>
+        <h2 id="Username"><%= user_name %></h2></br>
         <% if (user_access == 10) { %>
-        <a href="/admin"><button class="options">Admin</button></a></br>
+        <a href="/dashboard/admin"><button class="options">Admin</button></a></br>
         <% } else if (user_access == 1) { %>
-        <a href="/mod"><button class="options">Mod</button></a></br>
+        <a href="/dashboard/mod"><button class="options">Mod</button></a></br>
         <% } %>
-        <a href="/profile"><button class="options">My Profile</button></a></br>
         <a href="/info_map"><button class="options">Travel Info Map</button></a></br>
         <a href="/myTravel"><button class="options">My Travel</button></a></br>
         <a href="/allusers"><button class="options">All Users</button></a></br>
