@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-    <%- include ("../partials/header") %>
+    <%- include ("../../partials/header") %>
     <link rel="stylesheet" href="../stylesheets/advisories.css">
     
     <title>Ditu - <%= results.country %></title>
 </head>
 
 <body>
-    <%- include ("../partials/nav") %>
+    <%- include ("../../partials/nav") %>
 
     <div class="container">
         <h1><%= results.country %></h1>
@@ -28,14 +28,14 @@
             <p><%= results.other %></p>
         <% }; %>
 
-        <h4>Source</h4>
-        <p><a href="<%= results.link %>">Official Travel Advice and Advisories from the Government of Canada</a></p>
-
         <h4>Last Updated</h4>
         <p><%= results.updated %></p>
 
         <h4>Still Valid</h4>
         <p><%= results.valid %></p>
+
+        <h4>Links</h4>
+        <p><a href="<%= results.link %>">Government of Canada's Travel Advice and Advisories for <%= results.country %></a></p>
 
         <button class="back" onclick="history.back()">Back</button>
     </div>

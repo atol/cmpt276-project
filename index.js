@@ -9,7 +9,7 @@ const db = require('./db')
 const friends = require('./friends')
 const logger = require('morgan');
 //var cors = require('cors')
-const {getAdvisories, getInfo} = require('./scraper');
+const destinations = require('./routes/destinations');
 const reviews= require('./reviews')
 const fetch = require('node-fetch');
 require('dotenv').config();
@@ -40,6 +40,7 @@ app.use(session({
 app.use('/auth', auth) //prepends things in auth/index.js with /auth
 app.use('/friends', friends)
 app.use('/reviews', reviews)
+app.use('/destinations', destinations)
 
 app.get('/', function (req, res) {
     var user = req.session.user_id;
@@ -265,18 +266,7 @@ app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
     });
 });
 
-app.get('/advisories', async (req, res) => {
-    var user = req.session.user_id;
-    const advisories = await getAdvisories();
-    res.render('pages/advisories', { logged_in: user, results: advisories });
-});
 
-app.get('/destinations/:country', async (req, res) => {
-    var user = req.session.user_id;
-    var target = req.params.country;
-    const info = await getInfo(target);
-    res.render('pages/destination', { logged_in: user, results: info });
-});
 
 function checkAuth(req, res, next) {
     if (!req.session.user_id) {
