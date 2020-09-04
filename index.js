@@ -12,6 +12,7 @@ const logger = require('morgan');
 const destinations = require('./routes/destinations');
 const dashboard = require('./routes/dashboard');
 const map = require('./routes/map');
+const news = require('./routes/news');
 const reviews= require('./reviews')
 
 require('dotenv').config();
@@ -45,6 +46,7 @@ app.use('/reviews', reviews)
 app.use('/destinations', destinations)
 app.use('/dashboard', dashboard)
 app.use('/map', map)
+app.use('/news', news)
 
 app.get('/', function (req, res) {
     var user = req.session.user_id;
@@ -272,25 +274,6 @@ app.post('/', async (req, res) => {
         res.end(error);
     }
 });
-
-
-app.get('/news', async (req, res) => {
-  var user = req.session.user_id;
-  var name = req.session.uname;
-  res.render('pages/news', { logged_in: user, uname: name })
-});
-
-app.get('/article/:top', async (req, res) => {
-  const topic = req.params.top;
-  const apiKey = '54b5776c07464c6db009fdac9d3153b6';
-  const url = `https://newsapi.org/v2/top-headlines?country=${topic}&apiKey=${apiKey}`
-  const resu = await fetch(url);
-  const json = await resu.json();
-  res.json(json);
-
-});
-
-
 
 app.post('/done', async (req, res) => {
     var id = req.session.user_id;
