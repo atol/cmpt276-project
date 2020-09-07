@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <title>Ditu - Mods</title>
 
   <style media="screen">
     table,
@@ -122,15 +123,7 @@
         </tr>
         <% rows.forEach(function(r) { %>
         <tr>
-          <td class="man">
-            <div class="dropdown">
-              <button onclick="myFunction()" class="dropbtn"> * </button>
-              <div id="myDropdown" class="dropdown-content">
-                <a href="/users/<%= r.id %>/change_attr">Edit</a>
-                <a href="/users/<%= r.id %>/delete">Delete</a>
-              </div>
-            </div>
-          </td>
+          <td><a href="/users/<%= r.id %>/edit">Edit</a> | <a href="/users/<%= r.id %>/delete">Delete</a></td>
           <td><%= r.id %></td>
           <td><%= r.name %></td>
           <td><%= r.email %></td>
@@ -141,8 +134,7 @@
 
     </ul>
 
-    <a type="button" class="btn" href="/admin">
-    </a>
+    <a type="button" class="btn" href="/dashboard/admin"><-back</a>
   </div>
 
   <script>

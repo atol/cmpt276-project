@@ -47,7 +47,7 @@
 
     </style>
     <meta charset="utf-8">
-    <title></title>
+    <title>Ditu - Edit User</title>
 
 
   </head>
@@ -57,13 +57,13 @@
 
       <% rows.forEach(function(r){ %>
         <h2 class="hd1"><%= r.name %>'s Data</h2>
-        <form action="/" method="post">
+        <form action="/users/<%= r.id %>/update" method="post">
             <label class="ty" for="id">ID</label><br>
             <input class="part" type="number" name="id" value = "<%= r.id %>" readonly><br><br>
             <label class="ty" for="name">Name</label><br>
-            <input class="part" type="text" name="name" value="<%= r.name %>" readonly><br><br>
-            <label class="ty" for="email" readonly>Email</label><br>
-            <input class="part" type="text" name="email" value="<%= r.email %>" readonly><br><br>
+            <input class="part" type="text" name="name" value="<%= r.name %>"><br><br>
+            <label class="ty" for="email">Email</label><br>
+            <input class="part" type="text" name="email" value="<%= r.email %>"><br><br>
 
             <label class="ty" for="access">Access Level</label><br>
             <select class="part" name="access">

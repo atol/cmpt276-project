@@ -92,7 +92,7 @@ router.post('/login', async (req, res) => {
                         res.render('pages/error/login', { message: "Sorry, your email or password was incorrect. Please double-check your email or password." })
                     }
                 } catch (err) {
-                    console.log(err)
+                    console.error(err)
                     res.render('pages/error/default', { message: err })
                 }
             }
@@ -101,7 +101,7 @@ router.post('/login', async (req, res) => {
             }
             client.release()
         } catch (err) {
-            console.log(err)
+            console.error(err)
             res.render('pages/error/default', { message: err })
         }
     }

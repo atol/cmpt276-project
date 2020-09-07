@@ -7,23 +7,18 @@ const MapboxClient = require('mapbox/lib/services/geocoding')
 const db = require('./models/db')
 
 const index = require('./routes/index');
-const destinations = require('./routes/destinations');
 const dashboard = require('./routes/dashboard');
+const destinations = require('./routes/destinations');
 const friends = require('./friends');
 const map = require('./routes/map');
 const news = require('./routes/news');
-const reviews= require('./reviews')
+const reviews = require('./reviews');
+const users = require('./routes/users');
 
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
 const pool = db.pool
-
-const ACCESS = {
-    ADMIN: 10,
-    MOD: 1,
-    BASIC: 0
-}
 
 const app = express()
 app.set('views', path.join(__dirname, 'views'))
@@ -47,6 +42,7 @@ app.use('/destinations', destinations)
 app.use('/dashboard', dashboard)
 app.use('/map', map)
 app.use('/news', news)
+app.use('/users', users)
 
 //for mytravel information
 app.get('/myTravel', checkAuth, (req, res) => {
@@ -201,32 +197,6 @@ app.get('/allusers', checkAuth, function (req, res) {
     res.render('pages/allUsersMap', { uname: name, apiurl: map_url },);
 });
 
-app.get('/users', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
-    var id = 0;
-    var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
-    pool.query(getAllUser, [id], (error, result) => {
-        if (error) {
-            res.end(error);
-        }
-        var results = { 'rows': result.rows };
-        res.render('pages/users', results);
-    });
-});
-
-app.get('/allmods', checkAuth, checkRole(ACCESS.ADMIN), function (req, res) {
-    var id = 1;
-    var getAllUser = 'SELECT * FROM users where accesslevel = ($1)';
-    pool.query(getAllUser, [id], (error, result) => {
-        if (error) {
-            res.end(error);
-        }
-        var results = { 'rows': result.rows };
-        res.render('pages/allmods', results);
-    });
-});
-
-
-
 function checkAuth(req, res, next) {
     if (!req.session.user_id) {
         res.send('Please sign in');
@@ -234,63 +204,6 @@ function checkAuth(req, res, next) {
         next();
     }
 }
-
-function checkRole(access) {
-    return (req, res, next) => {
-        if (req.session.user_access < access) {
-            res.send('Permission denied');
-        } else {
-            next();
-        }
-    }
-}
-
-app.post('/', async (req, res) => {
-    var id = req.body.id;
-    var access = req.body.access;
-    console.log(access)
-    console.log(id)
-    try {
-        const client = await pool.connect();
-        await client.query('UPDATE USERS SET ACCESSLEVEL = $2 WHERE id = $1',
-            [id, access]);
-        res.redirect('admin');
-        client.release();
-    } catch (err) {
-        console.error(err);
-        res.end(error);
-    }
-});
-
-app.post('/done', async (req, res) => {
-    var id = req.session.user_id;
-    var name = req.body.name;
-    var email = req.body.email;
-    try {
-        const client = await pool.connect();
-        await client.query('UPDATE USERS SET NAME = $2, EMAIL = $3 WHERE id = $1',[id, name, email]);
-        res.redirect('/admin');
-        client.release();
-    } catch (err) {
-        console.error(err);
-        res.end(error);
-    }
-});
-
-app.get('/users/:id/change_attr', async (req, res) => {
-    var id = req.params.id;
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
-        const results = { 'rows': (result) ? result.rows : null };
-        res.render('pages/change_attr', results);
-        client.release();
-    } catch (err) {
-        console.error(err);
-        es.render('errorMessage.html', err);
-    }
-});
-
 
 app.get('/profile', async (req, res) => {
     var id = req.session.user_id;
@@ -319,25 +232,6 @@ app.get('/profile_edit', async (req, res) => {
         es.render('errorMessage.html', err);
     }
 });
-
-
-app.get('/users/:id/delete', async (req, res) => {
-    var id = req.params.id;
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
-        const results = { 'results': (result) ? result.rows : null };
-        await client.query('DELETE FROM users WHERE id=$1', [id]);
-        res.render('pages/new_delete', results);
-        client.release();
-    } catch (err) {
-        console.error(err);
-        res.render('errorMessage.html', err);
-    }
-})
-
-
-
 
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);

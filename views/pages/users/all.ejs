@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Ditu - All Users</title>
 
   <style media="screen">
   table, th, td{
@@ -115,16 +116,7 @@
     </tr>
    <% rows.forEach(function(r) { %>
       <tr>
-        <!--<td><button id="edit" onclick="location.href='/users/<%= r.id %>/change_attr'" style="width:100%"><%= r.id %></button></td>-->
-        <td class="man">
-          <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn"> * </button>
-            <div id="myDropdown" class="dropdown-content">
-              <a href="/users/<%= r.id %>/change_attr">Edit</a>
-              <a href="/users/<%= r.id %>/delete">Delete</a>
-            </div>
-          </div>
-        </td>
+        <td><a href="/users/<%= r.id %>/edit">Edit</a> | <a href="/users/<%= r.id %>/delete">Delete</a></td>
         <td><%= r.id %></td>
         <td><%= r.name %></td>
         <td><%= r.email %></td>
@@ -134,7 +126,7 @@
 
 </ul>
 
-  <a type="button" class="btn" href="/admin"> <-back </a>
+  <a type="button" class="btn" href="/dashboard/admin"> <-back </a>
 
 </div>
 

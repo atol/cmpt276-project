@@ -9,14 +9,14 @@
 </head>
 
 <body>
-    <%- include ("../../partials/nav_profile") %>
+    <%- include ("../../partials/navProfile") %>
     <div id="mySidepanel" class="sidepanel">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <img src="../image/defaultdp.png" width="50px" height="50px">
             <p id="Username"><%= user_name %></p></br>
             <a href="/dashboard"><button id="backHome" class="options">Back</button></a></br>
             <a href="/users"><button class="options">View Users</button></a></br>
-            <a href="/allmods"><button class="options">View Mods</button></a></br>
+            <a href="/users/mods"><button class="options">View Mods</button></a></br>
     </div>
 
     <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
