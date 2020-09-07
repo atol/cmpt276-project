@@ -1,5 +1,4 @@
-.error-message{
-
+.response-message{
   width: 280px;
   position: absolute;
   top: 50%;
@@ -8,7 +7,7 @@
   color: white;
   
 }
-.error-message h1{
+.response-message h1{
   font-size: medium;
 }
 .login{

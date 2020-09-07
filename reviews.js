@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const db = require('./db')
+const db = require('./models/db')
 const pool = db.pool
 //const Joi = require('joi')
 

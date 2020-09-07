@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const db = require('./db')
+const db = require('./models/db')
 const pool = db.pool
 const Joi = require('joi') // this library helps with checking user input info validity
 const index = require('./index')

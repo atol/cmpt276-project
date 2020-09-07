@@ -1,16 +1,15 @@
 const express = require('express')
 const session = require('express-session')
 const path = require('path')
-var cors = require('cors')
 const volleyball = require('volleyball')
 const MapboxClient = require('mapbox/lib/services/geocoding')
-const auth = require('./auth')
-const db = require('./db')
-const friends = require('./friends')
-const logger = require('morgan');
-//var cors = require('cors')
+
+const db = require('./models/db')
+
+const index = require('./routes/index');
 const destinations = require('./routes/destinations');
 const dashboard = require('./routes/dashboard');
+const friends = require('./friends');
 const map = require('./routes/map');
 const news = require('./routes/news');
 const reviews= require('./reviews')
@@ -33,14 +32,15 @@ app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(volleyball)
 app.use(express.json())
-//app.use("/",cors())
+
 app.use(express.urlencoded({ extended: true }))
 app.use(session({
     secret: 'shhhhhhhh', // sign session ID cookie
     resave: false,
     saveUninitialized: true
 }))
-app.use('/auth', auth) //prepends things in auth/index.js with /auth
+
+app.use('/', index)
 app.use('/friends', friends)
 app.use('/reviews', reviews)
 app.use('/destinations', destinations)
@@ -48,19 +48,6 @@ app.use('/dashboard', dashboard)
 app.use('/map', map)
 app.use('/news', news)
 
-app.get('/', function (req, res) {
-    var user = req.session.user_id;
-    res.render('pages/index', { logged_in: user });
-});
-
-app.get('/login', (req, res) => res.redirect('/login.html'))
-
-app.get('/signup', (req, res) => res.redirect('/signup.html'))
-
-app.get('/logout', function (req, res) {
-    req.session.destroy();
-    res.redirect('/logout.html');
-});
 //for mytravel information
 app.get('/myTravel', checkAuth, (req, res) => {
     var user = req.session.user_id;
