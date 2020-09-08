@@ -48,25 +48,25 @@ router.post('/signup', async (req, res) => {
             const client = await pool.connect();
             const qResult = await client.query(`SELECT * FROM users WHERE email=$1`, [email])
             if (qResult.rows && qResult.rows.length > 0) {
-                res.render('pages/error/signup', { message: "This user already exists in the system. Please login." })
+                res.render('pages/auth/signup', { message: "This user already exists in the system. Please login." })
             }
             else {
                 try {
                     await client.query(`INSERT INTO users (name, email, password, accesslevel) VALUES ($1, $2, $3, $4)`, [name, email, hashedPassword, accessLevel])
-                    res.render('pages/success/signup', { message: "Your user has been created! Please login." })
+                    res.render('pages/auth/signup', { message: "Your user has been created! Please login." })
                 } catch (err) {
                     console.error(err)
-                    res.render('pages/error/default', { message: err })
+                    res.render('pages/error', { message: err })
                 }
             }
             client.release()
         } catch (err) {
             console.error(err)
-            res.render('pages/error/default', { message: err })
+            res.render('pages/error', { message: err })
         }
     }
     else {
-        res.render('pages/error/login', { message: "Please provide complete information. Your password should be at least 8 characters, and you should supply a valid email and name." })
+        res.render('pages/auth/login', { message: "Please provide complete information. Your password should be at least 8 characters, and you should supply a valid email and name." })
     }
 })
 
@@ -89,24 +89,24 @@ router.post('/login', async (req, res) => {
                         req.session.user_access = access;
                         res.redirect('/dashboard');
                     } else {
-                        res.render('pages/error/login', { message: "Sorry, your email or password was incorrect. Please double-check your email or password." })
+                        res.render('pages/auth/login', { message: "Sorry, your email or password was incorrect. Please double-check your email or password." })
                     }
                 } catch (err) {
                     console.error(err)
-                    res.render('pages/error/default', { message: err })
+                    res.render('pages/error', { message: err })
                 }
             }
             else { // if email not found in db
-                res.render('pages/error/login', { message: "Sorry, your email or password was incorrect. Please double-check your email or password." })
+                res.render('pages/auth/login', { message: "Sorry, your email or password was incorrect. Please double-check your email or password." })
             }
             client.release()
         } catch (err) {
             console.error(err)
-            res.render('pages/error/default', { message: err })
+            res.render('pages/error', { message: err })
         }
     }
     else {
-        res.render('pages/error/login', { message: "Please provide a valid email and password." })
+        res.render('pages/auth/login', { message: "Please provide a valid email and password." })
     }
 })
 

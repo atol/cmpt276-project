@@ -20,7 +20,7 @@ router.get('/', validate.checkAuth, async (req, res) => {
         client.release()
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -50,18 +50,18 @@ router.post('/add', validate.checkAuth, async (req, res) => {
                                 res.render('pages/friends/response', { message: "Sent the request!" })
                             } catch (err) {
                                 console.error(err)
-                                res.send("err")
+                                res.render('pages/error', { message: err })
                             }
                         }
                     }
                     catch (err) {
                         console.error(err);
-                        res.render('pages/error/default', { message: err });
+                        res.render('pages/error', { message: err });
                     }
                 }
             } catch (err) {
                 console.error(err)
-                res.send("err")
+                res.render('pages/error', { message: err })
             }
         }
         else {
@@ -70,7 +70,7 @@ router.post('/add', validate.checkAuth, async (req, res) => {
         client.release()
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -84,7 +84,7 @@ router.post('/delete/:id', validate.checkAuth, async (req, res) => {
         client.release()
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -103,7 +103,7 @@ router.get('/requests/sent', validate.checkAuth, async (req, res) => {
         client.release()
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -122,7 +122,7 @@ router.get('/requests/received', validate.checkAuth, async (req, res) => {
         client.release()
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -138,11 +138,11 @@ router.post('/requests/accept/:id', validate.checkAuth, async (req, res) => {
             res.render('pages/friends/response', { message: "Friend request accepted!" })
         } catch (err) {
             console.error(err)
-            res.send("err")
+            res.render('pages/error', { message: err })
         }
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -155,7 +155,7 @@ router.post('/requests/decline/:id', validate.checkAuth, async (req, res) => {
         res.render('pages/friends/response', { message: "Deleted friend request." })
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 

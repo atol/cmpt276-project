@@ -15,7 +15,7 @@ router.get('/', validate.checkAuth, async (req, res) => {
         client.release();
     } catch (err) {
         console.error(err);
-        res.render('pages/error/default', { message: err });
+        res.render('pages/error', { message: err });
     }
 });
 
@@ -30,7 +30,7 @@ router.get('/edit', validate.checkAuth, async (req, res) => {
         client.release();
     } catch (err) {
         console.error(err);
-        res.render('pages/error/default', { message: err });
+        res.render('pages/error', { message: err });
     }
 });
 
@@ -45,7 +45,7 @@ router.post('/update', async (req, res) => {
         client.release();
     } catch (err) {
         console.error(err);
-        res.render('pages/error/default', { message: err });
+        res.render('pages/error', { message: err });
     }
 });
 

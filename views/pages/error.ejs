@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <%- include ("../../partials/header") %>
+    <%- include ("../partials/header") %>
     <link rel="stylesheet" href="../stylesheets/homePage.css">
     <link rel="stylesheet" href="../stylesheets/loginClose.css">
     <link rel="stylesheet" href="../stylesheets/response.css ">
@@ -10,19 +10,13 @@
 </head>
 
 <body>
-    <%- include ("../../partials/navResponse") %>
+    <%- include ("../partials/navResponse") %>
 
     <div class="response-message">
         <h1><%=message%></h1>
 
-        <a href="/login.html" class="login">Login</a><br>
-        <a href="/signup.html" class="login">Signup</a>
+        <a href="javascript:history.back();">← Back</a>
     </div>
 
 </body>
-
-</html>
-</body>
-<script src="../scripts/homePage.js"></script>
-
 </html>

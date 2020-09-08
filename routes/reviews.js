@@ -18,7 +18,7 @@ router.get('/', validate.checkAuth, async (req, res) => {
         client.release()
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -42,7 +42,7 @@ router.get('/:countryName', async (req, res) => {
         client.release()
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -62,7 +62,7 @@ router.post('/delete/:review_id', validate.checkAuth, async (req, res) => {
         res.render('pages/reviews/response', { logged_in: user_id, message: "The selected review has been deleted." })
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 
@@ -83,7 +83,7 @@ router.post('/:countryName', validate.checkAuth, async (req, res) => {
         res.render('pages/reviews/response', { logged_in: writer_id, message: "Review added!" })
     } catch (err) {
         console.error(err)
-        res.send("err")
+        res.render('pages/error', { message: err })
     }
 })
 

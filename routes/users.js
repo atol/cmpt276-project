@@ -16,7 +16,7 @@ router.get('/', validate.checkAuth, validate.checkRole(ACCESS.ADMIN), function (
     pool.query(getAllUsers, [id], (error, result) => {
         if (error) {
             console.error(error);
-            res.render('pages/error/default', { message: error });
+            res.render('pages/error', { message: error });
         }
         var results = { 'rows': result.rows };
         res.render('pages/users/all', results);
@@ -29,7 +29,7 @@ router.get('/mods', validate.checkAuth, validate.checkRole(ACCESS.ADMIN), functi
     pool.query(getAllMods, [id], (error, result) => {
         if (error) {
             console.error(error);
-            res.render('pages/error/default', { message: error });
+            res.render('pages/error', { message: error });
         }
         var results = { 'rows': result.rows };
         res.render('pages/users/mods', results);
@@ -46,7 +46,7 @@ router.get('/:id/edit', validate.checkAuth, validate.checkRole(ACCESS.ADMIN), as
         client.release();
     } catch (err) {
         console.error(err);
-        res.render('pages/error/default', { message: err });
+        res.render('pages/error', { message: err });
     }
 });
 
@@ -61,7 +61,7 @@ router.get('/:id/delete', validate.checkAuth, validate.checkRole(ACCESS.ADMIN), 
         client.release();
     } catch (err) {
         console.error(err);
-        res.render('pages/error/default', { message: err });
+        res.render('pages/error', { message: err });
     }
 })
 
@@ -77,7 +77,7 @@ router.post('/:id/update', async (req, res) => {
         client.release();
     } catch (err) {
         console.error(err);
-        res.render('pages/error/default', { message: err });
+        res.render('pages/error', { message: err });
     }
 });
 
