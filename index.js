@@ -12,6 +12,7 @@ const destinations = require('./routes/destinations');
 const friends = require('./friends');
 const map = require('./routes/map');
 const news = require('./routes/news');
+const profile = require('./routes/profile');
 const reviews = require('./reviews');
 const users = require('./routes/users');
 
@@ -36,12 +37,13 @@ app.use(session({
 }))
 
 app.use('/', index)
-app.use('/friends', friends)
-app.use('/reviews', reviews)
-app.use('/destinations', destinations)
 app.use('/dashboard', dashboard)
+app.use('/destinations', destinations)
+app.use('/friends', friends)
 app.use('/map', map)
 app.use('/news', news)
+app.use('/profile', profile)
+app.use('/reviews', reviews)
 app.use('/users', users)
 
 //for mytravel information
@@ -204,34 +206,6 @@ function checkAuth(req, res, next) {
         next();
     }
 }
-
-app.get('/profile', async (req, res) => {
-    var id = req.session.user_id;
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
-        const results = { 'rows': (result) ? result.rows : null };
-        res.render('pages/profile', results);
-        client.release();
-    } catch (err) {
-        console.error(err);
-        es.render('errorMessage.html', err);
-    }
-});
-
-app.get('/profile_edit', async (req, res) => {
-    var id = req.session.user_id;
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM users WHERE id=$1', [id]);
-        const results = { 'rows': (result) ? result.rows : null };
-        res.render('pages/profile_edit', results);
-        client.release();
-    } catch (err) {
-        console.error(err);
-        es.render('errorMessage.html', err);
-    }
-});
 
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);

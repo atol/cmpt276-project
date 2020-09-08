@@ -10,7 +10,7 @@ router.use(session({
 
 function checkAuth(req, res, next) {
     if (!req.session.user_id) {
-        res.send('Please sign in');
+        res.render('pages/error/signup', { message: 'Please sign in.' });
     } else {
         next();
     }
@@ -19,7 +19,7 @@ function checkAuth(req, res, next) {
 function checkRole(access) {
     return (req, res, next) => {
         if (req.session.user_access < access) {
-            res.send('Permission denied');
+            res.render('pages/error/default', { message: 'Permission denied.' });
         } else {
             next();
         }

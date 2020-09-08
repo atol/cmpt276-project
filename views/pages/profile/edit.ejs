@@ -46,19 +46,19 @@
 
     </style>
     <meta charset="utf-8">
-    <title></title>
+    <title>Ditu - Edit Profile</title>
   </head>
   <body class=drive>
     <div class="container">
       <% rows.forEach(function(r){ %>
         <h2 class="hd1"><%= r.name %>'s Data</h2>
-        <form action="/profile_edit" method="">
+        <form action="/profile/update" method="post">
             <label class="ty" for="id">ID</label><br>
             <input class="part" type="number" name="id" value = "<%= r.id %>" readonly><br><br>
             <label class="ty" for="name">Name</label><br>
-            <input class="part" type="text" name="name" value="<%= r.name %>" readonly><br><br>
+            <input class="part" type="text" name="name" value="<%= r.name %>"><br><br>
             <label class="ty" for="email" readonly>Email</label><br>
-            <input class="part" type="text" name="email" value="<%= r.email %>" readonly><br><br>
+            <input class="part" type="text" name="email" value="<%= r.email %>"><br><br>
 
             <label class="ty" for="access">Access Level</label><br>
 
@@ -73,7 +73,7 @@
                     <option value="1" selected readonly>Mod</option>
                 <% } %>
             </select><br><br><br>
-            <button id = "return" onclick="/profile_edit">Edit</button><br><br>
+            <input id = "return" type="submit" value="Submit"><br><br>
         </form>
             <button id="return" onclick="history.back()">Cancel</button>
       <% }); %>

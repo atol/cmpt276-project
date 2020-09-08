@@ -9,6 +9,7 @@
 }
 .response-message h1{
   font-size: medium;
+  font-weight: normal;
 }
 .login{
   font-size: larger;
