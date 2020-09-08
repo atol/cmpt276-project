@@ -31,12 +31,14 @@
             <p id="country-capital"></p>
             <p id="country-currency"></p>
             <p id="country-risk"></p></br>
-            <form id="review-btn" action="/reviews/invalidurl" method="GET">
-                <input type="submit" value="Click here to view user reviews">
+            <form id="review-btn" action="/reviews/invalid" method="GET">
+                <input type="submit" value="View user reviews">
             </form>
-            <form id="write-review-btn" action="/reviews/invalidurl" method="GET">
-                <input type="submit" value="Click here to write a review">
+            <% if (logged_in) { %>
+            <form id="write-review-btn" action="/reviews/invalid" method="GET">
+                <input type="submit" value="Write a review">
             </form>
+            <% } %>
         </div>
     </div>
 

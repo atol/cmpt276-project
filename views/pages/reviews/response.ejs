@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ("../../partials/header") %>
+    <link rel="stylesheet" href="../stylesheets/reviews.css">
+    <title>Ditu</title>
+</head>
+
+<body>
+    <% if (logged_in) { %>
+    <%- include ("../../partials/navProfile") %>
+    <% } else { %>
+    <%- include ("../../partials/nav") %>
+    <% } %>
+
+    <div class="container"><br>
+        <div>
+            <p id="header"><%=message%></p>
+        </div>
+        <br><br>
+        <a class="links" href="/reviews">View your reviews</a>
+        <br>
+        <a class="links" href="/map/info">Return to the map, where you can view all reviews or add your own!</a>
+        <br>
+        <% if (logged_in) { %>
+        <a class="links" href="/dashboard">Return to the dashboard</a>
+        <% } %>
+</body>
+
+</html>

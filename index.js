@@ -13,7 +13,7 @@ const friends = require('./routes/friends');
 const map = require('./routes/map');
 const news = require('./routes/news');
 const profile = require('./routes/profile');
-const reviews = require('./reviews');
+const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 
 require('dotenv').config();
