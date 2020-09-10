@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-var scraper = require('../models/scraper');
+const scraper = require('../models/scraper');
 
 router.get('/advisories', async (req, res) => {
     var user = req.session.user_id;

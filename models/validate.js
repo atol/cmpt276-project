@@ -1,9 +1,7 @@
-const session = require('express-session');
-
 const validate = {
     checkAuth: function (req, res, next) {
         if (!req.session.user_id) {
-            res.send('Please sign in');
+            res.render('pages/auth/login', { message: 'Please sign in.' });
         } else {
             next();
         }
@@ -11,7 +9,7 @@ const validate = {
     checkRole: function (access) {
         return (req, res, next) => {
             if (req.session.user_access < access) {
-                res.send('Permission denied');
+                res.render('pages/error', { message: 'Permission denied.' });
             } else {
                 next();
             }

@@ -2,16 +2,15 @@
 <html lang="en">
 
 <head>
-    <%- include ("../partials/header") %>
-    <script type="text/javascript" src="../infoMapScript.js"></script>
-    <link rel="stylesheet" href="../stylesheets/allUsersMap.css">
+    <%- include ("../../partials/header") %>
+    <link rel="stylesheet" href="../stylesheets/locations.css">
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
-    <title>All Users - <%= uname %></title>
+    <title>Ditu - User Locations</title>
 </head>
 
 <body>
-    <%- include ("../partials/nav_profile") %>
+    <%- include ("../../partials/navProfile") %>
 
     <div id="floating-panel">
         <p id="input-title"> Input location</p>
@@ -27,17 +26,8 @@
 
         let markers = [];
 
-        // socket.on('locations', data => {
-        //     // const locations = JSON.parse(data);
-        //     // new google.maps.Marker({
-        //     //     map: map,
-        //     //     position: results[0].geometry.location
-        //     // });
-        // })
-
         function updateLocation(lat, lng){
-            // socket.emit('locations', JSON.stringify({lat,lng}));
-            $.post('/allusers/locations', {lat, lng});
+            $.post('/locations/add', {lat, lng});
         }
 
         function myMap() {

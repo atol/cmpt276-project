@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const validate = require('./validate');
+const validate = require('../models/validate');
 const db = require('../models/db')
 const pool = db.pool
 
