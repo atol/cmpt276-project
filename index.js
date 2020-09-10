@@ -31,7 +31,7 @@ app.use(express.json())
 
 app.use(express.urlencoded({ extended: true }))
 app.use(session({
-    secret: 'shhhhhhhh', // sign session ID cookie
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true
 }))

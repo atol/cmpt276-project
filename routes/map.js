@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 router.get('/info', function (req, res) {
     const user = req.session.user_id;
     const name = req.session.user_name;
-    const api_key = process.env.API_KEY;
+    const api_key = process.env.GMAPS_API;
     const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
     const json_url = "https://data.international.gc.ca/travel-voyage/index-alpha-eng.json";
     const settings = { method: "Get" };

@@ -13,7 +13,7 @@ io.on('connection', async (socket) => {
 
 router.get('/', function (req, res) {
     var name = req.session.user_name;
-    const api_key = process.env.API_KEY;
+    const api_key = process.env.GMAPS_API;
     const map_url = `https://maps.googleapis.com/maps/api/js?key=${api_key}&callback=myMap`
     res.render('pages/map/markers', { user_name: name, apiurl: map_url },);
 });

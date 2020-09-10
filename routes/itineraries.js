@@ -33,7 +33,7 @@ router.get('/add', validate.checkAuth, async (req, res) => {
 router.get('/view', validate.checkAuth, async (req, res) => {
     const user_id = req.session.user_id;
     try {
-        const mClient = new MapboxClient('pk.eyJ1IjoibXNjMjgiLCJhIjoiY2tkZTJpaWEyMWwzaTMxcGc4cjB1a3V3eSJ9.htLirZodkFX4l0mFDySW6g')
+        const mClient = new MapboxClient(process.env.MAPBOX_API)
         const client = await pool.connect();
         const qResult = await client.query(`SELECT * FROM tripinfo WHERE user_id=$1`, [user_id])
         client.release()
