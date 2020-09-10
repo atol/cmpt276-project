@@ -3,9 +3,6 @@ const session = require('express-session')
 const path = require('path')
 const volleyball = require('volleyball')
 
-const db = require('./models/db')
-const pool = db.pool
-
 const index = require('./routes/index');
 const dashboard = require('./routes/dashboard');
 const destinations = require('./routes/destinations');
@@ -18,11 +15,13 @@ const profile = require('./routes/profile');
 const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 
+const db = require('./models/db')
+const pool = db.pool
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000
-
 const app = express()
+
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
