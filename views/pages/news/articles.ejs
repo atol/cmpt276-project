@@ -202,7 +202,7 @@
 
             let topic = input.value;
 
-            let url = `/article/${topic}`;
+            let url = `/news/article/${topic}`;
             fetch(url).then((res) => {
                 return res.json()
             }).then((data) => {
