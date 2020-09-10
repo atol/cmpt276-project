@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include ("../../partials/header") %>
+  <link rel="stylesheet" href="../stylesheets/itineries.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+  <title>Ditu - Add Trip</title>
+</head>
+
+<body>
+  <%- include ("../../partials/navProfile") %>
+  <div class="row">
+    <div class="col">
+      <% rows.forEach(function (r) { %>
+      <h1 class="trip-name"><%=r.tripname %></h1>
+      <%}); %>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <% rows.forEach(function (r) { %>
+        <h4>Destination: <%=r.location %></h4>
+        <%}); %>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

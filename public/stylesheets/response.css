@@ -1,0 +1,16 @@
+.response-message{
+  width: 280px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  
+}
+.response-message h1{
+  font-size: medium;
+  font-weight: normal;
+}
+.login{
+  font-size: larger;
+}

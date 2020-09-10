@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("../../partials/header") %>
+    <link rel="stylesheet" href="../stylesheets/locations.css">
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+    <title>Ditu - User Locations</title>
+</head>
+
+<body>
+    <%- include ("../../partials/navProfile") %>
+
+    <div id="floating-panel">
+        <p id="input-title"> Input location</p>
+        <input id="address" type="textbox" value="" />
+        <input id="submit" type="button" value="Submit" />
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+
+        const socket = io();
+
+        let markers = [];
+
+        function updateLocation(lat, lng){
+            $.post('/locations/add', {lat, lng});
+        }
+
+        function myMap() {
+
+            var mapProp = {
+                center: new google.maps.LatLng(51.508742, -0.120850),
+                zoom: 3,
+                styles:
+                    [
+                        {
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative",
+                            "elementType": "geometry",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative.country",
+                            "elementType": "geometry.stroke",
+                            "stylers": [
+                                {
+                                    "visibility": "on"
+                                },
+                                {
+                                    "weight": 1.5
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative.land_parcel",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "administrative.neighborhood",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "poi",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "road",
+                            "elementType": "labels.icon",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "transit",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        },
+                        {
+                            "featureType": "water",
+                            "elementType": "labels",
+                            "stylers": [
+                                {
+                                    "visibility": "off"
+                                }
+                            ]
+                        }
+                    ]
+            };
+
+            var myLatlng = { lat: 44.723334, lng: -38.818859 };
+
+            var map = new google.maps.Map(document.getElementById("map"), mapProp);
+
+            const geocoder = new google.maps.Geocoder();
+            document.getElementById("submit").addEventListener("click", () => {
+                geocodeAddress(geocoder, map);
+            });
+
+            socket.on('locations', data => {
+                for(const marker of markers){
+                    marker.setMap(null);
+                }
+                markers = JSON.parse(data).map(pos => new google.maps.Marker({
+                    map: map,
+                    position: pos
+                }));                
+            })
+
+        }
+
+        function geocodeAddress(geocoder, resultsMap) {
+            const address = document.getElementById("address").value;
+            geocoder.geocode({ address: address }, (results, status) => {
+                if (status === "OK") {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    latitude = results[0].geometry.location.lat();
+                    longitude = results[0].geometry.location.lng();
+                    updateLocation(latitude, longitude);
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
+        }
+
+    </script>
+
+    <script src='<%= apiurl %>'></script>
+
+</body>
+
+</html>

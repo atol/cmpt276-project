@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ("../../partials/header") %>
+    <link rel="stylesheet" href="../stylesheets/reviews.css">
+    <title>Ditu - View Review</title>
+</head>
+
+<body>
+    <%- include ("../../partials/nav") %>
+    <div class="container"><br>
+        <p id="header">Reviews</p>
+        <br>
+        <% rows.forEach(function(r) { %>
+        <div id="review-container">
+            <div id="review-title"><%= r.review_title %></div>
+            <div id="review-info">
+                Posted at <%= r.timestamp %>.<br>
+                Location: <%= r.location %>.<br>
+                Visited from <%= r.startdate %> until <%= r.enddate %></div>
+            <p id="review-description"><%= r.description %> </p>
+        </div>
+        <% }); %>
+        <br>
+        <a href="/map/info">Return to the map, where you can view all reviews or add your own!</a>
+        <br><br>
+        <% if (logged_in) { %>
+        <a href="/dashboard">Return to the dashboard</a>
+        <% } %>
+    </div>
+</body>
+
+</html>

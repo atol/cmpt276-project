@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("../../partials/header") %>
+    <script type="text/javascript" src="../scripts/sideBar.js"></script>
+    <link rel="stylesheet" href="../stylesheets/basicUser.css">
+    <title>Ditu - My Travel</title>
+</head>
+
+<body>
+    <%- include ("../../partials/navProfile") %>
+
+    <div id="mySidepanel" class="sidepanel">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <img src="../image/defaultdp.png" width="50px" height="50px">
+        <h2 id="Username"><%= user_name %></h2></br>
+        <% if (user_access == 10) { %>
+        <a href="/dashboard/admin"><button class="options">Admin</button></a></br>
+        <% } else if (user_access == 1) { %>
+        <a href="/dashboard/mod"><button class="options">Mod</button></a></br>
+        <% } %>
+        <a href="/map/info"><button class="options">Info Map</button></a></br>
+        <a href="/news"><button class="options">News Articles</button></a></br>
+        <a href="/itineraries"><button class="options">My Travel</button></a></br>
+        <a href="/friends"><button class="options">My Friends</button></a></br>
+        <a href="/reviews"><button class="options">My Reviews</button></a></br>
+        <a href="/locations"><button class="options">User Locations</button></a>
+    </div>
+
+    <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
+    <iframe
+        src='https://api.mapbox.com/styles/v1/keitolee/ckc8n54gm12sr1ip8xlk5yv3q.html?fresh=true&title=false&access_token=pk.eyJ1Ijoia2VpdG9sZWUiLCJhIjoiY2tjOG0wbXhuMGN1ZTM0cGZ1d28zcWx6cyJ9.oSR2bnxW0qtkQ3YM8pBRZg'>
+
+</body>
+
+</html>

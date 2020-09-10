@@ -9,8 +9,8 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-  <link rel="stylesheet" href="stylesheets/styleHomePage.css">
-  <link rel="stylesheet" href="stylesheets/styleLoginClose.css">
+  <link rel="stylesheet" href="stylesheets/homePage.css">
+  <link rel="stylesheet" href="stylesheets/loginClose.css">
   <link rel="stylesheet" href="stylesheets/nav.css">
   <title>Sign Up</title>
 </head>
@@ -28,7 +28,6 @@
           <a href="/" class="nav-link">Home</a>
         </li>
         <li class="nav-item active">
-          <!-- <a href="#" class="nav-link">Log in</a> -->
           <a href="/login" class="nav-link">Log In</a>
 
         </li>
@@ -41,17 +40,14 @@
 
   <div class="login-box">
     <h1>Sign Up</h1>
-    <form action="/auth/signup" method="post">
+    <form action="/signup" method="post">
       <div class="login-form">
-        <!-- <i class="fas fa-user"></i> -->
         <input type="text" placeholder="Name" name="name" id="name" required>
       </div>
       <div class="login-form">
-        <!-- <i class="fas fa-user"></i> -->
         <input type="text" placeholder="Email" name="email" id="email" required>
       </div>
       <div class="login-form">
-        <!-- <i class="fas fa-lock"></i> -->
         <input type="password" placeholder="Password" name="password" id="password" required>
       </div>
 

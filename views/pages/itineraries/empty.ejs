@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("../../partials/header") %>
+    <script type="text/javascript" src="../scripts/sideBar.js"></script>
+    <link rel="stylesheet" href="../stylesheets/infoMap.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <title>Ditu - Trip Info</title>
+</head>
+
+<body>
+    <%- include ("../../partials/navProfile") %>
+    <div id="mySidepanel" class="sidepanel">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <img src="../image/defaultdp.png" width="50px" height="50px">
+        <br>
+        <a href="/dashboard"><button id="backHome" class="options">Back</button></a><br>
+        <div id="no-info">
+            <p id="empty-info"></p></br>
+
+        </div>
+        <p id="Err-Message" style="font-size: medium ;">You have no trips. Please add one!</p><br>
+        <button type="button" onclick="popup()" class="btn btn-primary options" data-toggle="modal"
+            data-target="#exampleModal">
+            Add Trip
+        </button>
+
+    </div>
+
+    <button class="openbtn" onclick="openNav()">&#9776; Menu</button>
+
+    <div id="map"></div>
+
+    <!-- Modal -->
+    <div class="modal" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Trip Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <p>Modal body text goes here.</p> -->
+                    <form action="/itineraries/add" method="post">
+                        <div class="form-group">
+                            <label for="name">Trip Name*</label>
+                            <input type="text" class="form-control" name="tripname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Start Date*</label>
+                            <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="startdate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">End Date*</label>
+                            <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="enddate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="local">Origin*</label>
+                            <input type="text" class="form-control" name="origin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="local">Destination*</label>
+                            <input type="text" class="form-control" name="destination" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="textarea" class="form-control" name="description">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Your Trip</button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function popup() {
+            $('#myModal').modal('show')
+        }
+    </script>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKJAI9tI-QuFAA5qyPg9p0nuy4kzMCa_Y&callback=myMap"></script>
+
+</body>
+
+</html>

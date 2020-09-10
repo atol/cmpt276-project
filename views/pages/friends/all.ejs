@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include ("../../partials/header") %>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+    table,
+    th,
+    td {
+      border: 2px solid whitesmoke;
+      border-collapse: collapse;
+    }
+    .del-btn{
+      line-height: 1px;
+    }
+  </style>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="../stylesheets/friends.css">
+</head>
+
+<body>
+  <%- include ("../../partials/navProfile") %>
+
+  <div class="friend-box">
+
+
+    <h3 class="heading3">Add a friend by entering their email:</h3>
+    <form action="/friends/add/" method="post">
+      <div class="addfriendbox">
+        <input type="text" placeholder="Email" name="email" id="email" required>
+      </div>
+      <button class="btn add-friend" type="submit">Add Friend</button>
+    </form>
+    <br>
+  </div>
+
+  <div class="friend-box2">
+
+    <h3 class="heading3-2">Friends List</h3>
+    <ul>
+      <table class="tbl">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Delete</th>
+        </tr>
+        <% rows.forEach(function(r) { %>
+        <tr>
+          <td><%= r.name %></td>
+          <td><%= r.email %></td>
+          <td>
+            <form action="/friends/delete/<%=r.id%>" method="POST">
+              <input class="del-btn" type="submit" value="Delete">
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </table>
+
+
+    </ul>
+  </div>
+  <!-- <div id="fb">
+    <div id="fb-top">
+      <p><b>Friend Requests</b><span></p>
+    </div>
+    <% rows.forEach(function(r) { %>
+    <p id="info"><b><%=r.name %></b> <%= r.email %><br> <span></p>
+    <div id="button-block">
+      <form action="/friends/delete/<%=r.id%>" method="POST">
+        <input id="delete" type="submit" value="Delete">
+      </form>
+
+    </div>
+    <% }); %>
+  </div> -->
+  <br>
+  <a class="options" href="/friends/requests/sent">Click here to view sent friend requests</a>
+  <br><br>
+  <a class="options" href="/friends/requests/received">Click here to view received friend requests</a>
+  <br><br>
+  <a class="options" href="/dashboard">Click here to return to the Dashboard</a>
+</body>
+
+</html>

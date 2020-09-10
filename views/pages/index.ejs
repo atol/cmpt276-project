@@ -3,7 +3,7 @@
 
 <head>
   <%- include ("../partials/header") %>
-  <link rel="stylesheet" href="../stylesheets/styleHomePage.css">
+  <link rel="stylesheet" href="../stylesheets/homePage.css">
 
   <title>Ditu</title>
 </head>
@@ -22,10 +22,10 @@
   <div class="container features">
     <div class="row">
       <div class="col-lg-4 col-md-4 col-sm-12">
-        <h3 class="feature-title">Travel-Specific Platform</h3>
-        <img src="./image/column1.jpg" class="img-fluid">
-        <p>Ditu is a travel-specific social community platform that is a “one stop shop” for planning
-          and sharing travel amongst friends and family.</p>
+        <h3 class="feature-title">Interactive Planning</h3>
+        <a href="/map/info"><img src="./image/column1.jpg" class="img-fluid"></a>
+        <p>View basic information about destinations at a glance. Simply click on a country of interest
+            to learn about its capital city, population size, associated currency, and current risk level.</p>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12">
         <h3 class="feature-title">Social Platform</h3>
@@ -36,8 +36,7 @@
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12">
         <h3 class="feature-title">Travel Advisories</h3>
-        <a href="/advisories"><img src="./image/column3.jpg" class="img-fluid"></a>
-        <span style="color: red">New!</span>
+        <a href="/destinations/advisories"><img src="./image/column3.jpg" class="img-fluid"></a>
         <p>Stay safe and prepared abroad. Know the current risk levels and the entry/exit requirements
           for destinations.</p>
       </div>
@@ -45,7 +44,7 @@
   </div>
 
 </body>
-<script src="./scriptHomePage.js"></script>
+<script src="../scripts/homePage.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
   integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 

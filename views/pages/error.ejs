@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("../partials/header") %>
+    <link rel="stylesheet" href="../stylesheets/homePage.css">
+    <link rel="stylesheet" href="../stylesheets/loginClose.css">
+    <link rel="stylesheet" href="../stylesheets/response.css ">
+    <title>Ditu - Error</title>
+</head>
+
+<body>
+    <%- include ("../partials/navResponse") %>
+
+    <div class="response-message">
+        <h1><%=message%></h1>
+
+        <a href="javascript:history.back();">← Back</a>
+    </div>
+
+</body>
+</html>
