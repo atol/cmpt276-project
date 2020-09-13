@@ -34,7 +34,7 @@
     "js-datepicker": "^5.15.0",
     "mapbox": "^1.0.0-beta10",
     "newsapi": "^2.4.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "pg": "^8.3.0",
     "socket.io": "^2.3.0",
     "volleyball": "^1.5.1"
